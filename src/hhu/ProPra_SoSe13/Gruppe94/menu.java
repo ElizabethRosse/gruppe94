@@ -13,41 +13,49 @@
 package hhu.ProPra_SoSe13.Gruppe94;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-//import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-//import java.awt.Image;
-//import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-//import javax.swing.JPanel;
+import javax.swing.JPanel;
 import javax.swing.Box;
 
 
 
-	public class menu extends JFrame
+	public class Menu extends JFrame
 		{
-	
-		private static final long serialVersionUID = 1L;
+		 static final long serialVersionUID = 1L;
 
 
+		public static void main(String[] args)
+		{
+			new Menu();
+		}
 
-		public menu() 
+
+        //constructor
+		public Menu() 
 			{
-			super("MenuFrame");
+			
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			add(CreateMenuFrame());
+			pack();
+			setSize(500, 500);
+			setLocationRelativeTo(null);
+			setVisible(true);
 			}
 			
 			
-		public void initialize()
+		private JPanel CreateMenuFrame()
 			{
 			
-			Container surface = this.getContentPane();
+			
+			
+			final JPanel surface = new JPanel(new GridBagLayout());
 			surface.setBackground(Color.BLACK);
 			
 
@@ -60,6 +68,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
+					
 					add(new game());								//hier muss noch eine verknupfung hin
 					}
 				});
@@ -147,8 +156,6 @@ import javax.swing.Box;
 			placeholderc.weighty = 1.0;
 			
 			
-			surface.setLayout(new GridBagLayout());				//adding buttons and so on
-			
 			surface.add(placeholder, placeholderc);
 			surface.add(placeholder2, placeholder2c);
 			surface.add(placeholder3, placeholder3c);
@@ -157,27 +164,7 @@ import javax.swing.Box;
 			surface.add(options, optionsc);
 			surface.add(close, closec);
 			
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
-			this.pack();
-			this.setSize(500, 500);
-			
-			this.setVisible(true);
-			}
-
-
-
-		public static void main(String[] args)
-			{
-			final menu menu =new menu();
-			
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-
-				public void run() {
-					menu.initialize();
-				}
-
-			});
+			return surface;
 			}
 	}
 
