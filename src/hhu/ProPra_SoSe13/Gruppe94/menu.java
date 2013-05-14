@@ -26,31 +26,33 @@ import javax.swing.Box;
 
 
 
-	public class Menu extends JFrame
+	public class menu extends JFrame
 		{
 		 static final long serialVersionUID = 1L;
 
 
-		public static void main(String[] args)
+		/*public static void main(String[] args)
 		{
-			new Menu();
-		}
+			new menu();
+		}*/
 
 
         //constructor
-		public Menu() 
+		public menu() 
 			{
-			
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			add(CreateMenuFrame());
+			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
-			setSize(500, 500);
+			setTitle("Game");
+			setSize(530, 530);
 			setLocationRelativeTo(null);
+			//setResizable(false);
 			setVisible(true);
 			}
 			
 			
-		private JPanel CreateMenuFrame()
+		public JPanel CreateMenuFrame ()
 			{
 			
 			
@@ -68,8 +70,9 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					
-					add(new game());								//hier muss noch eine verknupfung hin
+					surface.removeAll();
+					surface.setVisible(false);
+					add(new game());								//verknüpfung zur game.java
 					}
 				});
 			
@@ -107,7 +110,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);						
+					System.exit(0);						            //schließt das Spiel
 					}
 				});
 			
