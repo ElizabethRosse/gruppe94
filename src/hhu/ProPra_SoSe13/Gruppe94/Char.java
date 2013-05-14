@@ -22,8 +22,6 @@ public class Char {
 		visible = true;
 		x = 100;  //standart Startpunkt (linke Seite mittig)
 		y = 225;
-		this.x = x;
-		this.y = y;
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
@@ -34,66 +32,66 @@ public class Char {
 		if (x < 1) { //verhindert verlassen des Sichtbereichs nach links
 			x = 1;
 		}
-		if (x > 500) {  //verhindert verlassen des Sichtbereichs nach rechts
+		if (x >= 500) {  //verhindert verlassen des Sichtbereichs nach rechts
 			x = 500;
 		}
 		if (y < 1) {  //verhindert verlassen des Sichtbereichs nach oben
 			y = 1;
 		}
-		if (y > 500) {  //verhindert verlassen des Sichtbereichs nach unten
+		if (y >= 500) {  //verhindert verlassen des Sichtbereichs nach unten
 			y = 500;
 		}
 	}
 	
-	 public int getX() {
+	public int getX() {
 		 return x;
-	 }
+	}
 	 
-	 public void setX(int x) {
+	public void addX(int x) {
 		 this.x = this.x + x;
-	 }
+	}
 	 
-	 public void setY(int y) {
+	public void addY(int y) {
 		 this.y = this.y + y;
-	 }
+	}
 	
-	 public int getY() {
+	public int getY() {
 		 return y;
-	 }
+	}
 	 
-	 public int getDX() {
+	public int getDX() {
 		 return dx;
-	 }
+	}
 	 
-	 public int getDY() {
+	public int getDY() {
 		 return dy;
-	 }
+	}
 	 
-	 public void setDX(int x) { //zum stoppen der Bewegung bei berührung mit einem Baum
+	public void setDX(int x) { //zum stoppen der Bewegung bei berührung mit einem Baum
 		 this.dx = x;
-	 }
+	}
 	 
-	 public void setDY(int y) {
+	public void setDY(int y) {
 		 this.dy = y;
-	 }
+	}
 	 
-	 public Image getImage() {
+	public Image getImage() {
 		 return image;
-	 }
+	}
 	 
-	 public void setVisible(boolean visible) {
+	public void setVisible(boolean visible) {
 		 this.visible = visible;  //verändern der Sichtbarkeit zB. bei Tot
-	 }
+	}
 	 
-	 public boolean isVisible() {
+	public boolean isVisible() {
 		 return visible;
-	 }
+	}
 	 
-	 public Rectangle getBounds() {
+	public Rectangle getBounds() {
 		 return new Rectangle(x, y, width, height);
-	 }
+	}
 	 
-	 public void keyPressed(KeyEvent e) { //veränderung der Bewegungsvariablen
+	public void keyPressed(KeyEvent e) { //veränderung der Bewegungsvariablen
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_UP) {
@@ -111,9 +109,9 @@ public class Char {
 		 if (key == KeyEvent.VK_RIGHT) {
 			 dx = 1;
 		 }
-	 }
+	}
 	 
-	 public void keyReleased(KeyEvent e) { //zurücksetzten der Bewegungsvariablen
+	public void keyReleased(KeyEvent e) { //zurücksetzten der Bewegungsvariablen
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_UP) {
@@ -131,5 +129,5 @@ public class Char {
 		 if (key == KeyEvent.VK_RIGHT) {
 			 dx = 0;
 		 }
-	 }
+	}
 }
