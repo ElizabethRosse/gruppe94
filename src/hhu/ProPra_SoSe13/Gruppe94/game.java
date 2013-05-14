@@ -26,12 +26,9 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Tree> trees;
 	private boolean ingame;
 	private int G_WIDTH, G_HEIGHT;
-	private int pos1[] = {225}; //später ändern für verschiedene Maps
-	private int pos2[] = {225};
-	
-	//holen von pos1 und pos2 für die Bäume der verschiedenen Maps
-	//pos1 = Maps.getPos1();
-	//pos2 = Maps.getPos2();
+	private int[] pos1 = {225}; 	//später ändern für verschiedene Maps
+	private int[] pos2 = {225};
+	//private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
 	
 	public game() {
 		
@@ -44,11 +41,15 @@ public class game extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 		cha = new Char();
+		//map = new Maps;
+		//pos1 = map.getPos1();
+		//pos2 = map.getPos2();
 		
 		initTrees();
 		
 		timer = new Timer(5, this);
 		timer.start();
+		//repaint();
 	}
 	
 	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
@@ -97,7 +98,7 @@ public class game extends JPanel implements ActionListener {
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose(); //wie final verhindert Änderung des JFrames
 	}
-	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		/**if (cha.isVisible() == false) {
@@ -120,19 +121,19 @@ public class game extends JPanel implements ActionListener {
 			if (rChar.intersects(rTree)) { //stoppen bei berührung mit einem baum
 				
 				if (cha.getDX() == 1) {
-					cha.setX(-1);
+					cha.addX(-1);
 				}
 				
 				if (cha.getDX() == -1) {
-					cha.setX(1);
+					cha.addX(1);
 				}
 				
 				if (cha.getDY() == 1) {
-					cha.setY(-1);
+					cha.addY(-1);
 				}
 				
 				if (cha.getDY() == -1) {
-					cha.setY(1);
+					cha.addY(1);
 				}
 				
 			}   // noch Collision mit stehendem gegner und Ziel
@@ -141,12 +142,12 @@ public class game extends JPanel implements ActionListener {
 	
 	public class KAdapter extends KeyAdapter {
 		
+		public void keyPressed(KeyEvent e) {
+			cha.keyPressed(e);
+		}
 		public void keyReleased(KeyEvent e) {
 			cha.keyReleased(e);
 		}
 		
-		public void keyPressed(KeyEvent e) {
-			cha.keyPressed(e);
-		}
 	}
 }
