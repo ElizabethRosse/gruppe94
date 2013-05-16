@@ -4,5 +4,6 @@ bin/**
 tmp/**
 tmp/**/*
 .setting/
+.settings/
 .loadpath
 *.launch
