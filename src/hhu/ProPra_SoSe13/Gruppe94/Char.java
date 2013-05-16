@@ -15,9 +15,9 @@ public class Char {
 	public Char() {
 		
 		ImageIcon ii =
-				new ImageIcon(this.getClass().getResource("images/char.gif"));
+				new ImageIcon(this.getClass().getResource("images/char.gif")); // holt ein Bild fuer den Charakter
 		image = ii.getImage();
-		width = image.getWidth(null);
+		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		visible = true;
 		x = 100;  //standart Startpunkt (linke Seite mittig)
