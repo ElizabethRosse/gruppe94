@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.Rectangle;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 public class game extends JPanel implements ActionListener {
@@ -26,6 +28,7 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
+	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
@@ -40,6 +43,13 @@ public class game extends JPanel implements ActionListener {
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
 		ingame = true;
+		win = false;
+		
+		ImageIcon ii =                       //lädt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
+				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
+		image = ii.getImage();
+		imagescaled = image.getScaledInstance(530, 530, UNDEFINED_CONDITION);
+		
 		
 		setSize(500, 500);
 		
@@ -76,6 +86,8 @@ public class game extends JPanel implements ActionListener {
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
+			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
+			
 			if (cha.isVisible())
 				g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
@@ -89,7 +101,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		
 		else {
-			if (win) {
+			if (win) { //Naricht bei Sieg
 				String msg = "YOU WIN";
 				Font small = new Font ("Gewonnen", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
@@ -98,7 +110,7 @@ public class game extends JPanel implements ActionListener {
 				g.setFont(small);
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT /2);
 			}
-			else {
+			else { // Naricht bei Niederlage (wenn ingame falsch ist, aber kein Sieg = false ist)
 				String msg = "Game Over";
 				Font small = new Font ("Ende", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
