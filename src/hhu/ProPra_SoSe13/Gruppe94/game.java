@@ -140,7 +140,7 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public class KAdapter extends KeyAdapter {
+	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
 			cha.keyPressed(e);
