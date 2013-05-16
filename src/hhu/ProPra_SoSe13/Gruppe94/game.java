@@ -25,6 +25,7 @@ public class game extends JPanel implements ActionListener {
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private boolean ingame;
+	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
 	private int[] pos1 = {225}; 	//später ändern für verschiedene Maps
 	private int[] pos2 = {225};
@@ -86,14 +87,24 @@ public class game extends JPanel implements ActionListener {
 		}
 		
 		else {
-			String msg = "Game Over";
-			Font small = new Font ("Ende", Font.BOLD, 14);
-			FontMetrics metr = this.getFontMetrics(small);
+			if (win) {
+				String msg = "YOU WIN";
+				Font small = new Font ("Gewonnen", Font.BOLD, 14);
+				FontMetrics metr = this.getFontMetrics(small);
+				
+				g.setColor(Color.black);
+				g.setFont(small);
+				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT /2);
+			}
+			else {
+				String msg = "Game Over";
+				Font small = new Font ("Ende", Font.BOLD, 14);
+				FontMetrics metr = this.getFontMetrics(small);
 			
-			g.setColor(Color.white);
-			g.setFont(small);
-			g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT / 2);
-		}
+				g.setColor(Color.black);
+				g.setFont(small);
+				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT / 2);
+		}}
 		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose(); //wie final verhindert Änderung des JFrames
