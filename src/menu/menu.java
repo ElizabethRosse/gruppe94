@@ -26,8 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Box;
 
-import game.game;
-
 
 
 	public class menu extends JFrame
@@ -65,7 +63,7 @@ import game.game;
 			surface.setBackground(Color.BLACK);
 			
 
-			JButton start = new JButton("start game");			//start button
+			JButton start = new JButton("Start Game");			//start button
 			
 			start.setPreferredSize( new Dimension(150,25));
 			
@@ -74,9 +72,8 @@ import game.game;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					surface.removeAll();
-					surface.setVisible(false);
-					add(new game());								//verknüpfung zur game.java
+					dispose();								//closing old frame to prevent problems with the game panel
+					new init();								//connection to init
 					}
 				});
 			
@@ -86,7 +83,7 @@ import game.game;
 			
 			
 			
-			JButton options = new JButton("options");			//option button
+			JButton options = new JButton("Options");			//option button, not yet used
 			
 			options.setPreferredSize( new Dimension(150,25));
 			
@@ -105,7 +102,7 @@ import game.game;
 			
 			
 			
-			JButton close = new JButton("close game");             //close button; working as intended
+			JButton close = new JButton("Close Game");             //close button; working as intended
 			
 			close.setPreferredSize( new Dimension(150,25));
 			
@@ -114,12 +111,12 @@ import game.game;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);						            //schließt das Spiel
+					System.exit(0);						           
 					}
 				});
 			
 			
-			GridBagConstraints closec = new GridBagConstraints();
+			GridBagConstraints closec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
 			closec.gridx = 0;
 			closec.gridy = 5;
 			
