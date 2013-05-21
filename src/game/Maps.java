@@ -3,7 +3,13 @@ package game;
 
 
 public class Maps {
-	private int i = 1;
+	
+	private int i=1;
+	
+	
+	public void setMap(int map){
+		i = map;
+	}
 	
 	private int pos11[] = {0, 50, 100, 0, 50, 100, 150, 150, 200, 200, 250, 250, 300, 300, 350, 350, 400, 400, 450, 450, 0, 0, 0, 0, 0, 0, 0};
 	private int pos12[] =  {0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 
