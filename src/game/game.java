@@ -28,6 +28,7 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
+	private Enemy enemy1;
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
@@ -59,6 +60,8 @@ public class game extends JPanel implements ActionListener {
 		//pos2 = map.getPos2();
 		
 		initTrees();
+		
+		enemy1 = new Enemy (400, 400);		// erstelle Enemy Objekt mit Koordinaten
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -95,6 +98,8 @@ public class game extends JPanel implements ActionListener {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			}
+			
+			g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);		// zeichne Enemy1
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
@@ -138,6 +143,11 @@ public class game extends JPanel implements ActionListener {
 	public void checkCollisions() {
 		
 		Rectangle rChar = cha.getBounds();
+		
+		Rectangle rEnemy = enemy1.getBounds();
+		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
+			ingame = false;
+		}
 		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
