@@ -60,6 +60,14 @@ public class Char {
 	public int getY() {
 		 return y;
 	}
+	
+	public void setX(int x) { //char-positionierung (x,y) bei mapwechsel
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
 	 
 	public int getDX() {
 		 return dx;
