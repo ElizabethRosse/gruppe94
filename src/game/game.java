@@ -32,9 +32,10 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = {225}; 	//später ändern für verschiedene Maps
-	private int[] pos2 = {225};
-	//private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
+	private int[] pos1; 	//später ändern für verschiedene Maps
+	private int[] pos2;
+	private int mapNumber = 1;
+	private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
 	
 	public game() {
 		
@@ -54,15 +55,16 @@ public class game extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 		cha = new Char();
-		//map = new Maps;
-		//pos1 = map.getPos1();
-		//pos2 = map.getPos2();
+		
+		map = new Maps();
+		pos1 = map.getPos1();
+		pos2 = map.getPos2();
 		
 		initTrees();
 		
 		timer = new Timer(5, this);
 		timer.start();
-		//repaint();
+		repaint();
 	}
 	
 	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
@@ -77,6 +79,18 @@ public class game extends JPanel implements ActionListener {
 		for (int i=0; i < pos1.length ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
 		}
+	}
+	
+	//ruft setMap aus Maps.java mit neuer mapnummer auf, aktualisiert position der baeume und setzt cha auf Anfangsposition
+	public void changeMap(int i, int x, int y) {
+		map.setMap(i);
+		pos1 = map.getPos1();
+		pos2 = map.getPos2();
+		
+		cha.setX(x);
+		cha.setY(y);
+		
+		initTrees();
 	}
 	
 	public void paint(Graphics g) {
@@ -123,12 +137,22 @@ public class game extends JPanel implements ActionListener {
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose(); //wie final verhindert Änderung des JFrames
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		/**if (cha.isVisible() == false) {
 			ingame = false; //für berührung mit Gegner
 		}*/
+		
+		if(cha.getX()>450 && mapNumber==1){ //Mapwechsel von 1 zu 2
+			changeMap(2, 100, 225); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
+		}
+		else if(cha.getX()>450 && mapNumber==2){
+			changeMap(3, 100, 225);
+			mapNumber++;
+		}
 		
 		cha.move();
 		checkCollisions();
