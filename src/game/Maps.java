@@ -74,17 +74,14 @@ public class Maps {
 	public int[] getPos2() {
 
 		if (i == 1) {
-			i = i + 1;
 			return pos21;
 		}
 		
-		if (i == 2) {
-			i = i + 1;
+		if (i == 2){
 			return pos22;
 		}
 		
 		if (i == 3) {
-			i = i + 1;
 			return pos23;
 		}
 		else {

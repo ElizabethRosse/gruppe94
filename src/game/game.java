@@ -31,6 +31,7 @@ public class game extends JPanel implements ActionListener {
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private Enemy enemy1;
+	private goal goal;
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
@@ -65,7 +66,8 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();
 		
-		enemy1 = new Enemy (400, 400);		// erstelle Enemy Objekt mit Koordinaten
+		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
+		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -115,7 +117,8 @@ public class game extends JPanel implements ActionListener {
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			}
 			
-			g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);		// zeichne Enemy1
+			if (mapNumber == 2) g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);		// zeichne Enemy1 auf Krate 2
+			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
@@ -153,13 +156,21 @@ public class game extends JPanel implements ActionListener {
 			ingame = false; //für berührung mit Gegner
 		}*/
 		
-		if(cha.getX()>450 && mapNumber==1){ //Mapwechsel von 1 zu 2
-			changeMap(2, 100, 225); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+		if(cha.getX()>490 && mapNumber==1){ //Mapwechsel von 1 zu 2
+			changeMap(2, 40, 220); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
 			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
 		}
-		else if(cha.getX()>450 && mapNumber==2){
-			changeMap(3, 100, 225);
+		else if(cha.getY()>470 && mapNumber==2){
+			changeMap(3, 40, 220);
 			mapNumber++;
+		}
+		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
+			changeMap(1, 480, 225);
+			mapNumber--;
+		}
+		else if(cha.getX()<10 && mapNumber==3){
+			changeMap(2, 450, 460);
+			mapNumber--;
 		}
 		
 		cha.move();
@@ -170,11 +181,19 @@ public class game extends JPanel implements ActionListener {
 	public void checkCollisions() {
 		
 		Rectangle rChar = cha.getBounds();
-		
+		Rectangle rGoal = goal.getBounds();
 		Rectangle rEnemy = enemy1.getBounds();
+		
+		if (mapNumber == 2){
 		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
 			ingame = false;
-		}
+		}}
+		
+		if (mapNumber == 3){
+		if (rChar.intersects(rGoal)){
+			ingame = false;
+			win = true;
+		}}
 		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
