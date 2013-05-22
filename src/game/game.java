@@ -150,13 +150,21 @@ public class game extends JPanel implements ActionListener {
 			ingame = false; //für berührung mit Gegner
 		}*/
 		
-		if(cha.getX()>450 && mapNumber==1){ //Mapwechsel von 1 zu 2
-			changeMap(2, 100, 225); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+		if(cha.getX()>490 && mapNumber==1){ //Mapwechsel von 1 zu 2
+			changeMap(2, 40, 220); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
 			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
 		}
-		else if(cha.getX()>450 && mapNumber==2){
-			changeMap(3, 100, 225);
+		else if(cha.getY()>470 && mapNumber==2){
+			changeMap(3, 40, 220);
 			mapNumber++;
+		}
+		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
+			changeMap(1, 480, 225);
+			mapNumber--;
+		}
+		else if(cha.getX()<10 && mapNumber==3){
+			changeMap(2, 450, 460);
+			mapNumber--;
 		}
 		
 		cha.move();
