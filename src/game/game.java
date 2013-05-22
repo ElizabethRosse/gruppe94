@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
+import menu.menu;
+
 public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -137,6 +139,7 @@ public class game extends JPanel implements ActionListener {
 				g.setColor(Color.black);
 				g.setFont(small);
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT / 2);
+				
 		}}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -202,7 +205,14 @@ public class game extends JPanel implements ActionListener {
 	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
+			if (ingame == false)
+			{
+				add(new menu());
+			}
+			else
+			{
 			cha.keyPressed(e);
+			}
 		}
 		public void keyReleased(KeyEvent e) {
 			cha.keyReleased(e);
