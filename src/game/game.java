@@ -28,13 +28,15 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
-	private Enemy enemy1;
+	private ArrayList<Enemy> enemies;
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
 	private int[] pos1; 	//später ändern für verschiedene Maps
 	private int[] pos2;
+	private int[] posE1;
+	private int[] posE2;
 	private int mapNumber = 1;
 	private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
 	
@@ -60,10 +62,11 @@ public class game extends JPanel implements ActionListener {
 		map = new Maps();
 		pos1 = map.getPos1();
 		pos2 = map.getPos2();
+		posE1 = map.getPosE1();
+		posE2 = map.getPosE2();
 		
 		initTrees();
-		
-		enemy1 = new Enemy (400, 400);		// erstelle Enemy Objekt mit Koordinaten
+		initEnemies();
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -84,16 +87,27 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void initEnemies() {
+		enemies = new ArrayList<Enemy>();
+		
+		for (int i=0; i < posE1.length ; i++) {
+			enemies.add(new Enemy(posE1[i], posE2[i]));
+		}
+	}
+	
 	//ruft setMap aus Maps.java mit neuer mapnummer auf, aktualisiert position der baeume und setzt cha auf Anfangsposition
 	public void changeMap(int i, int x, int y) {
 		map.setMap(i);
 		pos1 = map.getPos1();
 		pos2 = map.getPos2();
+		posE1 = map.getPosE1();
+		posE2 = map.getPosE2();
 		
 		cha.setX(x);
 		cha.setY(y);
 		
 		initTrees();
+		initEnemies();
 	}
 	
 	public void paint(Graphics g) {
@@ -111,9 +125,13 @@ public class game extends JPanel implements ActionListener {
 			for (int i = 0; i <trees.size(); i++) {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
-			}
 			
-			g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);		// zeichne Enemy1
+			}
+			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
+				Enemy e = (Enemy) enemies.get(k);
+				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+			
+			}
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
@@ -128,6 +146,7 @@ public class game extends JPanel implements ActionListener {
 				g.setColor(Color.black);
 				g.setFont(small);
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT /2);
+				
 			}
 			else { // Naricht bei Niederlage (wenn ingame falsch ist, aber kein Sieg = false ist)
 				String msg = "Game Over";
@@ -137,10 +156,12 @@ public class game extends JPanel implements ActionListener {
 				g.setColor(Color.black);
 				g.setFont(small);
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT / 2);
-		}}
+			}	
+		}
 		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose(); //wie final verhindert Änderung des JFrames
+		
 	}
 	
 	@Override
@@ -168,9 +189,13 @@ public class game extends JPanel implements ActionListener {
 		
 		Rectangle rChar = cha.getBounds();
 		
-		Rectangle rEnemy = enemy1.getBounds();
-		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
-			ingame = false;
+		for (int k = 0; k < enemies.size(); k++) {
+			Enemy e = (Enemy) enemies.get(k);
+			Rectangle rEnemy = e.getBounds();
+			
+			if (rChar.intersects(rEnemy)) { 		//Game over bei Berührung eines Gegners
+				ingame = false;		
+			}  
 		}
 		
 		for (int j = 0; j < trees.size(); j++) {
@@ -195,7 +220,7 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(1);
 				}
 				
-			}   // noch Collision mit stehendem gegner und Ziel
+			} 
 		}
 	}
 	
