@@ -52,6 +52,51 @@ public class Maps {
 			140, 180, 220, 260, 300, 330,
 			150, 190, 250, 300, 350, 400,
 			140, 140};
+
+	private int posE1[] = {70, 250, 135, 185};		// Gegner Koordinaten
+	private int posE2[] = {70, 70, 70};
+	private int posE3[] = {100, 320, 235};
+	
+	private int posE11[] = {200, 300, 130, 390};
+	private int posE22[] = {170, 220, 270};
+	private int posE33[] = {115, 140, 300};
+	
+	public int[] getPosE1() {
+		if (i == 1) {
+			return posE1;
+		}
+		
+		if (i == 2) {
+			return posE2;
+		}
+		
+		if (i == 3) {
+			return posE3;
+		}
+		else {
+			return posE1; //noch ändern zu einer Fehlermeldung
+		}
+	}
+	
+	public int[] getPosE2() {
+		if (i == 1) {
+			i = i + 1;
+			return posE11;
+		}
+		
+		if (i == 2) {
+			i = i + 1;
+			return posE22;
+		}
+		
+		if (i == 3) {
+			i = i + 1;
+			return posE33;
+		}
+		else {
+			return posE11; //noch ändern zu einer Fehlermeldung
+		}
+	}
 	
 	public int[] getPos1() {
 		
