@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
+import menu.menu;
+
 public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +30,12 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
+
 	private ArrayList<Enemy> enemies;
+
+	private Enemy enemy1;
+	private goal goal;
+
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
@@ -67,6 +74,9 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();
 		initEnemies();
+		
+		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
+		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -130,12 +140,13 @@ public class game extends JPanel implements ActionListener {
 			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
 				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
-			
 			}
+
+			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
-		}
+			}
 		
 		else {
 			if (win) { //Naricht bei Sieg
@@ -156,9 +167,9 @@ public class game extends JPanel implements ActionListener {
 				g.setColor(Color.black);
 				g.setFont(small);
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT / 2);
-			}	
+
+			}
 		}
-		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose(); //wie final verhindert Änderung des JFrames
 		
@@ -171,13 +182,21 @@ public class game extends JPanel implements ActionListener {
 			ingame = false; //für berührung mit Gegner
 		}*/
 		
-		if(cha.getX()>450 && mapNumber==1){ //Mapwechsel von 1 zu 2
-			changeMap(2, 100, 225); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+		if(cha.getX()>490 && mapNumber==1){ //Mapwechsel von 1 zu 2
+			changeMap(2, 40, 220); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
 			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
 		}
-		else if(cha.getX()>450 && mapNumber==2){
-			changeMap(3, 100, 225);
+		else if(cha.getY()>470 && mapNumber==2){
+			changeMap(3, 40, 220);
 			mapNumber++;
+		}
+		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
+			changeMap(1, 480, 225);
+			mapNumber--;
+		}
+		else if(cha.getX()<10 && mapNumber==3){
+			changeMap(2, 450, 460);
+			mapNumber--;
 		}
 		
 		cha.move();
@@ -197,6 +216,20 @@ public class game extends JPanel implements ActionListener {
 				ingame = false;		
 			}  
 		}
+		
+		Rectangle rGoal = goal.getBounds();
+		Rectangle rEnemy = enemy1.getBounds();
+		
+		if (mapNumber == 2){
+		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
+			ingame = false;
+		}}
+		
+		if (mapNumber == 3){
+		if (rChar.intersects(rGoal)){
+			ingame = false;
+			win = true;
+		}}
 		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
@@ -227,7 +260,14 @@ public class game extends JPanel implements ActionListener {
 	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
+			if (ingame == false)
+			{
+				add(new menu());
+			}
+			else
+			{
 			cha.keyPressed(e);
+			}
 		}
 		public void keyReleased(KeyEvent e) {
 			cha.keyReleased(e);

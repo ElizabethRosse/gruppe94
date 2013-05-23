@@ -22,8 +22,8 @@ public class Char {
 		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		visible = true;
-		x = 100;  //standart Startpunkt (linke Seite mittig)
-		y = 225;
+		x = 100;
+		y = 220;
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
