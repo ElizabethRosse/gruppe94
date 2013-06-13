@@ -1,5 +1,8 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 
 
 public class Maps {
@@ -60,6 +63,8 @@ public class Maps {
 	private int posE11[] = {170, 220, 270};
 	private int posE22[] = {115, 140, 300};
 	private int posE33[] = {200, 300, 130, 390};
+	
+	//private char map[];
 	
 	public int[] getPosE1() {
 		if (i == 1) {
@@ -133,4 +138,59 @@ public class Maps {
 			return pos21; //noch ändern zu einer Fehlermeldung
 		}
 	}
+	/*public char[] getMap(int m) {
+		BufferedReader dat;
+		switch(m) {																		//dateipfad noch festlegen
+		case 1 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+			break;
+		}
+		case 2 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map2
+			break;
+		}
+		case 3 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map3
+			break;
+		}
+		case 4 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map4
+			break;
+		}
+		case 5 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map5
+			break;
+		}
+		case 6 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map6
+			break;
+		}
+		case 7 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map7
+			break;
+		}
+		case 8 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map8
+			break;
+		}
+		case 9 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map9
+			break;
+		}
+		default : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+		}
+		}
+		String line = dat.readLine();
+		
+		while(line != null) {														//read a line
+			for (int i=0; i<line.length(); i++) {									//read a symbol
+				map[i] = line.charAt(i); 											// save the symbol in an array
+			}
+			line = dat.readLine();													// read a new line
+		}
+			
+		dat.close();	
+		return map;
+	}*/
 }
