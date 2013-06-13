@@ -257,6 +257,48 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+/*	public void initMap(int m) {
+		int i = 0;
+		int x = 0;
+		int y = 0;
+		char prototypemap[] = map.getMap(m);
+		while(i < 50) {												//max wert noch ändern
+			
+			switch(prototypemap[i]) {
+			case '#' : {											// # : wall
+				break;
+			}
+			case 's' : {											// s : spawn
+				break;
+			}
+			case 'e' : {											// e : enemy
+				break;
+			}
+			case 'b' : {											// b : boss
+				break;
+			}
+			case 'g' : {											// g : goal
+				break;
+			}
+			case 'i' : {											// i : item
+				break;
+			}
+			case 'n' : {											// n : npc
+				break;
+			}
+			default : {
+				break;
+			}
+			}
+			
+		x = x + 50;
+		if(i % 10 == 0) {
+			y = y + 50;
+		}
+		i++;
+		}
+	}*/
+	
 	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
