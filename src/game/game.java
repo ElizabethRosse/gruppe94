@@ -72,6 +72,7 @@ public class game extends JPanel implements ActionListener {
 		posE1 = map.getPosE1();
 		posE2 = map.getPosE2();
 		
+		initMap(mapNumber, 40, 220);
 		initTrees();
 		initEnemies();
 		
@@ -182,21 +183,22 @@ public class game extends JPanel implements ActionListener {
 			ingame = false; //für berührung mit Gegner
 		}*/
 		
-		if(cha.getX()>490 && mapNumber==1){ //Mapwechsel von 1 zu 2
-			changeMap(2, 40, 220); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
-			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
+		if(cha.getX()>490 && mapNumber==1){ 						//Mapwechsel von 1 zu 2
+			mapNumber++;
+			initMap(mapNumber, 40, 220); 									//ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+																	//erhoeht die Map-Nummer fuer die if-abfrage
 		}
 		else if(cha.getY()>470 && mapNumber==2){
-			changeMap(3, 40, 220);
 			mapNumber++;
+			initMap(mapNumber, 40 ,200); 
 		}
 		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
-			changeMap(1, 480, 225);
 			mapNumber--;
+			initMap(mapNumber, 480, 225); 
 		}
 		else if(cha.getX()<10 && mapNumber==3){
-			changeMap(2, 450, 460);
 			mapNumber--;
+			initMap(mapNumber, 450 , 460); 
 		}
 		
 		cha.move();
@@ -257,8 +259,15 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-/*	public void initMap(int m) {
+	public void initMap(int m, int j ,int k) {
 		int i = 0;
+		int a = 0;
+		int b = 0;
+		int c = 0;
+		int d = 0;
+		int e = 0;
+		int f = 0;
+		int g = 0;
 		int x = 0;
 		int y = 0;
 		char prototypemap[] = map.getMap(m);
@@ -266,24 +275,35 @@ public class game extends JPanel implements ActionListener {
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
+				pos1[a] = x;
+				pos2[a] = y;
+				a++;
 				break;
 			}
 			case 's' : {											// s : spawn
+				b++;
 				break;
 			}
 			case 'e' : {											// e : enemy
+				posE1[c] = x;
+				posE2[c] = y;
+				c++;
 				break;
 			}
 			case 'b' : {											// b : boss
+				d++;
 				break;
 			}
 			case 'g' : {											// g : goal
+				e++;
 				break;
 			}
 			case 'i' : {											// i : item
+				f++;
 				break;
 			}
 			case 'n' : {											// n : npc
+				g++;
 				break;
 			}
 			default : {
@@ -297,7 +317,13 @@ public class game extends JPanel implements ActionListener {
 		}
 		i++;
 		}
-	}*/
+		
+		cha.setX(j);
+		cha.setY(k);
+		
+		initTrees();
+		initEnemies();
+	}
 	
 	public class KAdapter extends KeyAdapter { 
 		
