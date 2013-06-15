@@ -15,7 +15,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 import java.util.ArrayList;
 
@@ -195,7 +197,7 @@ public class game extends JPanel implements ActionListener {
 			Enemy e = (Enemy) enemies.get(k);
 			Rectangle rEnemy = e.getBounds();
 			
-			if (rChar.intersects(rEnemy)) { 		//Game over bei Berührung eines Gegners
+			if (rChar.intersects(rEnemy)) { 		//Game over at touching enemy
 				ingame = false;		
 			}  
 		}
@@ -204,7 +206,7 @@ public class game extends JPanel implements ActionListener {
 		Rectangle rEnemy = enemy1.getBounds();
 		
 		if (mapNumber == 2){
-		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
+		if (rChar.intersects(rEnemy)){			//Game Over bat touching enemy
 			ingame = false;
 		}}
 		
@@ -218,7 +220,7 @@ public class game extends JPanel implements ActionListener {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
 			
-			if (rChar.intersects(rTree)) { //stoppen bei berührung mit einem baum
+			if (rChar.intersects(rTree)) { //stop at touching tree
 				
 				if (cha.getDX() == 1) {
 					cha.addX(-1);
@@ -308,61 +310,112 @@ public class game extends JPanel implements ActionListener {
 	
 	
 	public char[] getMap(int m) {
-		char[] prototypemap;
-		BufferedReader dat;
+		FileReader datei;
+		BufferedReader dat = null; 
+		char[] prototypemap = null;
 		switch(m) {																		//dateipfad noch festlegen
 		case 1 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map1
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 2 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map2
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map2
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
-		case 3 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map3
-			break;
+		case 3 : {			
+			try {
+			datei = new FileReader("map1.txt");
+			dat = new BufferedReader(datei);							//map3
+		} catch (IOException e) {
+			System.out.println("Fault: " + e.getMessage());
+		}				
+		break;
 		}
 		case 4 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map4
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map4
+			} catch (FileNotFoundException e) {
+				System.out.println("Map not found!");
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 5 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map5
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map5
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 6 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map6
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map6
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 7 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map7
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map7
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 8 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map8
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map8
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}				
 			break;
 		}
 		case 9 : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map9
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map9
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			}			
 			break;
 		}
 		default : {
-			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+			try {
+				datei = new FileReader("map1.txt");
+				dat = new BufferedReader(datei);							//map1
+			} catch (IOException e) {
+				System.out.println("Fault: " + e.getMessage());
+			} 
 		}
 		}
+		
 		String line = dat.readLine();
-		
-		
 		
 		while(line != null) {														//read a line
 			for (int i=0; i<line.length(); i++) {									//read a symbol
 				prototypemap[i] = line.charAt(i); 									// save the symbol in an array
 			}
 			line = dat.readLine();													// read a new line
+			dat.close();															
 		}
-			
-		dat.close();	
 		return prototypemap;
 	}
 	
