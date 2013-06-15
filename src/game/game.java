@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,7 @@ public class game extends JPanel implements ActionListener {
 	private int[] posE1;
 	private int[] posE2;
 	private int mapNumber = 1;
-	private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
+	//private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
 	
 	public game() {
 		
@@ -65,12 +67,6 @@ public class game extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 		cha = new Char();
-		
-		map = new Maps();
-		pos1 = map.getPos1();
-		pos2 = map.getPos2();
-		posE1 = map.getPosE1();
-		posE2 = map.getPosE2();
 		
 		initMap(mapNumber, 40, 220);
 		initTrees();
@@ -104,21 +100,6 @@ public class game extends JPanel implements ActionListener {
 		for (int i=0; i < posE1.length ; i++) {
 			enemies.add(new Enemy(posE1[i], posE2[i]));
 		}
-	}
-	
-	//ruft setMap aus Maps.java mit neuer mapnummer auf, aktualisiert position der baeume und setzt cha auf Anfangsposition
-	public void changeMap(int i, int x, int y) {
-		map.setMap(i);
-		pos1 = map.getPos1();
-		pos2 = map.getPos2();
-		posE1 = map.getPosE1();
-		posE2 = map.getPosE2();
-		
-		cha.setX(x);
-		cha.setY(y);
-		
-		initTrees();
-		initEnemies();
 	}
 	
 	public void paint(Graphics g) {
@@ -270,7 +251,7 @@ public class game extends JPanel implements ActionListener {
 		int g = 0;
 		int x = 0;
 		int y = 0;
-		char prototypemap[] = map.getMap(m);
+		char prototypemap[] = getMap(m);
 		while(i < 50) {												//max wert noch ändern
 			
 			switch(prototypemap[i]) {
@@ -324,6 +305,68 @@ public class game extends JPanel implements ActionListener {
 		initTrees();
 		initEnemies();
 	}
+	
+	
+	public char[] getMap(int m) {
+		char[] prototypemap;
+		BufferedReader dat;
+		switch(m) {																		//dateipfad noch festlegen
+		case 1 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+			break;
+		}
+		case 2 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map2
+			break;
+		}
+		case 3 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map3
+			break;
+		}
+		case 4 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map4
+			break;
+		}
+		case 5 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map5
+			break;
+		}
+		case 6 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map6
+			break;
+		}
+		case 7 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map7
+			break;
+		}
+		case 8 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map8
+			break;
+		}
+		case 9 : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map9
+			break;
+		}
+		default : {
+			dat = new BufferedReader(new FileReader("DATEIPFAD"));						//map1
+		}
+		}
+		String line = dat.readLine();
+		
+		
+		
+		while(line != null) {														//read a line
+			for (int i=0; i<line.length(); i++) {									//read a symbol
+				prototypemap[i] = line.charAt(i); 									// save the symbol in an array
+			}
+			line = dat.readLine();													// read a new line
+		}
+			
+		dat.close();	
+		return prototypemap;
+	}
+	
+	
 	
 	public class KAdapter extends KeyAdapter { 
 		
