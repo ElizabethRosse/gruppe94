@@ -15,7 +15,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -254,7 +253,7 @@ public class game extends JPanel implements ActionListener {
 		int x = 0;
 		int y = 0;
 		char prototypemap[] = getMap(m);
-		while(i < 50) {												//max wert noch ändern
+		while(i < 50) {												//max wert noch andern
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
@@ -316,7 +315,7 @@ public class game extends JPanel implements ActionListener {
 		switch(m) {																		//dateipfad noch festlegen
 		case 1 : {
 			try {
-				datei = new FileReader("game.maps/map1");
+				datei = new FileReader("map1");
 				dat = new BufferedReader(datei);							//map1
 			} catch (IOException e) {
 				System.out.println("Fault: " + e.getMessage());
@@ -345,9 +344,7 @@ public class game extends JPanel implements ActionListener {
 			try {
 				datei = new FileReader("map1.txt");
 				dat = new BufferedReader(datei);							//map4
-			} catch (FileNotFoundException e) {
-				System.out.println("Map not found!");
-			} catch (IOException e) {
+			}  catch (IOException e) {
 				System.out.println("Fault: " + e.getMessage());
 			}				
 			break;
