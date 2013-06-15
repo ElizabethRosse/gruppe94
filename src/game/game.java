@@ -316,7 +316,7 @@ public class game extends JPanel implements ActionListener {
 		switch(m) {																		//dateipfad noch festlegen
 		case 1 : {
 			try {
-				datei = new FileReader("map1.txt");
+				datei = new FileReader("game.maps/map1");
 				dat = new BufferedReader(datei);							//map1
 			} catch (IOException e) {
 				System.out.println("Fault: " + e.getMessage());
@@ -381,7 +381,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		case 8 : {
 			try {
-				datei = new FileReader("map1.txt");
+				datei = new FileReader("game.maps/map1.txt");
 				dat = new BufferedReader(datei);							//map8
 			} catch (IOException e) {
 				System.out.println("Fault: " + e.getMessage());
@@ -407,14 +407,30 @@ public class game extends JPanel implements ActionListener {
 		}
 		}
 		
-		String line = dat.readLine();
+		String line = null;
+		try {
+			line = dat.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		while(line != null) {														//read a line
 			for (int i=0; i<line.length(); i++) {									//read a symbol
 				prototypemap[i] = line.charAt(i); 									// save the symbol in an array
 			}
-			line = dat.readLine();													// read a new line
-			dat.close();															
+			try {
+				line = dat.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}													// read a new line
+			try {
+				dat.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}															
 		}
 		return prototypemap;
 	}
