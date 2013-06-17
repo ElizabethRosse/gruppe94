@@ -43,12 +43,11 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1; 	//später ändern für verschiedene Maps
-	private int[] pos2;
-	private int[] posE1;
-	private int[] posE2;
+	private int[] pos1 = new int[800]; 	//später ändern für verschiedene Maps
+	private int[] pos2 = new int[800];
+	private int[] posE1 = new int[800];
+	private int[] posE2 = new int[800];
 	private int mapNumber = 1;
-	//private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
 	
 	public game() {
 		
@@ -69,7 +68,12 @@ public class game extends JPanel implements ActionListener {
 		
 		cha = new Char();
 		
-		initMap(mapNumber, 40, 220);
+		try {
+			initMap(mapNumber, 40, 220);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initTrees();
 		initEnemies();
 		
@@ -167,20 +171,40 @@ public class game extends JPanel implements ActionListener {
 		
 		if(cha.getX()>490 && mapNumber==1){ 						//Mapwechsel von 1 zu 2
 			mapNumber++;
-			initMap(mapNumber, 40, 220); 									//ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
+			try {
+				initMap(mapNumber, 40, 220);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 									//ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
 																	//erhoeht die Map-Nummer fuer die if-abfrage
 		}
 		else if(cha.getY()>470 && mapNumber==2){
 			mapNumber++;
-			initMap(mapNumber, 40 ,200); 
+			try {
+				initMap(mapNumber, 40 ,200);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 		}
 		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
 			mapNumber--;
-			initMap(mapNumber, 480, 225); 
+			try {
+				initMap(mapNumber, 480, 225);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 		}
 		else if(cha.getX()<10 && mapNumber==3){
 			mapNumber--;
-			initMap(mapNumber, 450 , 460); 
+			try {
+				initMap(mapNumber, 450 , 460);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 		}
 		
 		cha.move();
@@ -241,7 +265,7 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initMap(int m, int j ,int k) {
+	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 0;
 		int a = 0;
 		int b = 0;
@@ -308,126 +332,71 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	
-	public char[] getMap(int m) {
+	public char[] getMap(int m) throws IOException {
 		FileReader datei;
-		BufferedReader dat = null; 
-		char[] prototypemap = null;
+		BufferedReader dat; 
+		char[] prototypemap = new char[800];
 		switch(m) {																		//dateipfad noch festlegen
 		case 1 : {
-			try {
-				datei = new FileReader("map1");
-				dat = new BufferedReader(datei);							//map1
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map1				
 			break;
 		}
 		case 2 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map2
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map2				
 			break;
 		}
 		case 3 : {			
-			try {
-			datei = new FileReader("map1.txt");
-			dat = new BufferedReader(datei);							//map3
-		} catch (IOException e) {
-			System.out.println("Fault: " + e.getMessage());
-		}				
+			datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+			dat = new BufferedReader(datei);							//map3				
 		break;
 		}
 		case 4 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map4
-			}  catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map4			
 			break;
 		}
 		case 5 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map5
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map5			
 			break;
 		}
 		case 6 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map6
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map6				
 			break;
 		}
 		case 7 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map7
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map7			
 			break;
 		}
 		case 8 : {
-			try {
-				datei = new FileReader("game.maps/map1.txt");
-				dat = new BufferedReader(datei);							//map8
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}				
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1.txt");
+				dat = new BufferedReader(datei);							//map8			
 			break;
 		}
 		case 9 : {
-			try {
-				datei = new FileReader("map1.txt");
-				dat = new BufferedReader(datei);							//map9
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			}			
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);							//map9			
 			break;
 		}
 		default : {
-			try {
-				datei = new FileReader("map1.txt");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
 				dat = new BufferedReader(datei);							//map1
-			} catch (IOException e) {
-				System.out.println("Fault: " + e.getMessage());
-			} 
 		}
 		}
 		
-		String line = null;
-		try {
-			line = dat.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String line;
+		line = dat.readLine();
 		
 		while(line != null) {														//read a line
 			for (int i=0; i<line.length(); i++) {									//read a symbol
 				prototypemap[i] = line.charAt(i); 									// save the symbol in an array
 			}
-			try {
-				line = dat.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}													// read a new line
-			try {
-				dat.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}															
+			line = dat.readLine();													// read a new line
+			dat.close();
 		}
 		return prototypemap;
 	}
