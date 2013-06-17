@@ -77,7 +77,7 @@ public class game extends JPanel implements ActionListener {
 		initTrees();
 		initEnemies();
 		
-		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
+		//enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
@@ -277,7 +277,7 @@ public class game extends JPanel implements ActionListener {
 		int x = 0;
 		int y = 0;
 		char prototypemap[] = getMap(m);
-		while(i < 50) {												//max wert noch andern
+		while(i < 800) {												//max wert noch andern
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
@@ -318,17 +318,18 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 		x = x + 50;
-		if(i % 10 == 0) {
-			y = y + 50;
+		if(i != 0 ){
+			if(i % 10 == 0){
+				y = y + 50;
+				System.out.println("ici");
+			}
+				
 		}
 		i++;
 		}
 		
 		cha.setX(j);
 		cha.setY(k);
-		
-		initTrees();
-		initEnemies();
 	}
 	
 	
@@ -390,14 +391,16 @@ public class game extends JPanel implements ActionListener {
 		
 		String line;
 		line = dat.readLine();
+		int a = 0;
 		
 		while(line != null) {														//read a line
-			for (int i=0; i<line.length(); i++) {									//read a symbol
-				prototypemap[i] = line.charAt(i); 									// save the symbol in an array
+			for (int i = 0; i<line.length(); i++) {									//read a symbol
+				prototypemap[a] = line.charAt(i); 									// save the symbol in an array
+				a++;
 			}
 			line = dat.readLine();													// read a new line
-			dat.close();
 		}
+		dat.close();
 		return prototypemap;
 	}
 	
