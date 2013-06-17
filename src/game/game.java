@@ -43,10 +43,10 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = new int[800]; 	//später ändern für verschiedene Maps
-	private int[] pos2 = new int[800];
-	private int[] posE1 = new int[800];
-	private int[] posE2 = new int[800];
+	private int[] pos1 = new int[20]; 	//später ändern für verschiedene Maps
+	private int[] pos2 = new int[20];
+	private int[] posE1 = new int[20];
+	private int[] posE2 = new int[20];
 	private int mapNumber = 1;
 	
 	public game() {
@@ -77,7 +77,7 @@ public class game extends JPanel implements ActionListener {
 		initTrees();
 		initEnemies();
 		
-		//enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
+		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
@@ -96,6 +96,9 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < pos1.length ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
+			System.out.println(pos2[i]);
+			System.out.println("  ");
+			System.out.println(pos1[i]);
 		}
 	}
 	
@@ -229,7 +232,7 @@ public class game extends JPanel implements ActionListener {
 		Rectangle rEnemy = enemy1.getBounds();
 		
 		if (mapNumber == 2){
-		if (rChar.intersects(rEnemy)){			//Game Over bat touching enemy
+		if (rChar.intersects(rEnemy)){			//Game Over at touching enemy
 			ingame = false;
 		}}
 		
@@ -277,12 +280,13 @@ public class game extends JPanel implements ActionListener {
 		int x = 0;
 		int y = 0;
 		char prototypemap[] = getMap(m);
-		while(i < 800) {												//max wert noch andern
+		while(i < 20) {												//max wert noch andern
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
 				pos1[a] = x;
 				pos2[a] = y;
+				System.out.println(pos2[a]);
 				a++;
 				break;
 			}
@@ -321,7 +325,8 @@ public class game extends JPanel implements ActionListener {
 		if(i != 0 ){
 			if(i % 10 == 0){
 				y = y + 50;
-				System.out.println("ici");
+				x = 0;
+				System.out.println(y);
 			}
 				
 		}
@@ -344,47 +349,47 @@ public class game extends JPanel implements ActionListener {
 			break;
 		}
 		case 2 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map2				
 			break;
 		}
 		case 3 : {			
-			datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+			datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 			dat = new BufferedReader(datei);							//map3				
 		break;
 		}
 		case 4 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map4			
 			break;
 		}
 		case 5 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map5			
 			break;
 		}
 		case 6 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map6				
 			break;
 		}
 		case 7 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map7			
 			break;
 		}
 		case 8 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1.txt");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map8			
 			break;
 		}
 		case 9 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map9			
 			break;
 		}
 		default : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
+				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
 				dat = new BufferedReader(datei);							//map1
 		}
 		}
