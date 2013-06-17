@@ -43,10 +43,10 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = new int[20]; 	//später ändern für verschiedene Maps
-	private int[] pos2 = new int[20];
-	private int[] posE1 = new int[20];
-	private int[] posE2 = new int[20];
+	private int[] pos1 = new int[110]; 	//später ändern für verschiedene Maps
+	private int[] pos2 = new int[110];
+	private int[] posE1 = new int[110];
+	private int[] posE2 = new int[110];
 	private int mapNumber = 1;
 	
 	public game() {
@@ -69,7 +69,7 @@ public class game extends JPanel implements ActionListener {
 		cha = new Char();
 		
 		try {
-			initMap(mapNumber, 40, 220);
+			initMap(mapNumber, 51, 220);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -269,7 +269,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 0;
+		int i = 1;
 		int a = 0;
 		int b = 0;
 		int c = 0;
@@ -277,10 +277,22 @@ public class game extends JPanel implements ActionListener {
 		int e = 0;
 		int f = 0;
 		int g = 0;
-		int x = 0;
+		int x = 50;
 		int y = 0;
+		
+		
 		char prototypemap[] = getMap(m);
-		while(i < 20) {												//max wert noch andern
+		pos1[0] = 0;
+		pos2[0] = 0;
+		
+		
+		while(i < 110) {												//max wert noch andern
+			
+			if(i % 10 == 0){
+				y = y + 50;
+				x = 0;
+				System.out.println(y);
+			}
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
@@ -322,14 +334,6 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 		x = x + 50;
-		if(i != 0 ){
-			if(i % 10 == 0){
-				y = y + 50;
-				x = 0;
-				System.out.println(y);
-			}
-				
-		}
 		i++;
 		}
 		
