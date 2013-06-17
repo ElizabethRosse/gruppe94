@@ -74,8 +74,8 @@ public class game extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		initTrees();
-		initEnemies();
+		//initTrees();
+		//initEnemies();
 		
 		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
@@ -168,11 +168,10 @@ public class game extends JPanel implements ActionListener {
 		/**if (cha.isVisible() == false) {
 			ingame = false; //für berührung mit Gegner
 		}*/
-		
 		if(cha.getX()>490 && mapNumber==1){ 						//Mapwechsel von 1 zu 2
 			mapNumber++;
 			try {
-				initMap(mapNumber, 40, 220);
+				initMap(mapNumber, 51, 220);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -182,7 +181,7 @@ public class game extends JPanel implements ActionListener {
 		else if(cha.getY()>470 && mapNumber==2){
 			mapNumber++;
 			try {
-				initMap(mapNumber, 40 ,200);
+				initMap(mapNumber, 51 ,200);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -278,24 +277,22 @@ public class game extends JPanel implements ActionListener {
 		int y = 0;
 		
 		
-		char prototypemap[] = getMap(m);
+		char[] prototypemap = new char[110];
 		pos1[0] = 0;
 		pos2[0] = 0;
-		
+		prototypemap = getMap(m);
 		
 		while(i < 110) {												//max wert noch andern
 			
 			if(i % 10 == 0){
 				y = y + 50;
 				x = 0;
-				System.out.println(y);
 			}
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
 				pos1[a] = x;
 				pos2[a] = y;
-				System.out.println(pos2[a]);
 				a++;
 				break;
 			}
@@ -336,22 +333,25 @@ public class game extends JPanel implements ActionListener {
 		
 		cha.setX(j);
 		cha.setY(k);
+		
+		initTrees();
+		initEnemies();
 	}
 	
 	
 	public char[] getMap(int m) throws IOException {
 		FileReader datei;
 		BufferedReader dat; 
-		char[] prototypemap = new char[800];
-		switch(m) {																		//dateipfad noch festlegen
+		char[] prototypemap = new char[110];
+		switch(m) {	
 		case 1 : {
 				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);							//map1				
+				dat = new BufferedReader(datei);							//map1
 			break;
 		}
 		case 2 : {
 				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map2				
+				dat = new BufferedReader(datei);							//map2		
 			break;
 		}
 		case 3 : {			
