@@ -275,11 +275,22 @@ public class game extends JPanel implements ActionListener {
 		int i = 1;													//loop variables
 		int x = 50;
 		int y = 0;
-		
-		
 		char[] prototypemap = new char[110];
+		
+		
+		NumberofTrees = 1;
+		Spawnpoints = 0;
+		NumberofEnemies = 0;
+		bosses = 0;
+		goals = 0;
+		items = 0;
+		npcs = 0;
+		
+		
 		pos1[0] = 0;
 		pos2[0] = 0;
+		
+		
 		prototypemap = getMap(m);
 		
 		while(i < 110) {												//maximum of fields on a map: 110
@@ -345,53 +356,53 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		switch(m) {	
 		case 1 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);							//map1
+				datei = new FileReader("src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);																				//map1
 			break;
 		}
 		case 2 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map2		
+				datei = new FileReader("src\\game\\maps\\map2");
+				dat = new BufferedReader(datei);																				//map2		
 			break;
 		}
 		case 3 : {			
-			datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-			dat = new BufferedReader(datei);							//map3				
+			datei = new FileReader("src\\game\\maps\\map3");
+			dat = new BufferedReader(datei);																					//map3				
 		break;
 		}
 		case 4 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map4			
+				datei = new FileReader("src\\game\\maps\\map4");
+				dat = new BufferedReader(datei);																				//map4			
 			break;
 		}
 		case 5 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map5			
+				datei = new FileReader("src\\game\\maps\\map5");
+				dat = new BufferedReader(datei);																				//map5			
 			break;
 		}
 		case 6 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map6				
+				datei = new FileReader("src\\game\\maps\\map6");
+				dat = new BufferedReader(datei);																				//map6				
 			break;
 		}
 		case 7 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map7			
+				datei = new FileReader("src\\game\\maps\\map7");
+				dat = new BufferedReader(datei);																				//map7			
 			break;
 		}
 		case 8 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map8			
+				datei = new FileReader("src\\game\\maps\\map8");
+				dat = new BufferedReader(datei);																				//map8			
 			break;
 		}
 		case 9 : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map9			
+				datei = new FileReader("src\\game\\maps\\map9");
+				dat = new BufferedReader(datei);																				//map9			
 			break;
 		}
 		default : {
-				datei = new FileReader("C:\\Users\\Oliver Heldt\\workspace\\gruppe94\\src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);							//map1
+				datei = new FileReader("src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);																				//map1
 		}
 		}
 		
