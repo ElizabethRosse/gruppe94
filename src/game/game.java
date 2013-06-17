@@ -96,9 +96,6 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < pos1.length ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
-			System.out.println(pos2[i]);
-			System.out.println("  ");
-			System.out.println(pos1[i]);
 		}
 	}
 	
@@ -106,7 +103,7 @@ public class game extends JPanel implements ActionListener {
 		enemies = new ArrayList<Enemy>();
 		
 		for (int i=0; i < posE1.length ; i++) {
-			enemies.add(new Enemy(posE1[i], posE2[i]));
+			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13));
 		}
 	}
 	
