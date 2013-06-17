@@ -48,6 +48,13 @@ public class game extends JPanel implements ActionListener {
 	private int[] posE1 = new int[110];
 	private int[] posE2 = new int[110];
 	private int mapNumber = 1;
+	int NumberofTrees = 1;
+	int Spawnpoints = 0;
+	int NumberofEnemies = 0;
+	int bosses = 0;
+	int goals = 0;
+	int items = 0;
+	int npcs = 0;
 	
 	public game() {
 		
@@ -94,7 +101,7 @@ public class game extends JPanel implements ActionListener {
 	public void initTrees() {
 		trees = new ArrayList<Tree>();
 		
-		for (int i=0; i < pos1.length ; i++) {
+		for (int i=0; i < NumberofTrees ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
 		}
 	}
@@ -102,7 +109,7 @@ public class game extends JPanel implements ActionListener {
 	public void initEnemies() {
 		enemies = new ArrayList<Enemy>();
 		
-		for (int i=0; i < posE1.length ; i++) {
+		for (int i=0; i < NumberofEnemies ; i++) {
 			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13));
 		}
 	}
@@ -168,15 +175,15 @@ public class game extends JPanel implements ActionListener {
 		/**if (cha.isVisible() == false) {
 			ingame = false; //für berührung mit Gegner
 		}*/
-		if(cha.getX()>490 && mapNumber==1){ 						//Mapwechsel von 1 zu 2
+		if(cha.getX()>490 && mapNumber==1){
 			mapNumber++;
 			try {
 				initMap(mapNumber, 51, 220);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} 									//ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
-																	//erhoeht die Map-Nummer fuer die if-abfrage
+			} 																				//increasing mapNumber with starting positions
+
 		}
 		else if(cha.getY()>470 && mapNumber==2){
 			mapNumber++;
@@ -187,7 +194,7 @@ public class game extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			} 
 		}
-		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
+		else if(cha.getX()<10 && mapNumber==2){ 											//decrease mapNumber
 			mapNumber--;
 			try {
 				initMap(mapNumber, 480, 225);
@@ -265,14 +272,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 1;
-		int a = 0;
-		int b = 0;
-		int c = 0;
-		int d = 0;
-		int e = 0;
-		int f = 0;
-		int g = 0;
+		int i = 1;													//loop variables
 		int x = 50;
 		int y = 0;
 		
@@ -282,7 +282,7 @@ public class game extends JPanel implements ActionListener {
 		pos2[0] = 0;
 		prototypemap = getMap(m);
 		
-		while(i < 110) {												//max wert noch andern
+		while(i < 110) {												//maximum of fields on a map: 110
 			
 			if(i % 10 == 0){
 				y = y + 50;
@@ -291,35 +291,35 @@ public class game extends JPanel implements ActionListener {
 			
 			switch(prototypemap[i]) {
 			case '#' : {											// # : wall
-				pos1[a] = x;
-				pos2[a] = y;
-				a++;
+				pos1[NumberofTrees] = x;
+				pos2[NumberofTrees] = y;
+				NumberofTrees++;
 				break;
 			}
 			case 's' : {											// s : spawn
-				b++;
+				Spawnpoints++;
 				break;
 			}
 			case 'e' : {											// e : enemy
-				posE1[c] = x;
-				posE2[c] = y;
-				c++;
+				posE1[NumberofEnemies] = x;
+				posE2[NumberofEnemies] = y;
+				NumberofEnemies++;
 				break;
 			}
 			case 'b' : {											// b : boss
-				d++;
+				bosses++;
 				break;
 			}
 			case 'g' : {											// g : goal
-				e++;
+				goals++;
 				break;
 			}
 			case 'i' : {											// i : item
-				f++;
+				items++;
 				break;
 			}
 			case 'n' : {											// n : npc
-				g++;
+				npcs++;
 				break;
 			}
 			default : {
@@ -334,7 +334,7 @@ public class game extends JPanel implements ActionListener {
 		cha.setX(j);
 		cha.setY(k);
 		
-		initTrees();
+		initTrees();											// important for repainting
 		initEnemies();
 	}
 	
