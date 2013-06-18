@@ -274,6 +274,21 @@ public class game extends JPanel implements ActionListener {
 		
 		Rectangle rChar = cha.getBounds();
 		
+		if(cha.getSmile()) {
+			Rectangle rSmile = cha.getBoundsSmile();
+			
+			for (int i = 0; i < enemies.size(); i++) {
+				Enemy e = (Enemy) enemies.get(i);
+				if(e.getLife()>0) {
+					Rectangle rEnemy = e.getBounds();
+					if(rSmile.intersects(rEnemy)) {
+						e.damage(1);
+					}
+				}
+				else enemies.remove(i);
+			}
+		}
+		
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
 			if(e.getLife()>0) {
