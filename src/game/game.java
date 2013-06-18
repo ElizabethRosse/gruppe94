@@ -175,7 +175,7 @@ public class game extends JPanel implements ActionListener {
 		/**if (cha.isVisible() == false) {
 			ingame = false; //für berührung mit Gegner
 		}*/
-		if(cha.getX()>490 && mapNumber==1){
+		if(cha.getX()>490 && mapNumber < 9) {
 			mapNumber++;
 			try {
 				initMap(mapNumber, 51, 220);
@@ -185,16 +185,7 @@ public class game extends JPanel implements ActionListener {
 			} 																				//increasing mapNumber with starting positions
 
 		}
-		else if(cha.getY()>470 && mapNumber==2){
-			mapNumber++;
-			try {
-				initMap(mapNumber, 51 ,200);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
-		}
-		else if(cha.getX()<10 && mapNumber==2){ 											//decrease mapNumber
+		else if(cha.getX()<10 && mapNumber >= 1) { 															//decrease mapNumber
 			mapNumber--;
 			try {
 				initMap(mapNumber, 480, 225);
@@ -203,15 +194,7 @@ public class game extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			} 
 		}
-		else if(cha.getX()<10 && mapNumber==3){
-			mapNumber--;
-			try {
-				initMap(mapNumber, 450 , 460);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
-		}
+
 		
 		cha.move();
 		checkCollisions();
