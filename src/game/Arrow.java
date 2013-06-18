@@ -21,7 +21,7 @@ public class Arrow {
 		width = image.getWidth(null);
 		height = image.getHeight(null);
 		visible = true;
-		damage = 1;
+		damage = 20;
 		this.direction = dir;
 		this.x = x;
 		this.y = y;
