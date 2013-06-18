@@ -15,7 +15,7 @@ public class Healthpotion {
 	
 	public Healthpotion(int x, int y) {
 		ImageIcon ii =
-				new ImageIcon(this.getClass().getResource("images/tree.gif"));
+				new ImageIcon(this.getClass().getResource("images/Healthpotion.png"));
 		image = ii.getImage();
 		width = image.getWidth(null);   //lädt Image, setzt Variablen
 		height = image.getHeight(null);
