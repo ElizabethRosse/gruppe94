@@ -33,22 +33,23 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
+	private ArrayList<Arrow> arrows;
+	private ArrayList<Feuerball> fball;
 
 	private ArrayList<Enemy> enemies;
 
-	private Enemy enemy1;
 	private goal goal;
 
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = new int[110]; 																		//positions of objects on map
+	private int[] pos1 = new int[110]; 	//später ändern für verschiedene Maps
 	private int[] pos2 = new int[110];
 	private int[] posE1 = new int[110];
 	private int[] posE2 = new int[110];
 	private int mapNumber = 1;
-	int NumberofTrees = 1;																					//max number of objects of this class
+	int NumberofTrees = 1;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
 	int bosses = 0;
@@ -65,7 +66,7 @@ public class game extends JPanel implements ActionListener {
 		ingame = true;
 		win = false;
 		
-		ImageIcon ii =                       																//loading and scaling grass-image
+		ImageIcon ii =                       //lädt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
 		image = ii.getImage();
 		imagescaled = image.getScaledInstance(530, 530, UNDEFINED_CONDITION);
@@ -74,6 +75,8 @@ public class game extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 		cha = new Char();
+		initArrows();
+		initfball();
 		
 		try {
 			initMap(mapNumber, 51, 220);
@@ -81,16 +84,27 @@ public class game extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//initTrees();
+		//initEnemies();
 		
-		enemy1 = new Enemy (400, 400);																		// creates enemy with coords
-		goal = new goal (300, 275);     																	// creates goal with coords
+		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
 	}
 	
-	public void addNotify() {  																				//gets window scaling for game over message
+	public void initArrows() {
+		arrows = new ArrayList<Arrow>();
+		arrows = cha.getArrows();
+	}
+	
+	public void initfball() {
+		fball = new ArrayList<Feuerball>();
+		fball = cha.getFBall();
+	}
+	
+	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
 		super.addNotify();
 		G_WIDTH = getWidth();
 		G_HEIGHT = getHeight();
@@ -115,33 +129,45 @@ public class game extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if (ingame) { 																						//paints objects if you are ingame
+		if (ingame) { //zeichne Character, Bäume usw.  wenn ingame = true ist
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
-			g2d.drawImage(imagescaled, 0, 0, this);   														//loading background image
+			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
 			
-			if (cha.isVisible())
-				g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
+			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			
 			}
+			
+			for (int i = 0; i< fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if (f.isVisible())
+					g2d.drawImage(f.getImage(), f.getX(), f.getY(),  this);
+			}
+			
+			for (int i = 0; i < arrows.size(); i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if (a.isVisible())
+					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
+			}
+			
 			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
-				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 			}
 
-			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //paint goal on map 3
+			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
 			}
 		
 		else {
-			if (win) { 																						//win message
+			if (win) { //Naricht bei Sieg
 				String msg = "YOU WIN";
 				Font small = new Font ("Gewonnen", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
@@ -151,7 +177,7 @@ public class game extends JPanel implements ActionListener {
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT /2);
 				
 			}
-			else { 																							// loose message
+			else { // Naricht bei Niederlage (wenn ingame falsch ist, aber kein Sieg = false ist)
 				String msg = "Game Over";
 				Font small = new Font ("Ende", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
@@ -163,16 +189,31 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
-		g.dispose();
+		g.dispose(); //wie final verhindert Änderung des JFrames
 		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		/**if (cha.isVisible() == false) {
-			ingame = false; //für berührung mit Gegner
-		}*/
+        initArrows();
+		
+		for(int i = 0; i < arrows.size(); i++) {
+			Arrow a = (Arrow) arrows.get(i);
+			if (a.isVisible())
+				a.move();
+			else arrows.remove(i);
+		}
+		
+		initfball();
+		
+		for(int i = 0; i < fball.size(); i++) {
+			Feuerball f = (Feuerball) fball.get(i);
+			if (f.isVisible())
+				f.move();
+			else fball.remove(i);
+		}
+		
 		if(cha.getX()>490 && mapNumber < 9) {
 			mapNumber++;
 			try {
@@ -192,7 +233,6 @@ public class game extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			} 
 		}
-
 		
 		cha.move();
 		checkCollisions();
@@ -205,20 +245,48 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
+			if(e.getLife()>0) {
 			Rectangle rEnemy = e.getBounds();
 			
-			if (rChar.intersects(rEnemy)) { 																//Game over at touching enemy
-				ingame = false;		
-			}  
+			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
+				if ((cha.getLife() > 0)) {
+					cha.dmg(e.getDmg());
+					if (cha.getDX() == 1) {
+						cha.addX(-10);
+					}
+					
+					if (cha.getDX() == -1) {
+						cha.addX(10);
+					}
+					
+					if (cha.getDY() == 1) {
+						cha.addY(-10);
+					}
+					
+					if (cha.getDY() == -1) {
+						cha.addY(10);
+					}
+				}
+				else ingame = false;
+			}
+			for(int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rEnemy)) {
+					a.setVisible(false);
+					e.damage(a.getDmg());
+				}
+			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rEnemy)) {
+					f.setVisible(false);
+					e.damage(f.getDmg());
+				}
+			}}
+			else enemies.remove(k);
 		}
 		
 		Rectangle rGoal = goal.getBounds();
-		Rectangle rEnemy = enemy1.getBounds();
-		
-		if (mapNumber == 2){
-		if (rChar.intersects(rEnemy)){																		//Game Over at touching enemy
-			ingame = false;
-		}}
 		
 		if (mapNumber == 3){
 		if (rChar.intersects(rGoal)){
@@ -230,7 +298,7 @@ public class game extends JPanel implements ActionListener {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
 			
-			if (rChar.intersects(rTree)) { 																	//stop at touching tree
+			if (rChar.intersects(rTree)) { //stop at touching tree
 				
 				if (cha.getDX() == 1) {
 					cha.addX(-1);
@@ -248,12 +316,24 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(1);
 				}
 				
-			} 
+			}
+			for (int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rTree)) a.setVisible(false);
+				for(int p = 0; p<fball.size(); p++){
+					Feuerball f = (Feuerball) fball.get(p);
+					if(a.getBounds().intersects(f.getBounds())) a.setVisible(false);
+				}
+			}
+			for (int i = 0; i<fball.size();i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rTree)) f.setVisible(false);
+			}
 		}
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 1;																							//loop variable
+		int i = 1;													//loop variables
 		int x = 50;
 		int y = 0;
 		char[] prototypemap = new char[110];
