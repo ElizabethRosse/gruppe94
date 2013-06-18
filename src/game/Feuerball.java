@@ -18,7 +18,7 @@ public class Feuerball {
 		
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/fball.png"));
 		image = ii.getImage();
-		damage = 5;
+		damage = 100;
 		visible = true;
 		width = image.getWidth(null);
 		height = image.getHeight(null);
