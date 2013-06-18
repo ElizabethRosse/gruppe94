@@ -43,12 +43,12 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = new int[110]; 	//später ändern für verschiedene Maps
+	private int[] pos1 = new int[110]; 																		//positions of objects on map
 	private int[] pos2 = new int[110];
 	private int[] posE1 = new int[110];
 	private int[] posE2 = new int[110];
 	private int mapNumber = 1;
-	int NumberofTrees = 1;
+	int NumberofTrees = 1;																					//max number of objects of this class
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
 	int bosses = 0;
@@ -65,7 +65,7 @@ public class game extends JPanel implements ActionListener {
 		ingame = true;
 		win = false;
 		
-		ImageIcon ii =                       //lädt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
+		ImageIcon ii =                       																//loading and scaling grass-image
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
 		image = ii.getImage();
 		imagescaled = image.getScaledInstance(530, 530, UNDEFINED_CONDITION);
@@ -81,18 +81,16 @@ public class game extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//initTrees();
-		//initEnemies();
 		
-		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
-		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
+		enemy1 = new Enemy (400, 400);																		// creates enemy with coords
+		goal = new goal (300, 275);     																	// creates goal with coords
 		
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
 	}
 	
-	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
+	public void addNotify() {  																				//gets window scaling for game over message
 		super.addNotify();
 		G_WIDTH = getWidth();
 		G_HEIGHT = getHeight();
@@ -117,11 +115,11 @@ public class game extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if (ingame) { //zeichne Character, Bäume usw.  wenn ingame = true ist
+		if (ingame) { 																						//paints objects if you are ingame
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
-			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
+			g2d.drawImage(imagescaled, 0, 0, this);   														//loading background image
 			
 			if (cha.isVisible())
 				g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
@@ -136,14 +134,14 @@ public class game extends JPanel implements ActionListener {
 				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 			}
 
-			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
+			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //paint goal on map 3
 			
 			g2d.setColor(Color.BLACK);
 			g2d.drawString("Targets left: 1", 5, 15);
 			}
 		
 		else {
-			if (win) { //Naricht bei Sieg
+			if (win) { 																						//win message
 				String msg = "YOU WIN";
 				Font small = new Font ("Gewonnen", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
@@ -153,7 +151,7 @@ public class game extends JPanel implements ActionListener {
 				g.drawString(msg, (G_WIDTH - metr.stringWidth(msg))/2, G_HEIGHT /2);
 				
 			}
-			else { // Naricht bei Niederlage (wenn ingame falsch ist, aber kein Sieg = false ist)
+			else { 																							// loose message
 				String msg = "Game Over";
 				Font small = new Font ("Ende", Font.BOLD, 14);
 				FontMetrics metr = this.getFontMetrics(small);
@@ -165,7 +163,7 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
-		g.dispose(); //wie final verhindert Änderung des JFrames
+		g.dispose();
 		
 	}
 	
@@ -182,7 +180,7 @@ public class game extends JPanel implements ActionListener {
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} 																				//increasing mapNumber with starting positions
+			} 																								//increasing mapNumber with starting positions
 
 		}
 		else if(cha.getX()<10 && mapNumber >= 1) { 															//decrease mapNumber
@@ -209,7 +207,7 @@ public class game extends JPanel implements ActionListener {
 			Enemy e = (Enemy) enemies.get(k);
 			Rectangle rEnemy = e.getBounds();
 			
-			if (rChar.intersects(rEnemy)) { 		//Game over at touching enemy
+			if (rChar.intersects(rEnemy)) { 																//Game over at touching enemy
 				ingame = false;		
 			}  
 		}
@@ -218,7 +216,7 @@ public class game extends JPanel implements ActionListener {
 		Rectangle rEnemy = enemy1.getBounds();
 		
 		if (mapNumber == 2){
-		if (rChar.intersects(rEnemy)){			//Game Over at touching enemy
+		if (rChar.intersects(rEnemy)){																		//Game Over at touching enemy
 			ingame = false;
 		}}
 		
@@ -232,7 +230,7 @@ public class game extends JPanel implements ActionListener {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
 			
-			if (rChar.intersects(rTree)) { //stop at touching tree
+			if (rChar.intersects(rTree)) { 																	//stop at touching tree
 				
 				if (cha.getDX() == 1) {
 					cha.addX(-1);
@@ -255,7 +253,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 1;													//loop variables
+		int i = 1;																							//loop variable
 		int x = 50;
 		int y = 0;
 		char[] prototypemap = new char[110];
