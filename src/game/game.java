@@ -35,7 +35,8 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Tree> trees;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
-
+	private ArrayList<Manapotion> manap;
+	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 
 	private goal goal;
@@ -48,6 +49,10 @@ public class game extends JPanel implements ActionListener {
 	private int[] pos2 = new int[110];
 	private int[] posE1 = new int[110];
 	private int[] posE2 = new int[110];
+	private int[] ManapotionX = new int[110];
+	private int[] ManapotionY = new int[110];
+	private int[] HealthpotionX = new int[110];
+	private int[] HealthpotionY = new int[110];
 	private int mapNumber = 1;
 	int NumberofTrees = 1;
 	int Spawnpoints = 0;
@@ -56,6 +61,8 @@ public class game extends JPanel implements ActionListener {
 	int goals = 0;
 	int items = 0;
 	int npcs = 0;
+	int manapotions = 0;
+	int healthpotions = 0;
 	
 	public game() {
 		
@@ -84,8 +91,6 @@ public class game extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//initTrees();
-		//initEnemies();
 		
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
@@ -118,6 +123,22 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void initManap() {
+		manap = new ArrayList<Manapotion>();
+		
+		for(int i = 0; i< manapotions ; i++) {
+			manap.add(new Manapotion(ManapotionX[i], ManapotionY[i]));
+		}
+	}
+	
+	public void initHealthp() {
+		healthp = new ArrayList<Healthpotion>();
+		
+		for(int i = 0; i< healthpotions; i++) {
+			healthp.add(new Healthpotion(HealthpotionX[i], HealthpotionY[i]));
+		}
+	}
+	
 	public void initEnemies() {
 		enemies = new ArrayList<Enemy>();
 		
@@ -141,6 +162,16 @@ public class game extends JPanel implements ActionListener {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			
+			}
+			
+			for (int i = 0; i < manap.size(); i++) {
+				Manapotion m = (Manapotion) manap.get(i);
+				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
+			}
+			
+			for (int i = 0; i < healthp.size(); i++) {
+				Healthpotion h = (Healthpotion) healthp.get(i);
+				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
 			}
 			
 			for (int i = 0; i< fball.size(); i++) {
@@ -249,7 +280,7 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rEnemy = e.getBounds();
 			
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
-				if ((cha.getLife() > 0)) {
+				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
 					if (cha.getDX() == 1) {
 						cha.addX(-10);
@@ -284,6 +315,32 @@ public class game extends JPanel implements ActionListener {
 				}
 			}}
 			else enemies.remove(k);
+		}
+		
+		for (int i = 0; i<manap.size(); i++) {
+			Manapotion m = (Manapotion) manap.get(i);
+			if(m.isVisible()){
+			Rectangle rMana = m.getBounds();
+			
+			if(rChar.intersects(rMana)) {
+				cha.Manapotion();
+				m.setVisible(false);
+			}
+			}
+			else manap.remove(i);
+		}
+		
+		for (int i = 0; i<healthp.size(); i++) {
+			Healthpotion h = (Healthpotion) healthp.get(i);
+			if(h.isVisible()){
+			Rectangle rHealth = h.getBounds();
+			
+			if(rChar.intersects(rHealth)) {
+				cha.Healthpotion();
+				h.setVisible(false);
+			}
+			}
+			else healthp.remove(i);
 		}
 		
 		Rectangle rGoal = goal.getBounds();
@@ -346,6 +403,8 @@ public class game extends JPanel implements ActionListener {
 		goals = 0;
 		items = 0;
 		npcs = 0;
+		manapotions = 0;
+		healthpotions = 0;
 		
 		
 		pos1[0] = 0;
@@ -386,8 +445,16 @@ public class game extends JPanel implements ActionListener {
 				goals++;
 				break;
 			}
-			case 'i' : {											// i : item
-				items++;
+			case 'm' : {											// m : manapotion
+				ManapotionX[manapotions] = x;
+				ManapotionY[manapotions] = y;
+				manapotions++;
+				break;
+			}
+			case 'h' : {                                            // h : healthpotion
+				HealthpotionX[healthpotions] = x;
+				HealthpotionY[healthpotions] = y;
+				healthpotions++;
 				break;
 			}
 			case 'n' : {											// n : npc
@@ -408,6 +475,8 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();											// important for repainting
 		initEnemies();
+		initManap();
+		initHealthp();
 	}
 	
 	
