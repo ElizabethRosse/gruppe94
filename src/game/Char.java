@@ -228,15 +228,6 @@ public class Char {
 			 move = false;
 		 }
 		 
-		 if (key == KeyEvent.VK_F){
-			 if(mana>0) cast();
-			 mana -= 20;
-		 }
-		 
-		 if (key == KeyEvent.VK_SPACE) {
-			 shoot();
-		 }
-		 
 		 if (key == KeyEvent.VK_UP) {
 			 dy = -1;
 			 direction = 4;
@@ -264,6 +255,15 @@ public class Char {
 		 if (key == KeyEvent.VK_D){
 			 change = false;
 			 move = true;
+		 }
+		 
+		 if (key == KeyEvent.VK_F){
+			 if(mana>0) cast();
+			 mana -= 20;
+		 }
+		 
+		 if (key == KeyEvent.VK_SPACE) {
+			 shoot();
 		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
