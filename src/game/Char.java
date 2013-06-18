@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 public class Char {
 	
-	private int x, y, dx, dy, width, height, life, mana, maxmana, armor, direction;
+	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction;
 	private Image image;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
@@ -26,7 +26,9 @@ public class Char {
 		arrows = new ArrayList<Arrow>();
 		fball = new ArrayList<Feuerball>();
 		armor = 1;
-		life = 6;
+		life = 3;
+		health = 6;
+		maxhealth = 6;
 		mana = 100;
 		maxmana = 100;
 		x = 100;
@@ -95,6 +97,14 @@ public class Char {
 	public void setDY(int y) {
 		 this.dy = y;
 	}
+	
+	public void Continue(){
+		this.life -= 1;
+	}
+	
+	public int getContinues() {
+		return life;
+	}
 	 
 	public Image getImage() {
 		 return image;
@@ -129,22 +139,22 @@ public class Char {
 	public void dmg (int dmg){
 		switch(dmg%armor){
 		case 0 : {
-			this.life -= dmg/armor;
+			this.health -= dmg/armor;
 			break;
 		}
 		case 1 : {
-			if((armor-1)==0) this.life -= dmg;
-			else this.life -= dmg/(armor-1);
+			if((armor-1)==0) this.health -= dmg;
+			else this.health -= dmg/(armor-1);
 			break;
 		}
 		case 2 : {
-			if((armor-2)==0) this.life -= dmg;
-			else this.life -= dmg/(armor-2);
+			if((armor-2)==0) this.health -= dmg;
+			else this.health -= dmg/(armor-2);
 			break;
 		}
 		case 3 : {
-			if((armor-3)==0) this.life -= dmg;
-			else this.life -= dmg/(armor-3);
+			if((armor-3)==0) this.health -= dmg;
+			else this.health -= dmg/(armor-3);
 			break;
 		}
 		default : {
@@ -171,6 +181,14 @@ public class Char {
 		this.mana = maxmana;
 	}
 	
+	public void setMaxhealth(int health) {
+		this.maxhealth = health;
+	}
+	
+	public void Healthpotion() {
+		this.health = maxhealth;
+	}
+	
 	public void setArmor(int armor) {
 		this.armor = armor;
 	}
@@ -179,8 +197,8 @@ public class Char {
 		return armor;
 	}
 	
-	public int getLife (){
-		return life;
+	public int gethealth (){
+		return health;
 	}
 	 
 	public Rectangle getBounds() {
