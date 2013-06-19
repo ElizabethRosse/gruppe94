@@ -39,7 +39,8 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
-
+	private ArrayList<Boss> xosses; // boss2
+	private ArrayList<Boss> zosses; // boss3
 	private ArrayList<Boss> bosses;
 	private ArrayList<npc> npc;
 	
@@ -53,19 +54,20 @@ public class game extends JPanel implements ActionListener {
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
 
-<<<<<<< HEAD
-	private int[] pos1 = new int[max]; 			//später ändern für verschiedene Maps
-=======
 	private int[] pos1 = new int[max]; 	//Arrays for object set
->>>>>>> cf6f3a78e08962060825e8286bb6a6a1fb56cd30
+
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max]; 		//Gegner X Wert
 	private int[] posE2 = new int[max];			//Gegner Y Wert
 	private int[] posEDIR = new int[110];		//Gegener Vertikal oder Horizontal
 	private int[] posT1 = new int[110];			//Trap X Wert
 	private int[] posT2 = new int[110];			//Trap Y Wert
-	private int[] posB1 = new int[110];			//Boss X Wert
-	private int[] posB2 = new int[110];			//Boss Y Wert
+	private int[] posB1 = new int[110];			//Boss1 X Wert
+	private int[] posB2 = new int[110];			//Boss1 Y Wert
+	private int[] posX1 = new int[110];			//Boss2 X Wert
+	private int[] posX2 = new int[110];
+	private int[] posZ1 = new int[110];			//Boss3 X Wert
+	private int[] posZ2 = new int[110];
 	private int[] npcX = new int[max];
 	private int[] npcY = new int[max];
 	private int[] ManapotionX = new int[max];
@@ -78,6 +80,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
 	
+	int NumberofXosses = 0;
+	int NumberofZosses = 0;
 	int NumberofBosses = 0;
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
@@ -205,6 +209,19 @@ public class game extends JPanel implements ActionListener {
 			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13, 1));
 	}
 	
+	public void initXoss(){														//initializiere Bosse
+		xosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofXosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			xosses.add(new Boss(posX1[i] +13, posX2[i] + 13, 2));
+	}
+	
+	public void initZoss(){														//initializiere Bosse
+		zosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofZosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			zosses.add(new Boss(posZ1[i] +13, posZ2[i] + 13, 1));
+	}
+	
+	
 	public void initEnemies() {													//initializiere Enemies
 		enemies = new ArrayList<Enemy>();
 		for (int i=0; i < NumberofEnemies ; i++) {								//Enemy ArrayList mit X, Y und Direction aus Textdatei
@@ -283,6 +300,16 @@ public class game extends JPanel implements ActionListener {
 			 	if (b.isVisible()) g2d.drawImage(b.getImage(), b.getX(), b.getY(), this);
 			}
 
+			for (int i = 0; i<xosses.size();i++){								//zeichne Bosse
+				Boss x = (Boss) xosses.get(i);
+			 	if (x.isVisible()) g2d.drawImage(x.getImage(), x.getX(), x.getY(), this);
+			}
+			
+			for (int i = 0; i<zosses.size();i++){								//zeichne Bosse
+				Boss z = (Boss) zosses.get(i);
+			 	if (z.isVisible()) g2d.drawImage(z.getImage(), z.getX(), z.getY(), this);
+			}
+			
 			if (checkpointactivated){											//zeichne Checkpoints
 				for (int i = 0; i < checkpoints.size(); i++) {
 					Checkpoint c = (Checkpoint) checkpoints.get(i);
@@ -635,6 +662,8 @@ public class game extends JPanel implements ActionListener {
 		cha.move();
 		moveEnemy();
 		moveBoss();
+		moveXoss();
+		moveZoss();
 		checkCollisions();
 		checkAlive();
 		repaint();
@@ -669,6 +698,24 @@ public class game extends JPanel implements ActionListener {
 			Boss b = (Boss) bosses.get(i);
 			if (b.getLife()>0){
 				b.move();
+			}
+		}
+	}
+	
+	public void moveXoss(){
+		for (int i = 0; i < xosses.size(); i++){
+			Boss x = (Boss) xosses.get(i);
+			if (x.getLife()>0){
+				x.move();
+			}
+		}
+	}
+	
+	public void moveZoss(){
+		for (int i = 0; i < zosses.size(); i++){
+			Boss z = (Boss) zosses.get(i);
+			if (z.getLife()>0){
+				z.move();
 			}
 		}
 	}
@@ -891,9 +938,88 @@ public class game extends JPanel implements ActionListener {
 					b.movecollide();
 				}	
 			}
+			if ((cha.gethealth() > 0)) {
+				cha.dmg(b.getDmg());
+				if (cha.getDX() == 1) {
+					cha.addX(-10);
+				}
+				
+				if (cha.getDX() == -1) {
+					cha.addX(10);
+				}
+				
+				if (cha.getDY() == 1) {
+					cha.addY(-10);
+				}
+				
+				if (cha.getDY() == -1) {
+					cha.addY(10);
+				}
+			
+			else ingame = false;
 		}
+		for(int k = 0; i<arrows.size();k++) {
+			Arrow a = (Arrow) arrows.get(k);
+			if(a.getBounds().intersects(rBoss)) {
+				a.setVisible(false);
+				b.damage(a.getDmg());
+			}
+		}
+		for(int j = 0; j<fball.size(); j++) {
+			Feuerball f = (Feuerball) fball.get(j);
+			if(f.getBounds().intersects(rBoss)) {
+				f.setVisible(false);
+				b.damage(f.getDmg());
+			}
+		}}
 		}
 
+		for (int i= 0; i < xosses.size(); i++) {
+			Boss x= (Boss) xosses.get(i);
+			if(x.getLife()>0) {
+			Rectangle rBoss = x.getBounds();			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rBoss.intersects(rTree)){
+					x.movecollide();
+				}	
+			}
+			if ((cha.gethealth() > 0)) {
+				cha.dmg(x.getDmg());
+				if (cha.getDX() == 1) {
+					cha.addX(-10);
+				}
+				
+				if (cha.getDX() == -1) {
+					cha.addX(10);
+				}
+				
+				if (cha.getDY() == 1) {
+					cha.addY(-10);
+				}
+				
+				if (cha.getDY() == -1) {
+					cha.addY(10);
+				}
+			
+			else ingame = false;
+		}
+		for(int k = 0; i<arrows.size();k++) {
+			Arrow a = (Arrow) arrows.get(k);
+			if(a.getBounds().intersects(rBoss)) {
+				a.setVisible(false);
+				x.damage(a.getDmg());
+			}
+		}
+		for(int j = 0; j<fball.size(); j++) {
+			Feuerball f = (Feuerball) fball.get(j);
+			if(f.getBounds().intersects(rBoss)) {
+				f.setVisible(false);
+				x.damage(f.getDmg());
+			}
+		}}
+		}
 	
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
@@ -934,7 +1060,54 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		
+	
+	
+	for (int i= 0; i < zosses.size(); i++) {
+		Boss z = (Boss) zosses.get(i);
+		if(z.getLife()>0) {
+		Rectangle rBoss = z.getBounds();			
+		for (int j = 0; j < trees.size(); j++) {
+			Tree t = (Tree) trees.get(j);
+			Rectangle rTree = t.getBounds();
+			if (rBoss.intersects(rTree)){
+				z.movecollide();
+			}	
+		}
+		if ((cha.gethealth() > 0)) {
+			cha.dmg(z.getDmg());
+			if (cha.getDX() == 1) {
+				cha.addX(-10);
+			}
+			
+			if (cha.getDX() == -1) {
+				cha.addX(10);
+			}
+			
+			if (cha.getDY() == 1) {
+				cha.addY(-10);
+			}
+			
+			if (cha.getDY() == -1) {
+				cha.addY(10);
+			}
+		
+		else ingame = false;
 	}
+	for(int k = 0; i<arrows.size();k++) {
+		Arrow a = (Arrow) arrows.get(k);
+		if(a.getBounds().intersects(rBoss)) {
+			a.setVisible(false);
+			z.damage(a.getDmg());
+		}
+	}
+	for(int j = 0; j<fball.size(); j++) {
+		Feuerball f = (Feuerball) fball.get(j);
+		if(f.getBounds().intersects(rBoss)) {
+			f.setVisible(false);
+			z.damage(f.getDmg());
+		}
+	}}
+	}}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
@@ -943,6 +1116,8 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		checkpointactivated = false;
 		
+		NumberofXosses = 0;
+		NumberofZosses = 0;
 		NumberofBosses = 0;
 		NumberofTraps = 0;
 		NumberofTrees = 1;
@@ -1011,6 +1186,25 @@ public class game extends JPanel implements ActionListener {
 				initBoss();
 				break;
 			}
+			
+			case 'x' : {											// x : boss
+				posX1[NumberofXosses] = x;
+				posX2[NumberofXosses] = y;
+				
+				NumberofXosses++;
+				initXoss();
+				break;
+			}
+			
+			case 'z' : {											// z : boss
+				posZ1[NumberofZosses] = x;
+				posZ2[NumberofZosses] = y;
+				
+				NumberofZosses++;
+				initZoss();
+				break;
+			}
+			
 			case 'g' : {											// g : coin/gold/money
 				coinX[maxcoin] = x;
 				coinY[maxcoin] = y;

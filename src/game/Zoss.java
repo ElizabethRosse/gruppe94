@@ -5,16 +5,15 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Boss {
+public class Zoss {
 
 	private int x, dx, dy, y, width, height, damage, direction;
 	private boolean visible = true;
 	private int life = 500;
 	private Image image;
-	private boolean change =false;
 	
-	public Boss(int x, int y, int dir){
-		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/enemy.gif"));
+	public Zoss(int x, int y, int dir){
+		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/endboss.png"));
 		image = ei.getImage();
 		damage = 2;
 		width = image.getWidth(null);
@@ -54,9 +53,7 @@ public class Boss {
 		return y;
 	}
 
-	public void setChange(){
-		change = true;
-	}
+
 	public Image getImage(){
 		return image;
 	}
@@ -67,23 +64,6 @@ public class Boss {
 	public void move() {
 		x = x+dx;
 		y = y+dy;
-		/*switch(direction){
-		case 1 : {
-			x += dx;
-			break;
-		}
-		case 2 : {
-			y += dy;
-			break;
-		}
-		case 3 : {
-			x -= dx;
-		}
-		case 4 : {
-			y -= dy;
-		}
-		default : break;
-		}*/
 	
 	}
 	
@@ -111,3 +91,5 @@ public class Boss {
 		
 	}
 }
+
+
