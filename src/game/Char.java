@@ -11,10 +11,11 @@ import javax.swing.ImageIcon;
 public class Char {
 	
 	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction;
-	private boolean change, move;
+	private boolean change, move, sword;
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
+	private Sword Mastersword = new Sword(x,y,direction);
 	
 	public Char() {
 		
@@ -25,6 +26,7 @@ public class Char {
 		smile = ii.getImage();
 		change = false;
 		move = true;
+		sword = false;
 		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		direction = 1;
@@ -175,6 +177,24 @@ public class Char {
 		}
 	}
 	
+	public boolean getST() {
+		return sword;
+	}
+	
+	public void sword() {
+		
+		if(direction==1) Mastersword = new Sword(x-2+width, y-1+height/2, 1);
+		if(direction==2) Mastersword = new Sword(x-13, y-1+height/2, 2);
+		if(direction==3) Mastersword = new Sword(x+1, y-1+height, 3);
+		if(direction==4) Mastersword = new Sword(x-1+width/2, y-13, 4);
+		//default : Mastersword = new Sword(x+2+width/2, y-1+height/2, direction);
+		
+	}
+	
+	public Sword getSword() {
+		return Mastersword;
+	}
+	
 	public void manacost (int mana) {
 		this.mana -= mana;
 	}
@@ -228,6 +248,12 @@ public class Char {
 			 move = false;
 		 }
 		 
+		 if (key == KeyEvent.VK_G){
+			 sword = true;
+			 move = false;
+			 sword();
+		 }
+		 
 		 if (key == KeyEvent.VK_UP) {
 			 dy = -1;
 			 direction = 4;
@@ -257,9 +283,14 @@ public class Char {
 			 move = true;
 		 }
 		 
+		 if (key == KeyEvent.VK_G){
+			 sword = false;
+			 move = true;
+		 }
+		 
 		 if (key == KeyEvent.VK_F){
-			 if(mana>0) cast();
-			 mana -= 20;
+			 if(mana>0) {cast();
+			 mana -= 20;}
 		 }
 		 
 		 if (key == KeyEvent.VK_SPACE) {
