@@ -222,7 +222,7 @@ public class game extends JPanel implements ActionListener {
 			
 			}
 			
-			for (int i = 0; i < manap.size(); i++) {
+			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
