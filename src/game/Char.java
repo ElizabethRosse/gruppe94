@@ -117,8 +117,11 @@ public class Char {
 	}
 	 
 	public Image getImage() {
-		if (change) return smile;
-		else return image;
+		if (change&&(mana>0)) return smile;
+		else {
+			if(change) change = false;
+			return image;
+		}
 	}
 	
 	public boolean getSmile() {
@@ -257,8 +260,9 @@ public class Char {
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_D){
-			 change = true;
-			 move = false;
+			 if(mana>0) {change = true;
+			 			 move = false;
+			 }
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
@@ -292,8 +296,8 @@ public class Char {
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_D){
-			 if(mana>0) {change = false;
-			 move = true;}
+			 change = false;
+			 move = true;
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
@@ -302,7 +306,7 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_F){
-			 if(mana>20) {cast();
+			 if(mana>19) {cast();
 			 mana -= 20;}
 		 }
 		 
