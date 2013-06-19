@@ -15,7 +15,7 @@ public class Coin {
 	
 	public Coin(int x, int y) {
 		ImageIcon ii =
-				new ImageIcon(this.getClass().getResource("images/Healthpotion.png"));
+				new ImageIcon(this.getClass().getResource("images/Coins.png"));
 		image = ii.getImage();
 		width = image.getWidth(null);   //lädt Image, setzt Variablen
 		height = image.getHeight(null);
