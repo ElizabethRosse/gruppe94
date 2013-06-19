@@ -12,7 +12,7 @@ public class Trap {
 	private Image image;
 	
 	public Trap(int x, int y){
-		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/Trap.jpg"));
+		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/trap.png"));
 		image = ei.getImage();
 		damage = 2;
 		width = image.getWidth(null);
