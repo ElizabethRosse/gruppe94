@@ -5,7 +5,8 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Boss {
+public class Xoss {
+
 
 	private int x, dx, dy, y, width, height, damage, direction;
 	private boolean visible = true;
@@ -13,8 +14,8 @@ public class Boss {
 	private Image image;
 	private boolean change =false;
 	
-	public Boss(int x, int y, int dir){
-		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/char.gif"));
+	public Xoss(int x, int y, int dir){
+		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/boss2.png"));
 		image = ei.getImage();
 		damage = 2;
 		width = image.getWidth(null);
@@ -65,49 +66,45 @@ public class Boss {
 		return new Rectangle(x, y, width, height);
 	}
 	public void move() {
-		x = x+dx;
-		y = y+dy;
-		/*switch(direction){
+		switch(direction){
 		case 1 : {
-			x += dx;
+			if(change) x -= dx;
+			else x += dx;
 			break;
 		}
 		case 2 : {
-			y += dy;
+			if(change) y -= dy;
+			else y += dy;
 			break;
 		}
-		case 3 : {
-			x -= dx;
-		}
-		case 4 : {
-			y -= dy;
-		}
 		default : break;
-		}*/
+		}
 	
 	}
 	
 	public void movecollide() {
-		if (dx>0) {
-			x = x-3;
-			dx = 0;
-			dy = 2;
-		}
-		else {if(dy > 0){
-			y = y-3;
-			dx = -2;
-			dy = 0;
+		if (direction == 1) {
+			if(change) {
+				change = false;
+				x +=3;
 			}
-		else if(dx < 0) {
-			x = x+3;
-			dx = 0;
-			dy = -2;
-		}else {
-			y = y+3;
-			dx = 2;
-			dy = 0;
+			else {
+				change = true;
+				x -= 3;
+			}
 		}
-		}
-		
+		if (direction == 2) {
+			if (change) {
+				change =false;
+				y +=3;
+			}
+			else {
+				change = true;
+				y -=3;
+			}
 	}
+	
 }
+}
+
+

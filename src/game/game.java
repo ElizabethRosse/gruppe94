@@ -26,8 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import menu.menu;
@@ -45,13 +43,15 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
+	private ArrayList<Boss> xosses; // boss2
+	private ArrayList<Boss> zosses; // boss3
+	private ArrayList<Boss> bosses;
 	private ArrayList<npc> npc;
 	private ArrayList<shopkeeper> shop;
 	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
 
-	private goal goal;
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame;
@@ -59,13 +59,19 @@ public class game extends JPanel implements ActionListener {
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
 
-	private int[] pos1 = new int[max]; 	//später ändern für verschiedene Maps
+	private int[] pos1 = new int[max]; 	//Arrays for object set
 	private int[] pos2 = new int[max];
-	private int[] posE1 = new int[max];
-	private int[] posE2 = new int[max];
-	private int[] posEDIR = new int[max];
-	private int[] posT1 = new int[max];
-	private int[] posT2 = new int[max];
+	private int[] posE1 = new int[max]; 		//Gegner X Wert
+	private int[] posE2 = new int[max];			//Gegner Y Wert
+	private int[] posEDIR = new int[110];		//Gegener Vertikal oder Horizontal
+	private int[] posT1 = new int[110];			//Trap X Wert
+	private int[] posT2 = new int[110];			//Trap Y Wert
+	private int[] posB1 = new int[110];			//Boss1 X Wert
+	private int[] posB2 = new int[110];			//Boss1 Y Wert
+	private int[] posX1 = new int[110];			//Boss2 X Wert
+	private int[] posX2 = new int[110];
+	private int[] posZ1 = new int[110];			//Boss3 X Wert
+	private int[] posZ2 = new int[110];
 	private int[] npcX = new int[max];
 	private int[] npcY = new int[max];
 	private int[] shopX = new int[max];
@@ -79,15 +85,20 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinX = new int[max];
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
+	
+	int NumberofXosses = 0;
+	int NumberofZosses = 0;
+	int NumberofBosses = 0;
+	private boolean bossdefeated = false;
+
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
 
-	int NumberofTrees = 1;
+	int NumberofTrees = 1;					//absolut number of objects of this type
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
 	int NumberofTraps = 0;
-	int bosses = 0;
 	int goals = 0;
 	int items = 0;
 	int npcs = 0;
@@ -106,7 +117,7 @@ public class game extends JPanel implements ActionListener {
 		ingame = true;
 		win = false;
 		
-		ImageIcon ii =                       //lädt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
+		ImageIcon ii =                       //laedt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
 		image = ii.getImage();
 		imagescaled = image.getScaledInstance(530, 530, UNDEFINED_CONDITION);
@@ -126,21 +137,18 @@ public class game extends JPanel implements ActionListener {
 		initfball();
 		
 		try {
-			initMap(mapNumber, 51, 240);
+			initMap(mapNumber, 51, 240);									//loading first map
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
-	
+		}	
 		
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
 	}
 	
-	public void initArrows() {
+	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
 	}
@@ -150,7 +158,7 @@ public class game extends JPanel implements ActionListener {
 		fball = cha.getFBall();
 	}
 	
-	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
+	public void addNotify() {  
 		super.addNotify();
 		G_WIDTH = getWidth();
 		G_HEIGHT = getHeight();
@@ -212,30 +220,47 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initEnemies() {
+	public void initBoss(){														//initializiere Bosse
+		bosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13, 1));
+	}
+	
+	public void initXoss(){														//initializiere Bosse
+		xosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofXosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			xosses.add(new Boss(posX1[i] +13, posX2[i] + 13, 2));
+	}
+	
+	public void initZoss(){														//initializiere Bosse
+		zosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofZosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			zosses.add(new Boss(posZ1[i] +13, posZ2[i] + 13, 1));
+	}
+	
+	
+	public void initEnemies() {													//initializiere Enemies
 		enemies = new ArrayList<Enemy>();
-		
-		for (int i=0; i < NumberofEnemies ; i++) {
+		for (int i=0; i < NumberofEnemies ; i++) {								//Enemy ArrayList mit X, Y und Direction aus Textdatei
 			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13, posEDIR[i]));
 		}
 	}
 
-	public void initTraps() {
+	public void initTraps() {													//initializiere Traps
 		traps = new ArrayList<Trap>();
-		
-		for (int i=0; i < NumberofTraps ; i++) {
+		for (int i=0; i < NumberofTraps ; i++) {								//Trap ArrayListe mit X und Y Werten aus Textdatei
 			traps.add(new Trap(posT1[i] + 13, posT2[i] + 13));
 		}
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
 		
-		if (ingame) { //zeichne Character, Bäume usw.  wenn ingame = true ist
+		if (ingame) { //zeichne Character, Baeume usw.  wenn ingame = true ist
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
-			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
+			g2d.drawImage(imagescaled, 0, 0, this);   // laedt das Hintergrundbild
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
@@ -244,11 +269,12 @@ public class game extends JPanel implements ActionListener {
 			
 			}
 			
-			for (int i = 0; i < manap.size(); i++) {
+			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
 			
+
 			for (int i = 0; i < npc.size(); i++) {
 				npc n = (npc) npc.get(i);
 				if(n.isVisible()) g2d.drawImage(n.getImage(), n.getX(), n.getY(), this);
@@ -264,34 +290,49 @@ public class game extends JPanel implements ActionListener {
 				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
 			}
 			
-			for (int i = 0; i < coins.size(); i++) {
+			for (int i = 0; i < coins.size(); i++) {							//zeichne Coins
 				Coin c = (Coin) coins.get(i);
 				if(c.isVisible()) g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
 			}
 			
-			for (int i = 0; i< fball.size(); i++) {
+			for (int i = 0; i< fball.size(); i++) {								//zeichne Fireballs
 				Feuerball f = (Feuerball) fball.get(i);
 				if (f.isVisible())
 					g2d.drawImage(f.getImage(), f.getX(), f.getY(),  this);
 			}
 			
-			for (int i = 0; i < arrows.size(); i++) {
+			for (int i = 0; i < arrows.size(); i++) {							//zeichne Arrows
 				Arrow a = (Arrow) arrows.get(i);
 				if (a.isVisible())
 					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
 			}
 			
-			for (int i = 0; i <traps.size();i++) {
+			for (int i = 0; i <traps.size();i++) {								//zeichne Traps
 				Trap t = (Trap) traps.get(i);
 				if (t.isVisible()) g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			}
 			
-			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
+			for (int k = 0; k<enemies.size(); k++) {							// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 					}
+			
+			for (int i = 0; i<bosses.size();i++){								//zeichne Bosse
+				Boss b = (Boss) bosses.get(i);
+			 	if (b.isVisible()) g2d.drawImage(b.getImage(), b.getX(), b.getY(), this);
+			}
 
-			if (checkpointactivated){
+			for (int i = 0; i<xosses.size();i++){								//zeichne Bosse
+				Boss x = (Boss) xosses.get(i);
+			 	if (x.isVisible()) g2d.drawImage(x.getImage(), x.getX(), x.getY(), this);
+			}
+			
+			for (int i = 0; i<zosses.size();i++){								//zeichne Bosse
+				Boss z = (Boss) zosses.get(i);
+			 	if (z.isVisible()) g2d.drawImage(z.getImage(), z.getX(), z.getY(), this);
+			}
+			
+			if (checkpointactivated){											//zeichne Checkpoints
 				for (int i = 0; i < checkpoints.size(); i++) {
 					Checkpoint c = (Checkpoint) checkpoints.get(i);
 					if(c.active()) g2d.drawImage(c.getImageac(), c.getX(), c.getY(), this);
@@ -299,15 +340,14 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			if(cha.getST()) {
+			if(cha.getST()) {													//zeichne Sword
 				Sword sword = cha.getSword();
 				g2d.drawImage(sword.getImage(), sword.getX(), sword.getY(), this);
 			}
 			
-			g2d.setColor(Color.RED);
-			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
+     		//zeichne Infoleiste
 
-			switch(cha.getMaxhealth()) {
+			switch(cha.getMaxhealth()) {									//initilize healthbar
 			case 6 : {
 				switch(cha.gethealth()){
 				case 6 : {
@@ -514,8 +554,9 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			}
+
 			g2d.setColor(Color.BLUE);
-			switch(cha.getMaxhealth()){
+			switch(cha.getMaxhealth()){												//initilize mana
 			case 6 : {
 				g2d.drawString("Mana left: " + (cha.getmana()), 130, 17);
 				break;
@@ -530,7 +571,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 			g2d.setColor(Color.YELLOW);
-			switch(cha.getMaxhealth()) {
+			switch(cha.getMaxhealth()) {											//initilize money
 			case 6 : {
 				g2d.drawImage(coinpic.getImage(), 250, 0, this);
 				g2d.drawString(" " + (cha.getGold()), 290, 17);
@@ -603,7 +644,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {						//checking performed actions
 		
 		if(cha.gethealth() <= 0) ingame = false; 
 		
@@ -630,7 +671,7 @@ public class game extends JPanel implements ActionListener {
 			sword.move();
 		}
 
-		if(cha.getX() > 490) {
+		if(cha.getX() > 490) {										//mapchanges
 			mapNumber++;
 			try {
 				initMap(mapNumber, 11, 240);
@@ -667,6 +708,9 @@ public class game extends JPanel implements ActionListener {
 		
 		cha.move();
 		moveEnemy();
+		moveBoss();
+		moveXoss();
+		moveZoss();
 		checkCollisions();
 		checkAlive();
 		repaint();
@@ -696,6 +740,32 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void moveBoss(){
+		for (int i = 0; i < bosses.size(); i++){
+			Boss b = (Boss) bosses.get(i);
+			if (b.getLife()>0){
+				b.move();
+			}
+		}
+	}
+	
+	public void moveXoss(){
+		for (int i = 0; i < xosses.size(); i++){
+			Boss x = (Boss) xosses.get(i);
+			if (x.getLife()>0){
+				x.move();
+			}
+		}
+	}
+	
+	public void moveZoss(){
+		for (int i = 0; i < zosses.size(); i++){
+			Boss z = (Boss) zosses.get(i);
+			if (z.getLife()>0){
+				z.move();
+			}
+		}
+	}
 	
 	public void moveEnemy(){
 
@@ -710,7 +780,7 @@ public class game extends JPanel implements ActionListener {
 		
 	
 
-	public void checkCollisions() {
+	public void checkCollisions() {								//checking collisions of objects with another object
 		
 		Rectangle rChar = cha.getBounds();
 	
@@ -879,8 +949,123 @@ public class game extends JPanel implements ActionListener {
 			else coins.remove(i);
 		}
 		
-		Rectangle rGoal = goal.getBounds();
+		for (int i= 0; i < bosses.size(); i++) {
+			Boss b = (Boss) bosses.get(i);
+			if(b.getLife()>0) {
+			Rectangle rBoss = b.getBounds();			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rBoss.intersects(rTree)){
+					b.movecollide();
+				}	
+			}
+			if (rChar.intersects(rBoss)) {
+				cha.dmg(b.getDmg());
+				if (cha.getDX() == 1) {
+					cha.addX(-10);
+				}
+				
+				if (cha.getDX() == -1) {
+					cha.addX(10);
+				}
+				
+				if (cha.getDY() == 1) {
+					cha.addY(-10);
+				}
+				
+				if (cha.getDY() == -1) {
+					cha.addY(10);
+				}
+			}
+			
+			else if(cha.getContinues() == 0) ingame = false;
 
+		for(int k = 0; i<arrows.size();k++) {
+			Arrow a = (Arrow) arrows.get(k);
+			if(a.getBounds().intersects(rBoss)) {
+				a.setVisible(false);
+				b.damage(a.getDmg());
+			}
+		}
+		for(int j = 0; j<fball.size(); j++) {
+			Feuerball f = (Feuerball) fball.get(j);
+			if(f.getBounds().intersects(rBoss)) {
+				f.setVisible(false);
+				b.damage(f.getDmg());
+			}
+		}
+		}
+			if(b.getLife() <= 0) {
+				mapNumber = 220;
+				reset = 220;
+				try {
+					initMap(mapNumber, 51, 240);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		for (int i= 0; i < xosses.size(); i++) {
+			Boss x= (Boss) xosses.get(i);
+			if(x.getLife()>0) {
+			Rectangle rBoss = x.getBounds();			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rBoss.intersects(rTree)){
+					x.movecollide();
+				}	
+			}
+			if (rChar.intersects(rBoss)) {
+				cha.dmg(x.getDmg());
+				if (cha.getDX() == 1) {
+					cha.addX(-10);
+				}
+				
+				if (cha.getDX() == -1) {
+					cha.addX(10);
+				}
+				
+				if (cha.getDY() == 1) {
+					cha.addY(-10);
+				}
+				
+				if (cha.getDY() == -1) {
+					cha.addY(10);
+				}
+			}	
+			else if(cha.getContinues() == 0) ingame = false;
+			
+		for(int k = 0; i<arrows.size();k++) {
+			Arrow a = (Arrow) arrows.get(k);
+			if(a.getBounds().intersects(rBoss)) {
+				a.setVisible(false);
+				x.damage(a.getDmg());
+			}
+		}
+		
+		for(int j = 0; j<fball.size(); j++) {
+			Feuerball f = (Feuerball) fball.get(j);
+			if(f.getBounds().intersects(rBoss)) {
+				f.setVisible(false);
+				x.damage(f.getDmg());
+			}
+		}
+		}
+		if(x.getLife() <= 0) {
+			mapNumber = 310;
+			reset = 310;
+			try {
+				initMap(mapNumber, 51, 240);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		}
 	
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
@@ -985,7 +1170,58 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		
+	
+	
+	for (int i= 0; i < zosses.size(); i++) {
+		Boss z = (Boss) zosses.get(i);
+		if(z.getLife()>0) {
+		Rectangle rBoss = z.getBounds();			
+		for (int j = 0; j < trees.size(); j++) {
+			Tree t = (Tree) trees.get(j);
+			Rectangle rTree = t.getBounds();
+			if (rBoss.intersects(rTree)){
+				z.movecollide();
+			}	
+		}
+		if ((rChar.intersects(rBoss))) {
+			cha.dmg(z.getDmg());
+			if (cha.getDX() == 1) {
+				cha.addX(-10);
+			}
+			
+			if (cha.getDX() == -1) {
+				cha.addX(10);
+			}
+			
+			if (cha.getDY() == 1) {
+				cha.addY(-10);
+			}
+			
+			if (cha.getDY() == -1) {
+				cha.addY(10);
+			}
+		}
+		else if(cha.getContinues() == 0) ingame = false;
+		
+	for(int k = 0; i<arrows.size();k++) {
+		Arrow a = (Arrow) arrows.get(k);
+		if(a.getBounds().intersects(rBoss)) {
+			a.setVisible(false);
+			z.damage(a.getDmg());
+		}
 	}
+	for(int j = 0; j<fball.size(); j++) {
+		Feuerball f = (Feuerball) fball.get(j);
+		if(f.getBounds().intersects(rBoss)) {
+			f.setVisible(false);
+			z.damage(f.getDmg());
+		}
+	}}
+		if(z.getLife() <= 0) {
+			win = true;
+			ingame = false;
+		}
+	}}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
@@ -994,11 +1230,13 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		checkpointactivated = false;
 		
+		NumberofXosses = 0;
+		NumberofZosses = 0;
+		NumberofBosses = 0;
 		NumberofTraps = 0;
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
-		bosses = 0;
 		goals = 0;
 		items = 0;
 		maxnpc = 0;
@@ -1042,7 +1280,6 @@ public class game extends JPanel implements ActionListener {
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 2;
-				
 				NumberofEnemies++;
 				break;
 			}
@@ -1056,9 +1293,29 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 			case 'b' : {											// b : boss
-				bosses++;
+				posB1[NumberofBosses] = x;
+				posB2[NumberofBosses] = y;
+				
+				NumberofBosses++;
 				break;
 			}
+			
+			case 'x' : {											// x : boss
+				posX1[NumberofXosses] = x;
+				posX2[NumberofXosses] = y;
+				
+				NumberofXosses++;
+				break;
+			}
+			
+			case 'z' : {											// z : boss
+				posZ1[NumberofZosses] = x;
+				posZ2[NumberofZosses] = y;
+				
+				NumberofZosses++;
+				break;
+			}
+			
 			case 'g' : {											// g : coin/gold/money
 				coinX[maxcoin] = x;
 				coinY[maxcoin] = y;
@@ -1117,8 +1374,11 @@ public class game extends JPanel implements ActionListener {
 		initManap();
 		initHealthp();
 		initCoin();
+		initBoss();
 		initnpc();
 		initshop();
+		initXoss();
+		initZoss();
 	}
 	
 	
