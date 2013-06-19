@@ -10,7 +10,7 @@ public class Arrow {
 	private int x,y;
 	private Image image;
 	boolean visible;
-	private int width, height, direction, damage;
+	private int direction, damage;
 	
 	private int Arrow_Speed = 2;
 	
@@ -18,8 +18,6 @@ public class Arrow {
 		
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/shuri.png"));
 		image = ii.getImage();
-		width = image.getWidth(null);
-		height = image.getHeight(null);
 		visible = true;
 		damage = 20;
 		this.direction = dir;
@@ -52,7 +50,7 @@ public class Arrow {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x, y, 6, 6);
 	}
 	
 	public void move() {
