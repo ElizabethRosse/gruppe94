@@ -60,7 +60,7 @@ import javax.swing.Box;
 			
 			
 			final JPanel surface = new JPanel(new GridBagLayout());
-			surface.setBackground(Color.BLACK);
+			surface.setBackground(Color.WHITE);
 			
 
 			JButton start = new JButton("Start Game");			//start button

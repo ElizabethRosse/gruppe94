@@ -14,11 +14,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import menu.menu;
@@ -30,22 +35,41 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
-
+	private ArrayList<Arrow> arrows;
+	private ArrayList<Feuerball> fball;
+	private ArrayList<Manapotion> manap;
+	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
-
-	private Enemy boss1;
+	private ArrayList<Trap> traps;
+	
 	private goal goal;
-
+    
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1; 	//später ändern für verschiedene Maps
-	private int[] pos2;
-	private int[] posE1;
-	private int[] posE2;
+	private int[] pos1 = new int[110]; 	//später ändern für verschiedene Maps
+	private int[] pos2 = new int[110];
+	private int[] posE1 = new int[110];
+	private int[] posE2 = new int[110];
+	private int[] posEDIR = new int[110];
+	private int[] posT1 = new int[110];
+	private int[] posT2 = new int[110];
+	private int[] ManapotionX = new int[110];
+	private int[] ManapotionY = new int[110];
+	private int[] HealthpotionX = new int[110];
+	private int[] HealthpotionY = new int[110];
 	private int mapNumber = 1;
-	private Maps map;   			//zum holen von pos1 und pos2 für die Bäume der verschiedenen Maps
+	int NumberofTrees = 1;
+	int Spawnpoints = 0;
+	int NumberofEnemies = 0;
+	int NumberofTraps = 0;
+	int bosses = 0;
+	int goals = 0;
+	int items = 0;
+	int npcs = 0;
+	int manapotions = 0;
+	int healthpotions = 0;
 	
 	public game() {
 		
@@ -65,22 +89,32 @@ public class game extends JPanel implements ActionListener {
 		setSize(500, 500);
 		
 		cha = new Char();
+		initArrows();
+		initfball();
 		
-		map = new Maps();
-		pos1 = map.getPos1();
-		pos2 = map.getPos2();
-		posE1 = map.getPosE1();
-		posE2 = map.getPosE2();
+		try {
+			initMap(mapNumber, 51, 220);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		initTrees();
-		initEnemies();
-		
-		boss1 = new Enemy (260, 230);	// erstelle Enemy Objekt mit Koordinaten
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
+	
 		
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
+	}
+	
+	public void initArrows() {
+		arrows = new ArrayList<Arrow>();
+		arrows = cha.getArrows();
+	}
+	
+	public void initfball() {
+		fball = new ArrayList<Feuerball>();
+		fball = cha.getFBall();
 	}
 	
 	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
@@ -92,33 +126,42 @@ public class game extends JPanel implements ActionListener {
 	public void initTrees() {
 		trees = new ArrayList<Tree>();
 		
-		for (int i=0; i < pos1.length ; i++) {
+		for (int i=0; i < NumberofTrees ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
+		}
+	}
+	
+	public void initManap() {
+		manap = new ArrayList<Manapotion>();
+		
+		for(int i = 0; i< manapotions ; i++) {
+			manap.add(new Manapotion(ManapotionX[i], ManapotionY[i]));
+		}
+	}
+	
+	public void initHealthp() {
+		healthp = new ArrayList<Healthpotion>();
+		
+		for(int i = 0; i< healthpotions; i++) {
+			healthp.add(new Healthpotion(HealthpotionX[i], HealthpotionY[i]));
 		}
 	}
 	
 	public void initEnemies() {
 		enemies = new ArrayList<Enemy>();
 		
-		for (int i=0; i < posE1.length ; i++) {
-			enemies.add(new Enemy(posE1[i], posE2[i]));
+		for (int i=0; i < NumberofEnemies ; i++) {
+			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13, posEDIR[i]));
 		}
 	}
-	
-	//ruft setMap aus Maps.java mit neuer mapnummer auf, aktualisiert position der baeume und setzt cha auf Anfangsposition
-	public void changeMap(int i, int x, int y) {
-		map.setMap(i);
-		pos1 = map.getPos1();
-		pos2 = map.getPos2();
-		posE1 = map.getPosE1();
-		posE2 = map.getPosE2();
+
+	public void initTraps() {
+		traps = new ArrayList<Trap>();
 		
-		cha.setX(x);
-		cha.setY(y);
-		
-		initTrees();
-		initEnemies();
+		for (int i=0; i < NumberofTraps ; i++) {
+			traps.add(new Trap(posT1[i] + 13, posT2[i] + 13));
 		}
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -129,20 +172,46 @@ public class game extends JPanel implements ActionListener {
 			
 			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
 			
-			if (cha.isVisible())
-				g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
+			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			
 			}
-			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
-				Enemy e = (Enemy) enemies.get(k);
-				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+			
+			for (int i = 0; i < manap.size(); i++) {
+				Manapotion m = (Manapotion) manap.get(i);
+				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
 			
-			if (mapNumber == 3)	g2d.drawImage(boss1.getImage(), boss1.getX(), boss1.getY(), this);
+			for (int i = 0; i < healthp.size(); i++) {
+				Healthpotion h = (Healthpotion) healthp.get(i);
+				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
+			}
+			
+			for (int i = 0; i< fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if (f.isVisible())
+					g2d.drawImage(f.getImage(), f.getX(), f.getY(),  this);
+			}
+			
+			for (int i = 0; i < arrows.size(); i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if (a.isVisible())
+					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
+			}
+			
+			for (int i = 0; i <traps.size();i++) {
+				Trap t = (Trap) traps.get(i);
+				if (t.isVisible()) g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
+			}
+			
+			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
+				Enemy e = (Enemy) enemies.get(k);
+				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+			}
+			
 			
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
@@ -180,44 +249,172 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		/**if (cha.isVisible() == false) {
-			ingame = false; //für berührung mit Gegner
-		}*/
+        initArrows();
 		
-		if(cha.getX()>490 && mapNumber==1){ //Mapwechsel von 1 zu 2
-			changeMap(2, 40, 220); //ruft changeMap mit neuer Map-Nummer und x y (startposition 100,225) fuer char auf
-			mapNumber++; //erhoeht die Map-Nummer fuer die if-abfrage
+		for(int i = 0; i < arrows.size(); i++) {
+			Arrow a = (Arrow) arrows.get(i);
+			if (a.isVisible())
+				a.move();
+			else arrows.remove(i);
 		}
-		else if(cha.getY()>470 && mapNumber==2){
-			changeMap(3, 40, 220);
+		
+		initfball();
+		
+		for(int i = 0; i < fball.size(); i++) {
+			Feuerball f = (Feuerball) fball.get(i);
+			if (f.isVisible())
+				f.move();
+			else fball.remove(i);
+		}
+		
+		if(cha.getX()>490 && mapNumber < 9) {
 			mapNumber++;
+			try {
+				initMap(mapNumber, 51, 220);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 																								//increasing mapNumber with starting positions
+
 		}
-		else if(cha.getX()<10 && mapNumber==2){ //Ausgaenge 2 zu 1 und 3 zu 2
-			changeMap(1, 480, 225);
+		else if(cha.getX()<10 && mapNumber >= 1) { 															//decrease mapNumber
 			mapNumber--;
+			try {
+				initMap(mapNumber, 480, 225);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 		}
-		else if(cha.getX()<10 && mapNumber==3){
-			changeMap(2, 450, 460);
-			mapNumber--;
-		}
+		
 		
 		cha.move();
+		moveEnemy();
 		checkCollisions();
 		repaint();
 	}
 	
+	public void moveEnemy(){
+
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy e = (Enemy) enemies.get(i);
+			if(e.getLife()>0) {
+				e.move();
+			}
+		}	
+	}		
+		
+		
+	
+
 	public void checkCollisions() {
 		
 		Rectangle rChar = cha.getBounds();
+	
+		
+		if(cha.getSmile()) {
+			Rectangle rSmile = cha.getBoundsSmile();
+			
+			for (int i = 0; i < enemies.size(); i++) {
+				Enemy e = (Enemy) enemies.get(i);
+				if(e.getLife()>0) {
+					Rectangle rEnemy = e.getBounds();
+					if(rSmile.intersects(rEnemy)) {
+						e.damage(1);						
+					}
+				}
+				else enemies.remove(i);
+			}
+		}
+		
+
+		for (int i = 0; i < traps.size(); i++) {
+			Trap t = (Trap) traps.get(i);
+			Rectangle rTrap = t.getBounds();
+			if (rChar.intersects(rTrap)){
+				cha.dmg(t.getDmg());
+			}	
+		}
 		
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
+			if(e.getLife()>0) {
 			Rectangle rEnemy = e.getBounds();
-			if (rChar.intersects(rEnemy)) { 		//Game over bei Berührung eines Gegners
-				ingame = false;		
-			}  
+			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rEnemy.intersects(rTree)){
+					e.movecollide();
+				}
+			}
+			
+			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
+				if ((cha.gethealth() > 0)) {
+					cha.dmg(e.getDmg());
+					if (cha.getDX() == 1) {
+						cha.addX(-10);
+					}
+					
+					if (cha.getDX() == -1) {
+						cha.addX(10);
+					}
+					
+					if (cha.getDY() == 1) {
+						cha.addY(-10);
+					}
+					
+					if (cha.getDY() == -1) {
+						cha.addY(10);
+					}
+				}
+				else ingame = false;
+			}
+			for(int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rEnemy)) {
+					a.setVisible(false);
+					e.damage(a.getDmg());
+				}
+			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rEnemy)) {
+					f.setVisible(false);
+					e.damage(f.getDmg());
+				}
+			}}
+			
+			else enemies.remove(k);
 		}
 		
+		for (int i = 0; i<manap.size(); i++) {
+			Manapotion m = (Manapotion) manap.get(i);
+			if(m.isVisible()){
+			Rectangle rMana = m.getBounds();
+			
+			if(rChar.intersects(rMana)) {
+				cha.Manapotion();
+				m.setVisible(false);
+			}
+			}
+			else manap.remove(i);
+		}
+		
+		for (int i = 0; i<healthp.size(); i++) {
+			Healthpotion h = (Healthpotion) healthp.get(i);
+			if(h.isVisible()){
+			Rectangle rHealth = h.getBounds();
+			
+			if(rChar.intersects(rHealth)) {
+				cha.Healthpotion();
+				h.setVisible(false);
+			}
+			}
+			else healthp.remove(i);
+		}
+		
+
 		Rectangle rGoal = goal.getBounds();
 		
 		if (mapNumber == 3){
@@ -225,13 +422,13 @@ public class game extends JPanel implements ActionListener {
 			ingame = false;
 			win = true;
 		}}
-		
-		
+
+	
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
 			
-			if (rChar.intersects(rTree)) { //stoppen bei berührung mit einem baum
+			if (rChar.intersects(rTree)) { //stop at touching tree
 				
 				if (cha.getDX() == 1) {
 					cha.addX(-1);
@@ -249,23 +446,206 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(1);
 				}
 				
-			Rectangle rBoss = boss1.getBounds();
-			if (rBoss.intersects(rTree)){
-				int i;
-				for (i=2; i>0; i++){
-					if (i%2 == 0) boss1.moveforwards(1);
-					if (i%2 == 1) boss1.movebackwards(1);
+
+			}
+						
+			for (int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rTree)) a.setVisible(false);
+				for(int p = 0; p<fball.size(); p++){
+					Feuerball f = (Feuerball) fball.get(p);
+					if(a.getBounds().intersects(f.getBounds())) a.setVisible(false);
 				}
 			}
-			} 
+			for (int i = 0; i<fball.size();i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rTree)) f.setVisible(false);
+			}
 		}
 		
-		
-		Rectangle rBoss = boss1.getBounds();
-		if (rChar.intersects(rBoss)){			//Game Over bei Berühung mit Boss
-		ingame = false;
-		}
 	}
+	
+	public void initMap(int m, int j ,int k) throws IOException {
+		int i = 1;													//loop variables
+		int x = 50;
+		int y = 0;
+		char[] prototypemap = new char[110];
+		
+		NumberofTraps = 0;
+		NumberofTrees = 1;
+		Spawnpoints = 0;
+		NumberofEnemies = 0;
+		bosses = 0;
+		goals = 0;
+		items = 0;
+		npcs = 0;
+		manapotions = 0;
+		healthpotions = 0;
+		
+		
+		pos1[0] = 0;
+		pos2[0] = 0;
+		
+		
+		prototypemap = getMap(m);
+		
+		while(i < 110) {												//maximum of fields on a map: 110
+			
+			if(i % 10 == 0){
+				y = y + 50;
+				x = 0;
+			}
+			
+			switch(prototypemap[i]) {
+			case '#' : {											// # : wall
+				pos1[NumberofTrees] = x;
+				pos2[NumberofTrees] = y;
+				NumberofTrees++;
+				break;
+			}
+			
+			case 's' : {											// e : enemy moving horizontal
+				posE1[NumberofEnemies] = x;
+				posE2[NumberofEnemies] = y;
+				posEDIR[NumberofEnemies] = 1;
+				
+				NumberofEnemies++;
+				break;
+			}
+			
+			case 'v' : {											// e2 : enemy moving vertical
+				posE1[NumberofEnemies] = x;
+				posE2[NumberofEnemies] = y;
+				posEDIR[NumberofEnemies] = 2;
+				
+				NumberofEnemies++;
+				break;
+			}
+			
+			case 't': {												// t : traps
+				posT1[NumberofTraps] = x;
+				posT2[NumberofTraps] = y;
+				
+				NumberofTraps++;
+				break;
+			}
+			
+			case 'b' : {											// b : boss
+				bosses++;
+				break;
+			}
+			case 'g' : {											// g : goal
+				goals++;
+				break;
+			}
+			case 'm' : {											// m : manapotion
+				ManapotionX[manapotions] = x;
+				ManapotionY[manapotions] = y;
+				manapotions++;
+				break;
+			}
+			case 'h' : {                                            // h : healthpotion
+				HealthpotionX[healthpotions] = x;
+				HealthpotionY[healthpotions] = y;
+				healthpotions++;
+				break;
+			}
+			case 'n' : {											// n : npc
+				npcs++;
+				break;
+			}
+			default : {
+				break;
+			}
+			}
+			
+		x = x + 50;
+		i++;
+		}
+		
+		cha.setX(j);
+		cha.setY(k);
+		
+		initTrees();											// important for repainting
+		initEnemies();
+		initTraps();
+		initManap();
+		initHealthp();
+	}
+	
+	
+	public char[] getMap(int m) throws IOException {
+		FileReader datei;
+		BufferedReader dat; 
+		char[] prototypemap = new char[110];
+		switch(m) {	
+		case 1 : {
+				datei = new FileReader("src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);																				//map1
+			break;
+		}
+		case 2 : {
+				datei = new FileReader("src\\game\\maps\\map2");
+				dat = new BufferedReader(datei);																				//map2		
+			break;
+		}
+		case 3 : {			
+			datei = new FileReader("src\\game\\maps\\map3");
+			dat = new BufferedReader(datei);																					//map3				
+		break;
+		}
+		case 4 : {
+				datei = new FileReader("src\\game\\maps\\map4");
+				dat = new BufferedReader(datei);																				//map4			
+			break;
+		}
+		case 5 : {
+				datei = new FileReader("src\\game\\maps\\map5");
+				dat = new BufferedReader(datei);																				//map5			
+			break;
+		}
+		case 6 : {
+				datei = new FileReader("src\\game\\maps\\map6");
+				dat = new BufferedReader(datei);																				//map6				
+			break;
+		}
+		case 7 : {
+				datei = new FileReader("src\\game\\maps\\map7");
+				dat = new BufferedReader(datei);																				//map7			
+			break;
+		}
+		case 8 : {
+				datei = new FileReader("src\\game\\maps\\map8");
+				dat = new BufferedReader(datei);																				//map8			
+			break;
+		}
+		case 9 : {
+				datei = new FileReader("src\\game\\maps\\map9");
+				dat = new BufferedReader(datei);																				//map9			
+			break;
+		}
+		default : {
+				datei = new FileReader("src\\game\\maps\\map1");
+				dat = new BufferedReader(datei);																				//map1
+		}
+		}
+		
+		String line;
+		line = dat.readLine();
+		int a = 0;
+		
+		while(line != null) {														//read a line
+			for (int i = 0; i<line.length(); i++) {									//read a symbol
+				prototypemap[a] = line.charAt(i); 									// save the symbol in an array
+				a++;
+			}
+			line = dat.readLine();													// read a new line
+		}
+		dat.close();
+		return prototypemap;
+	}
+	
+	
 	
 	public class KAdapter extends KeyAdapter { 
 		
