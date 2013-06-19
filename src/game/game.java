@@ -190,7 +190,7 @@ public class game extends JPanel implements ActionListener {
 	public void initBoss(){														//initializiere Bosse
 		bosses = new ArrayList<Boss>();
 		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
-			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13));
+			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13, 1));
 	}
 	
 	public void initEnemies() {													//initializiere Enemies
@@ -259,11 +259,11 @@ public class game extends JPanel implements ActionListener {
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 					}
-			/*
+			
 			for (int i = 0; i<bosses.size();i++){								//zeichne Bosse
 				Boss b = (Boss) bosses.get(i);
 			 	if (b.isVisible()) g2d.drawImage(b.getImage(), b.getX(), b.getY(), this);
-			}*/
+			}
 
 			if (checkpointactivated){											//zeichne Checkpoints
 				for (int i = 0; i < checkpoints.size(); i++) {
@@ -595,6 +595,7 @@ public class game extends JPanel implements ActionListener {
 		
 		cha.move();
 		moveEnemy();
+		moveBoss();
 		checkCollisions();
 		checkAlive();
 		repaint();
@@ -624,6 +625,14 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void moveBoss(){
+		for (int i = 0; i < bosses.size(); i++){
+			Boss b = (Boss) bosses.get(i);
+			if (b.getLife()>0){
+				b.move();
+			}
+		}
+	}
 	
 	public void moveEnemy(){
 
@@ -806,6 +815,19 @@ public class game extends JPanel implements ActionListener {
 			else coins.remove(i);
 		}
 		
+		for (int i= 0; i < bosses.size(); i++) {
+			Boss b = (Boss) bosses.get(i);
+			if(b.getLife()>0) {
+			Rectangle rBoss = b.getBounds();			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rBoss.intersects(rTree)){
+					b.movecollide();
+				}	
+			}
+		}
+		}
 		Rectangle rGoal = goal.getBounds();
 
 	
@@ -922,6 +944,7 @@ public class game extends JPanel implements ActionListener {
 				posB2[NumberofBosses] = y;
 				
 				NumberofBosses++;
+				initBoss();
 				break;
 			}
 			case 'g' : {											// g : coin/gold/money
@@ -972,6 +995,7 @@ public class game extends JPanel implements ActionListener {
 		initManap();
 		initHealthp();
 		initCoin();
+		initBoss();
 	}
 	
 	
