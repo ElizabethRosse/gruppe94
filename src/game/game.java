@@ -939,7 +939,7 @@ public class game extends JPanel implements ActionListener {
 					b.movecollide();
 				}	
 			}
-			if ((cha.gethealth() > 0)) {
+			if (rChar.intersects(rBoss)) {
 				cha.dmg(b.getDmg());
 				if (cha.getDX() == 1) {
 					cha.addX(-10);
@@ -958,7 +958,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			else ingame = false;
+			else if(cha.getContinues() == 0) ingame = false;
 
 		for(int k = 0; i<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -998,7 +998,7 @@ public class game extends JPanel implements ActionListener {
 					x.movecollide();
 				}	
 			}
-			if ((cha.gethealth() > 0)) {
+			if (rChar.intersects(rBoss)) {
 				cha.dmg(x.getDmg());
 				if (cha.getDX() == 1) {
 					cha.addX(-10);
@@ -1016,7 +1016,7 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(10);
 				}
 			}	
-			else ingame = false;
+			else if(cha.getContinues() == 0) ingame = false;
 			
 		for(int k = 0; i<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1098,7 +1098,7 @@ public class game extends JPanel implements ActionListener {
 				z.movecollide();
 			}	
 		}
-		if ((cha.gethealth() > 0)) {
+		if ((rChar.intersects(rBoss))) {
 			cha.dmg(z.getDmg());
 			if (cha.getDX() == 1) {
 				cha.addX(-10);
@@ -1116,7 +1116,7 @@ public class game extends JPanel implements ActionListener {
 				cha.addY(10);
 			}
 		}
-		else ingame = false;
+		else if(cha.getContinues() == 0) ingame = false;
 		
 	for(int k = 0; i<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
