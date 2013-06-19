@@ -219,6 +219,11 @@ public class Char {
 	
 	public void setMaxhealth(int health) {
 		this.maxhealth = health;
+		this.health = maxhealth;
+	}
+	
+	public int getMaxhealth() {
+		return maxhealth;
 	}
 	
 	public void Healthpotion() {
