@@ -57,7 +57,7 @@ public class game extends JPanel implements ActionListener {
 	private int[] HealthpotionY = new int[max];
 	private int[] checkpointX = new int [max];
 	private int[] checkpointY = new int [max];
-	private int mapNumber = 1;
+	private int mapNumber = 110;
 	int NumberofTrees = 1;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
@@ -264,20 +264,36 @@ public class game extends JPanel implements ActionListener {
 			else fball.remove(i);
 		}
 		
-		if(cha.getX()>490 && mapNumber < 9) {
+		if(cha.getX() > 490) {
 			mapNumber++;
 			try {
-				initMap(mapNumber, 51, 220);
+				initMap(mapNumber, 11, 220);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 																								//increasing mapNumber with starting positions
 
 		}
-		else if(cha.getX()<10 && mapNumber >= 1) { 															//decrease mapNumber
+		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
 			try {
 				initMap(mapNumber, 480, 225);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+		} else if(cha.getY() < 10 ) { 															//decrease mapNumber
+			mapNumber = mapNumber + 10;
+			try {
+				initMap(mapNumber, 225, 480);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
+			mapNumber = mapNumber - 10;
+			try {
+				initMap(mapNumber, 220, 11);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
