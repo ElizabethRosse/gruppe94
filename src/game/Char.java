@@ -292,8 +292,8 @@ public class Char {
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_D){
-			 change = false;
-			 move = true;
+			 if(mana>0) {change = false;
+			 move = true;}
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
@@ -302,7 +302,7 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_F){
-			 if(mana>0) {cast();
+			 if(mana>20) {cast();
 			 mana -= 20;}
 		 }
 		 
