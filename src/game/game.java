@@ -70,6 +70,7 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
 	private int reset = 110;
+	private Coin coinpic = new Coin(1000,1000);
 
 	int NumberofTrees = 1;
 	int maxcoin = 0;
@@ -490,9 +491,24 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			}
-			//g2d.setColor(Color.YELLOW);
-			//g2d.drawString("Coins: " + (cha.getGold()), 230, 17);
-			//g2d.drawString("Coins: " + (cha.getGold()), 200, 17);	
+			g2d.setColor(Color.YELLOW);
+			switch(cha.getMaxhealth()) {
+			case 6 : {
+				g2d.drawImage(coinpic.getImage(), 250, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 290, 17);
+				break;
+			}
+			case 8 : {
+				g2d.drawImage(coinpic.getImage(), 290, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 330, 17);
+				break;
+			}
+			case 10 : {
+				g2d.drawImage(coinpic.getImage(), 330, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 370, 17);
+				break;
+			}
+			}
 			
 		}
 		
