@@ -9,12 +9,13 @@ public class Zoss {
 
 	private int x, dx, dy, y, width, height, damage, direction;
 	private boolean visible = true;
-	private int life = 500;
+	private int life = 1000;
 	private Image image;
 	
 	public Zoss(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/endboss.png"));
 		image = ei.getImage();
+		image = image.getScaledInstance(75, 75, -1);
 		damage = 2;
 		width = image.getWidth(null);
 		height = image.getHeight(null);
@@ -59,8 +60,13 @@ public class Zoss {
 	}
 	
 	public Rectangle getBounds(){
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x, y, 35, 35);
 	}
+	
+	public Rectangle getBoundsZ() {
+		return new Rectangle(x, y, 75, 75);
+	}
+	
 	public void move() {
 		x = x+dx;
 		y = y+dy;
