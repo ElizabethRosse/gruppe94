@@ -15,16 +15,16 @@ public class Sword {
 	
 	public Sword(int x, int y, int dir) {
 		
-		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/Sword.gif"));
+		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/Sword.png"));
 		image = ii.getImage();
-				  ii = new ImageIcon(this.getClass().getResource("images/SwordD.gif"));
+				  ii = new ImageIcon(this.getClass().getResource("images/SwordD.png"));
 		imageD = ii.getImage();
 		width = image.getWidth(null);
 		height = image.getHeight(null);
 		
-				  ii = new ImageIcon(this.getClass().getResource("images/SwordR.gif"));
+				  ii = new ImageIcon(this.getClass().getResource("images/SwordR.png"));
 		imageR = ii.getImage();
-				  ii = new ImageIcon(this.getClass().getResource("images/SwordL.gif"));
+				  ii = new ImageIcon(this.getClass().getResource("images/SwordL.png"));
 		imageL = ii.getImage();
 		width2 = imageR.getWidth(null);
 		height2 = imageR.getHeight(null);
