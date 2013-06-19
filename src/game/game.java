@@ -621,9 +621,8 @@ public class game extends JPanel implements ActionListener {
 		JDialog ersterJDialog = new JDialog();
 		ersterJDialog.setTitle ("Mr Moustache");
 		ersterJDialog.setSize(270,75);
+		ersterJDialog.setLocationRelativeTo(null);
 		ersterJDialog.add(new JLabel ("Yo Nerd! Die Smileys brauchen deine Hilfe!"));
-		//ersterJDialog.add(new JLabel ("Mache ihn mit deinem Schwert(G), Pfeilen(Leertaste) oder mit maechtigen Feuerbaellen(F) fertig!"));
-		//ersterJDialog.add(new JLabel ("Ausserdem kannst du eine Flaechenattacke mit D ausloesen! Viel Glueck!"));
 		ersterJDialog.setModal(true);
 		ersterJDialog.setVisible(true);
 	}
