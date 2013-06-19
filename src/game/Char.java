@@ -211,6 +211,9 @@ public class Char {
 	public int gethealth (){
 		return health;
 	}
+	public int getmana (){
+		return mana;
+	}
 	 
 	public Rectangle getBounds() {
 		 return new Rectangle(x, y, width, height);
