@@ -13,6 +13,7 @@ public class Char {
 
 	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
 	private boolean change, move, sword;
+	private boolean Smile, Sword, Arrow;
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
@@ -40,8 +41,23 @@ public class Char {
 		maxhealth = 6;
 		mana = 100;
 		maxmana = 100;
+		Sword = false;
+		Arrow = false;
+		Smile = false;
 		x = 100;
 		y = 220;
+	}
+	
+	public void makeSmile() {
+		Smile = true;
+	}
+	
+	public void makeSword() {
+		Sword = true;
+	}
+	
+	public void makeArrow() {
+		Arrow = true;
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
@@ -137,21 +153,17 @@ public class Char {
 	}
 	
 	public void shoot() {
-		if((direction>0)&&(direction<5)) {
 			if (direction==1) arrows.add(new Arrow(x  +width  , y-3+height/2, direction));
 			else if (direction==2) arrows.add(new Arrow(x-2        , y-3+height/2, direction));
 			else if (direction==3) arrows.add(new Arrow(x-3+width/2, y  +height  , direction));
 			else if (direction==4) arrows.add(new Arrow(x-3+width/2, y           , direction));
-		}
 	}
 	
 	public void cast() {
-		if((direction>0)&&(direction<5)) {
 			if (direction==1) fball.add(new Feuerball(x  +width  , y-3+height/2, direction));
 			else if (direction==2) fball.add(new Feuerball(x-2        , y-3+height/2, direction));
 			else if (direction==3) fball.add(new Feuerball(x-3+width/2, y  +height  , direction));
 			else if (direction==4) fball.add(new Feuerball(x-3+width/2, y           , direction));
-		}
 	}
 	 
 	public void dmg (int dmg){
@@ -187,13 +199,10 @@ public class Char {
 	}
 	
 	public void sword() {
-		
 		if(direction==1) Mastersword = new Sword(x-2+width, y-1+height/2, 1);
 		if(direction==2) Mastersword = new Sword(x-13, y-1+height/2, 2);
 		if(direction==3) Mastersword = new Sword(x+1, y-1+height, 3);
 		if(direction==4) Mastersword = new Sword(x-1+width/2, y-13, 4);
-		//default : Mastersword = new Sword(x+2+width/2, y-1+height/2, direction);
-		
 	}
 	
 	public Sword getSword() {
@@ -273,15 +282,17 @@ public class Char {
 		 int key = e.getKeyCode();
 		 
 		 if (key == KeyEvent.VK_D){
-			 if(mana>0) {change = true;
-			 			 move = false;
+			 if(Smile){
+				 if(mana>0) {change = true;
+				 			move = false;
+				 }
 			 }
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
-			 sword = true;
+			 if(Sword) {sword = true;
 			 move = false;
-			 sword();
+			 sword();}
 		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
@@ -324,7 +335,7 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_SPACE) {
-			 shoot();
+			 if(Arrow) shoot();
 		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
