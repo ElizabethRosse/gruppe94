@@ -39,6 +39,7 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Checkpoint> checkpoints;
+	private ArrayList<Coin> coins;
 
 	private goal goal;
 	private int max = 110;
@@ -57,8 +58,11 @@ public class game extends JPanel implements ActionListener {
 	private int[] HealthpotionY = new int[max];
 	private int[] checkpointX = new int [max];
 	private int[] checkpointY = new int [max];
+	private int[] coinX = new int[max];
+	private int[] coinY = new int[max];
 	private int mapNumber = 110;
 	int NumberofTrees = 1;
+	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
 	int bosses = 0;
@@ -127,6 +131,15 @@ public class game extends JPanel implements ActionListener {
 			trees.add(new Tree(pos1[i], pos2[i]));
 		}
 	}
+	
+	public void initCoin() {
+		coins = new ArrayList<Coin>();
+		
+		for (int i=0; i < maxcoin ; i++) {
+			coins.add(new Coin(coinX[i], coinY[i]));
+		}
+	}
+	
 	public void initCheckpoints() {
 		checkpoints = new ArrayList<Checkpoint>();
 		
@@ -167,7 +180,6 @@ public class game extends JPanel implements ActionListener {
 			Graphics2D g2d = (Graphics2D)g;
 			
 			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
-			
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
@@ -184,6 +196,11 @@ public class game extends JPanel implements ActionListener {
 			for (int i = 0; i < healthp.size(); i++) {
 				Healthpotion h = (Healthpotion) healthp.get(i);
 				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
+			}
+			
+			for (int i = 0; i < coins.size(); i++) {
+				Coin c = (Coin) coins.get(i);
+				if(c.isVisible()) g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
 			}
 			
 			for (int i = 0; i< fball.size(); i++) {
@@ -212,9 +229,16 @@ public class game extends JPanel implements ActionListener {
 
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
-			g2d.setColor(Color.BLACK);
-			g2d.drawString("Targets left: 1", 5, 15);
-			}
+			g2d.setColor(Color.RED);
+			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
+
+			g2d.drawString("Lifes left: " + (cha.gethealth()), 5, 17);
+			g2d.setColor(Color.BLUE);
+			g2d.drawString("Mana left: " + (cha.getmana()), 100, 17);	
+			g2d.setColor(Color.YELLOW);
+			//g2d.drawString("Coins: " + (cha.getGold()), 200, 17);	
+			
+		}
 		
 		else {
 			if (win) { //Naricht bei Sieg
@@ -419,6 +443,19 @@ public class game extends JPanel implements ActionListener {
 			else healthp.remove(i);
 		}
 		
+		for (int i = 0; i<coins.size(); i++) {
+			Coin c = (Coin) coins.get(i);
+			if(c.isVisible()){
+			Rectangle rCoin = c.getBounds();
+			
+			if(rChar.intersects(rCoin)) {
+				cha.setGold();
+				c.setVisible(false);
+			}
+			}
+			else coins.remove(i);
+		}
+		
 		Rectangle rGoal = goal.getBounds();
 		
 		if (mapNumber == 3){
@@ -468,7 +505,7 @@ public class game extends JPanel implements ActionListener {
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
 		int x = 50;
-		int y = 0;
+		int y = 25;
 		char[] prototypemap = new char[110];
 		checkpointactivated = false;
 		
@@ -482,10 +519,11 @@ public class game extends JPanel implements ActionListener {
 		npcs = 0;
 		manapotions = 0;
 		healthpotions = 0;
+		maxcoin = 0;
 		
 		
 		pos1[0] = 0;
-		pos2[0] = 0;
+		pos2[0] = 50;
 		
 		
 		prototypemap = getMap(m);
@@ -518,8 +556,10 @@ public class game extends JPanel implements ActionListener {
 				bosses++;
 				break;
 			}
-			case 'g' : {											// g : goal
-				goals++;
+			case 'g' : {											// g : coin/gold/money
+				coinX[maxcoin] = x;
+				coinY[maxcoin] = y;
+				maxcoin++;
 				break;
 			}
 			case 'm' : {											// m : manapotion
@@ -562,6 +602,7 @@ public class game extends JPanel implements ActionListener {
 		initEnemies();
 		initManap();
 		initHealthp();
+		initCoin();
 	}
 	
 	
