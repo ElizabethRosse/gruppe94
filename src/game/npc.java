@@ -15,7 +15,7 @@ public class npc {
 	
 	public npc(int x, int y) {
 		ImageIcon ii =
-				new ImageIcon(this.getClass().getResource("images/tree.gif"));
+				new ImageIcon(this.getClass().getResource("images/npc.png"));
 		image = ii.getImage();
 		width = image.getWidth(null);   //lädt Image, setzt Variablen
 		height = image.getHeight(null);
