@@ -23,7 +23,7 @@ public class Char {
 		ImageIcon ii =
 				new ImageIcon(this.getClass().getResource("images/smile.gif")); // holt ein Bild fuer den Charakter
 		image = ii.getImage();
-		ii = new ImageIcon(this.getClass().getResource("images/Char.gif"));
+		ii = new ImageIcon(this.getClass().getResource("images/Char.png"));
 		smile = ii.getImage();
 		change = false;
 		move = true;
