@@ -9,18 +9,23 @@ import javax.swing.ImageIcon;
 
 public class npc {
 	
-	private int x, y, width, height;
+	private int x, y, width, height, dialog;
 	private Image image;
 	private boolean visible = true;
 	
-	public npc(int x, int y) {
+	public npc(int x, int y, int dialog) {
 		ImageIcon ii =
 				new ImageIcon(this.getClass().getResource("images/npc.png"));
 		image = ii.getImage();
 		width = image.getWidth(null);   //lädt Image, setzt Variablen
 		height = image.getHeight(null);
+		this.dialog = dialog;
 		this.x = x;                     
 		this.y = y;
+	}
+	
+	public int getDialog() {
+		return dialog;
 	}
 	
 	public int getX() {
