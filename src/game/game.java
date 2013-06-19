@@ -523,7 +523,7 @@ public class game extends JPanel implements ActionListener {
 		
 		
 		pos1[0] = 0;
-		pos2[0] = 50;
+		pos2[0] = 25;
 		
 		
 		prototypemap = getMap(m);
