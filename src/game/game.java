@@ -105,7 +105,7 @@ public class game extends JPanel implements ActionListener {
 		initfball();
 		
 		try {
-			initMap(mapNumber, 51, 220);
+			initMap(mapNumber, 51, 240);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -251,8 +251,6 @@ public class game extends JPanel implements ActionListener {
 					else g2d.drawImage(c.getImagein(), c.getX(), c.getY(), this);
 				}
 			}
-
-			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
 			g2d.setColor(Color.RED);
 			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
@@ -316,7 +314,7 @@ public class game extends JPanel implements ActionListener {
 		if(cha.getX() > 490) {
 			mapNumber++;
 			try {
-				initMap(mapNumber, 11, 220);
+				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -326,12 +324,12 @@ public class game extends JPanel implements ActionListener {
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
 			try {
-				initMap(mapNumber, 480, 225);
+				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
-		} else if(cha.getY() < 10 ) { 															//decrease mapNumber
+		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
 			mapNumber = mapNumber + 10;
 			try {
 				initMap(mapNumber, 225, 480);
@@ -342,7 +340,7 @@ public class game extends JPanel implements ActionListener {
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
 			mapNumber = mapNumber - 10;
 			try {
-				initMap(mapNumber, 220, 11);
+				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
