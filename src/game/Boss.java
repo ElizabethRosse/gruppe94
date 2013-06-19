@@ -2,27 +2,24 @@ package game;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 
-public class Enemy {
+public class Boss {
 
-	private int x, y, dx, dy, width, height, damage, direction;
+	private int x, y, width, height, damage;
 	private boolean visible = true;
-	private boolean change = false;
-	private int life = 100;
+	private int life = 500;
 	private Image image;
 	
-	public Enemy(int x, int y, int dir){
+	public Boss(int x, int y){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/enemy.gif"));
 		image = ei.getImage();
-		damage = 1;
+		damage = 2;
 		width = image.getWidth(null);
 		height = image.getHeight(null);
-		dx = 1;
-		dy = 1;
 		this.x = x;
 		this.y = y;
-		direction = dir;
 	}
 	
 	public int getDmg() {
@@ -60,45 +57,4 @@ public class Enemy {
 	public Rectangle getBounds(){
 		return new Rectangle(x, y, width, height);
 	}
-	
-	public void move() {
-		switch(direction){
-		case 1 : {
-			if(change) x -= dx;
-			else x += dx;
-			break;
-		}
-		case 2 : {
-			if(change) y -= dy;
-			else y += dy;
-			break;
-		}
-		default : break;
-		}
-	
-	}
-	
-	public void movecollide() {
-		if (direction == 1) {
-			if(change) {
-				change = false;
-				x +=3;
-			}
-			else {
-				change = true;
-				x -= 3;
-			}
-		}
-		if (direction == 2) {
-			if (change) {
-				change =false;
-				y +=3;
-			}
-			else {
-				change = true;
-				y -=3;
-			}
-	}
-	
-}}
-
+}

@@ -17,7 +17,7 @@ public class init extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Game");
-		setSize(530, 530);
+		setSize(510, 555);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);

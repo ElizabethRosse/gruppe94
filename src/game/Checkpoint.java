@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Checkpoint {
-	private int x, y, width, height;
+	private int x, y, width, height, map;
 	private Image imageac, imagein;
 	private boolean activated = false;
 	
@@ -33,7 +33,13 @@ public class Checkpoint {
 	public int getY(){
 		return y;
 	}
-	
+	public int getMap(){
+		return map;
+	}
+	public void setMap(int i){
+		map = i;
+		
+	}
 	public Image getImageac(){
 		return imageac;
 	}

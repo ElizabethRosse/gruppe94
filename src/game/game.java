@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import menu.menu;
@@ -38,6 +40,8 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Manapotion> manap;
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
+	private ArrayList<Trap> traps;
+	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
 
@@ -48,10 +52,14 @@ public class game extends JPanel implements ActionListener {
 	private boolean win;
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
+
 	private int[] pos1 = new int[max]; 	//später ändern für verschiedene Maps
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max];
 	private int[] posE2 = new int[max];
+	private int[] posEDIR = new int[110];
+	private int[] posT1 = new int[110];
+	private int[] posT2 = new int[110];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -61,10 +69,12 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinX = new int[max];
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
+
 	int NumberofTrees = 1;
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
+	int NumberofTraps = 0;
 	int bosses = 0;
 	int goals = 0;
 	int items = 0;
@@ -95,13 +105,14 @@ public class game extends JPanel implements ActionListener {
 		initfball();
 		
 		try {
-			initMap(mapNumber, 51, 220);
+			initMap(mapNumber, 51, 240);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
+	
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -168,7 +179,15 @@ public class game extends JPanel implements ActionListener {
 		enemies = new ArrayList<Enemy>();
 		
 		for (int i=0; i < NumberofEnemies ; i++) {
-			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13));
+			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13, posEDIR[i]));
+		}
+	}
+
+	public void initTraps() {
+		traps = new ArrayList<Trap>();
+		
+		for (int i=0; i < NumberofTraps ; i++) {
+			traps.add(new Trap(posT1[i] + 13, posT2[i] + 13));
 		}
 	}
 	
@@ -215,10 +234,16 @@ public class game extends JPanel implements ActionListener {
 					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
 			}
 			
+			for (int i = 0; i <traps.size();i++) {
+				Trap t = (Trap) traps.get(i);
+				if (t.isVisible()) g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
+			}
+			
 			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
-			}
+					}
+
 			if (checkpointactivated){
 				for (int i = 0; i < checkpoints.size(); i++) {
 					Checkpoint c = (Checkpoint) checkpoints.get(i);
@@ -226,8 +251,11 @@ public class game extends JPanel implements ActionListener {
 					else g2d.drawImage(c.getImagein(), c.getX(), c.getY(), this);
 				}
 			}
-
-			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
+			
+			if(cha.getST()) {
+				Sword sword = cha.getSword();
+				g2d.drawImage(sword.getImage(), sword.getX(), sword.getY(), this);
+			}
 			
 			g2d.setColor(Color.RED);
 			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
@@ -288,10 +316,18 @@ public class game extends JPanel implements ActionListener {
 			else fball.remove(i);
 		}
 		
+		if(cha.getST()) {
+			Sword sword = (Sword) cha.getSword();
+			sword.move();
+		}
+		
+		if(cha.getX()>490 && mapNumber < 9) {
+
 		if(cha.getX() > 490) {
 			mapNumber++;
+		}
 			try {
-				initMap(mapNumber, 11, 220);
+				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -301,12 +337,12 @@ public class game extends JPanel implements ActionListener {
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
 			try {
-				initMap(mapNumber, 480, 225);
+				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
-		} else if(cha.getY() < 10 ) { 															//decrease mapNumber
+		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
 			mapNumber = mapNumber + 10;
 			try {
 				initMap(mapNumber, 225, 480);
@@ -317,23 +353,56 @@ public class game extends JPanel implements ActionListener {
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
 			mapNumber = mapNumber - 10;
 			try {
-				initMap(mapNumber, 220, 11);
+				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 		}
 		
+		
 		cha.move();
+		moveEnemy();
 		checkCollisions();
 		repaint();
 	}
 	
+	public void moveEnemy(){
+
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy e = (Enemy) enemies.get(i);
+			if(e.getLife()>0) {
+				e.move();
+			}
+		}	
+	}		
+		
+		
+	
+
 	public void checkCollisions() {
 		
 		Rectangle rChar = cha.getBounds();
+	
+		
+		if(cha.getST()) {
+			Sword sword = cha.getSword();
+			Rectangle rSword = sword.getBounds();
+			
+			for (int i = 0; i < enemies.size(); i++) {
+				Enemy e = (Enemy) enemies.get(i);
+				if(e.getLife()>0) {
+					Rectangle rEnemy = e.getBounds();
+					if(rSword.intersects(rEnemy)) {
+						e.damage(sword.getDmg());
+					}
+				}
+				else enemies.remove(i);
+			}
+		}
 		
 		if(cha.getSmile()) {
+			cha.manacost(1);
 			Rectangle rSmile = cha.getBoundsSmile();
 			
 			for (int i = 0; i < enemies.size(); i++) {
@@ -341,7 +410,7 @@ public class game extends JPanel implements ActionListener {
 				if(e.getLife()>0) {
 					Rectangle rEnemy = e.getBounds();
 					if(rSmile.intersects(rEnemy)) {
-						e.damage(1);
+						e.damage(1);						
 					}
 				}
 				else enemies.remove(i);
@@ -374,10 +443,27 @@ public class game extends JPanel implements ActionListener {
 			}	
 		}
 		
+
+		for (int i = 0; i < traps.size(); i++) {
+			Trap t = (Trap) traps.get(i);
+			Rectangle rTrap = t.getBounds();
+			if (rChar.intersects(rTrap)){
+				cha.dmg(t.getDmg());
+			}	
+		}
+		
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
 			if(e.getLife()>0) {
 			Rectangle rEnemy = e.getBounds();
+			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rEnemy.intersects(rTree)){
+					e.movecollide();
+				}
+			}
 			
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
@@ -414,6 +500,7 @@ public class game extends JPanel implements ActionListener {
 					e.damage(f.getDmg());
 				}
 			}}
+			
 			else enemies.remove(k);
 		}
 		
@@ -443,6 +530,7 @@ public class game extends JPanel implements ActionListener {
 			else healthp.remove(i);
 		}
 		
+
 		for (int i = 0; i<coins.size(); i++) {
 			Coin c = (Coin) coins.get(i);
 			if(c.isVisible()){
@@ -457,13 +545,8 @@ public class game extends JPanel implements ActionListener {
 		}
 		
 		Rectangle rGoal = goal.getBounds();
-		
-		if (mapNumber == 3){
-		if (rChar.intersects(rGoal)){
-			ingame = false;
-			win = true;
-		}}
-		
+
+	
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
@@ -486,7 +569,9 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(1);
 				}
 				
+
 			}
+						
 			for (int i = 0; i<arrows.size();i++) {
 				Arrow a = (Arrow) arrows.get(i);
 				if(a.getBounds().intersects(rTree)) a.setVisible(false);
@@ -500,6 +585,7 @@ public class game extends JPanel implements ActionListener {
 				if(f.getBounds().intersects(rTree)) f.setVisible(false);
 			}
 		}
+		
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
@@ -509,7 +595,7 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		checkpointactivated = false;
 		
-		
+		NumberofTraps = 0;
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
@@ -523,7 +609,7 @@ public class game extends JPanel implements ActionListener {
 		
 		
 		pos1[0] = 0;
-		pos2[0] = 50;
+		pos2[0] = 25;
 		
 		
 		prototypemap = getMap(m);
@@ -542,16 +628,33 @@ public class game extends JPanel implements ActionListener {
 				NumberofTrees++;
 				break;
 			}
-			case 's' : {											// s : spawn
-				Spawnpoints++;
-				break;
-			}
-			case 'e' : {											// e : enemy
+			
+			case 's' : {											// e : enemy moving horizontal
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
+				posEDIR[NumberofEnemies] = 1;
+				
 				NumberofEnemies++;
 				break;
 			}
+			
+			case 'v' : {											// e2 : enemy moving vertical
+				posE1[NumberofEnemies] = x;
+				posE2[NumberofEnemies] = y;
+				posEDIR[NumberofEnemies] = 2;
+				
+				NumberofEnemies++;
+				break;
+			}
+			
+			case 't': {												// t : traps
+				posT1[NumberofTraps] = x;
+				posT2[NumberofTraps] = y;
+				
+				NumberofTraps++;
+				break;
+			}
+			
 			case 'b' : {											// b : boss
 				bosses++;
 				break;
@@ -600,6 +703,7 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();											// important for repainting
 		initEnemies();
+		initTraps();
 		initManap();
 		initHealthp();
 		initCoin();
