@@ -298,6 +298,8 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		if(cha.gethealth() <= 0) ingame = false; 
+		
         initArrows();
 		
 		for(int i = 0; i < arrows.size(); i++) {
