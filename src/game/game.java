@@ -41,6 +41,7 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
+	private ArrayList<Boss> bosses;
 	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
@@ -53,13 +54,15 @@ public class game extends JPanel implements ActionListener {
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
 
-	private int[] pos1 = new int[max]; 	//später ändern für verschiedene Maps
+	private int[] pos1 = new int[max]; 			//später ändern für verschiedene Maps
 	private int[] pos2 = new int[max];
-	private int[] posE1 = new int[max];
-	private int[] posE2 = new int[max];
-	private int[] posEDIR = new int[110];
-	private int[] posT1 = new int[110];
-	private int[] posT2 = new int[110];
+	private int[] posE1 = new int[max]; 		//Gegner X Wert
+	private int[] posE2 = new int[max];			//Gegner Y Wert
+	private int[] posEDIR = new int[110];		//Gegener Vertikal oder Horizontal
+	private int[] posT1 = new int[110];			//Trap X Wert
+	private int[] posT2 = new int[110];			//Trap Y Wert
+	private int[] posB1 = new int[110];			//Boss X Wert
+	private int[] posB2 = new int[110];			//Boss Y Wert
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -69,13 +72,13 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinX = new int[max];
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
-
+	
+	int NumberofBosses = 0;
 	int NumberofTrees = 1;
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
 	int NumberofTraps = 0;
-	int bosses = 0;
 	int goals = 0;
 	int items = 0;
 	int npcs = 0;
@@ -175,18 +178,22 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initEnemies() {
+	public void initBoss(){														//initializiere Bosse
+		bosses = new ArrayList<Boss>();
+		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
+			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13));
+	}
+	
+	public void initEnemies() {													//initializiere Enemies
 		enemies = new ArrayList<Enemy>();
-		
-		for (int i=0; i < NumberofEnemies ; i++) {
+		for (int i=0; i < NumberofEnemies ; i++) {								//Enemy ArrayList mit X, Y und Direction aus Textdatei
 			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13, posEDIR[i]));
 		}
 	}
 
-	public void initTraps() {
+	public void initTraps() {													//initializiere Traps
 		traps = new ArrayList<Trap>();
-		
-		for (int i=0; i < NumberofTraps ; i++) {
+		for (int i=0; i < NumberofTraps ; i++) {								//Trap ArrayListe mit X und Y Werten aus Textdatei
 			traps.add(new Trap(posT1[i] + 13, posT2[i] + 13));
 		}
 	}
@@ -207,44 +214,49 @@ public class game extends JPanel implements ActionListener {
 			
 			}
 			
-			for (int i = 0; i < manap.size(); i++) {
+			for (int i = 0; i < manap.size(); i++) {							//zeichne Manapotions
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
 			
-			for (int i = 0; i < healthp.size(); i++) {
+			for (int i = 0; i < healthp.size(); i++) {							//zeichne Healthpotions
 				Healthpotion h = (Healthpotion) healthp.get(i);
 				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
 			}
 			
-			for (int i = 0; i < coins.size(); i++) {
+			for (int i = 0; i < coins.size(); i++) {							//zeichne Coins
 				Coin c = (Coin) coins.get(i);
 				if(c.isVisible()) g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
 			}
 			
-			for (int i = 0; i< fball.size(); i++) {
+			for (int i = 0; i< fball.size(); i++) {								//zeichne Fireballs
 				Feuerball f = (Feuerball) fball.get(i);
 				if (f.isVisible())
 					g2d.drawImage(f.getImage(), f.getX(), f.getY(),  this);
 			}
 			
-			for (int i = 0; i < arrows.size(); i++) {
+			for (int i = 0; i < arrows.size(); i++) {							//zeichne Arrows
 				Arrow a = (Arrow) arrows.get(i);
 				if (a.isVisible())
 					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
 			}
 			
-			for (int i = 0; i <traps.size();i++) {
+			for (int i = 0; i <traps.size();i++) {								//zeichne Traps
 				Trap t = (Trap) traps.get(i);
 				if (t.isVisible()) g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			}
 			
-			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
+			for (int k = 0; k<enemies.size(); k++) {							// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 					}
+			
+			for (int i = 0; i<bosses.size();i++){								//zeichne Bosse
+				Boss b = (Boss) bosses.get(i);
+			 	if (b.isVisible()) g2d.drawImage(b.getImage(), b.getX(), b.getY(), this);
+			}
 
-			if (checkpointactivated){
+			if (checkpointactivated){											//zeichne Checkpoints
 				for (int i = 0; i < checkpoints.size(); i++) {
 					Checkpoint c = (Checkpoint) checkpoints.get(i);
 					if(c.active()) g2d.drawImage(c.getImageac(), c.getX(), c.getY(), this);
@@ -252,7 +264,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			if(cha.getST()) {
+			if(cha.getST()) {													//zeichne Sword
 				Sword sword = cha.getSword();
 				g2d.drawImage(sword.getImage(), sword.getX(), sword.getY(), this);
 			}
@@ -260,7 +272,7 @@ public class game extends JPanel implements ActionListener {
 			g2d.setColor(Color.RED);
 			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
 
-			g2d.drawString("Lifes left: " + (cha.gethealth()), 5, 17);
+			g2d.drawString("Lifes left: " + (cha.gethealth()), 5, 17);			//zeichne Infoleiste
 			g2d.setColor(Color.BLUE);
 			g2d.drawString("Mana left: " + (cha.getmana()), 100, 17);	
 			g2d.setColor(Color.YELLOW);
@@ -594,11 +606,11 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		checkpointactivated = false;
 		
+		NumberofBosses = 0;
 		NumberofTraps = 0;
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
-		bosses = 0;
 		goals = 0;
 		items = 0;
 		npcs = 0;
@@ -655,7 +667,10 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 			case 'b' : {											// b : boss
-				bosses++;
+				posB1[NumberofBosses] = x;
+				posB2[NumberofBosses] = y;
+				
+				NumberofBosses++;
 				break;
 			}
 			case 'g' : {											// g : coin/gold/money
