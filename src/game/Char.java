@@ -201,8 +201,8 @@ public class Char {
 		this.health = maxhealth;
 	}
 	
-	public void setGold(int g) {
-		 gold = gold + g;
+	public void setGold() {
+		 gold = gold + 1;
 	}
 	
 	public int getGold() {
@@ -291,4 +291,5 @@ public class Char {
 			 dx = 0;
 		 }
 	}
+
 }
