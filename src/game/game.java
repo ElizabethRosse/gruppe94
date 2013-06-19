@@ -53,11 +53,7 @@ public class game extends JPanel implements ActionListener {
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
 
-<<<<<<< HEAD
-	private int[] pos1 = new int[max]; 			//später ändern für verschiedene Maps
-=======
 	private int[] pos1 = new int[max]; 	//Arrays for object set
->>>>>>> cf6f3a78e08962060825e8286bb6a6a1fb56cd30
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max]; 		//Gegner X Wert
 	private int[] posE2 = new int[max];			//Gegner Y Wert
@@ -78,7 +74,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
 	
-	int NumberofBosses = 0;
+	private boolean bossdefeated = false;
+	private int NumberofBosses = 0;
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
 
@@ -235,11 +232,7 @@ public class game extends JPanel implements ActionListener {
 			
 			}
 			
-<<<<<<< HEAD
 			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
-=======
-			for (int i = 0; i < manap.size(); i++) {							//zeichne Manapotions
->>>>>>> bdc3173cbb29bfb6721a3d31717be9b0edc4599c
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
