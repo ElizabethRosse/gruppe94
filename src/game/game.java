@@ -41,6 +41,7 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
+	private ArrayList<npc> npc;
 	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
@@ -57,9 +58,11 @@ public class game extends JPanel implements ActionListener {
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max];
 	private int[] posE2 = new int[max];
-	private int[] posEDIR = new int[110];
-	private int[] posT1 = new int[110];
-	private int[] posT2 = new int[110];
+	private int[] posEDIR = new int[max];
+	private int[] posT1 = new int[max];
+	private int[] posT2 = new int[max];
+	private int[] npcX = new int[max];
+	private int[] npcY = new int[max];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -83,6 +86,7 @@ public class game extends JPanel implements ActionListener {
 	int manapotions = 0;
 	int healthpotions = 0;
 	int NumberofCheckpoints = 0;
+	int maxnpc = 0;
 	
 	public game() {
 		
@@ -141,6 +145,14 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < NumberofTrees ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
+		}
+	}
+	
+	public void initnpc() {
+		npc = new ArrayList<npc>();
+		
+		for (int i=0; i < maxnpc ; i++) {
+			npc.add(new npc(npcX[i], npcY[i]));
 		}
 	}
 	
@@ -211,6 +223,11 @@ public class game extends JPanel implements ActionListener {
 			for (int i = 0; i < manap.size(); i++) {
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
+			}
+			
+			for (int i = 0; i < npc.size(); i++) {
+				npc n = (npc) npc.get(i);
+				if(n.isVisible()) g2d.drawImage(n.getImage(), n.getX(), n.getY(), this);
 			}
 			
 			for (int i = 0; i < healthp.size(); i++) {
@@ -494,6 +511,32 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
+			for (int j = 0; j < npc.size(); j++) {
+				npc n = (npc) npc.get(j);
+				Rectangle rnpc = n.getBounds();
+				
+				if (rChar.intersects(rnpc)) { //stop at touching tree
+					
+					if (cha.getDX() == 1) {
+						cha.addX(-1);
+					}
+					
+					if (cha.getDX() == -1) {
+						cha.addX(1);
+					}
+					
+					if (cha.getDY() == 1) {
+						cha.addY(-1);
+					}
+					
+					if (cha.getDY() == -1) {
+						cha.addY(1);
+					}
+					
+
+				}
+			}
+			
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
@@ -631,7 +674,7 @@ public class game extends JPanel implements ActionListener {
 		bosses = 0;
 		goals = 0;
 		items = 0;
-		npcs = 0;
+		maxnpc = 0;
 		manapotions = 0;
 		healthpotions = 0;
 		maxcoin = 0;
@@ -707,7 +750,10 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			case 'n' : {											// n : npc
-				npcs++;
+				npcX[maxnpc] = x;
+				npcY[maxnpc] = y;
+				maxnpc++;
+				initnpc();
 				break;
 			}
 			case 'c' : {											// c : checkpoint
@@ -736,6 +782,7 @@ public class game extends JPanel implements ActionListener {
 		initManap();
 		initHealthp();
 		initCoin();
+		initnpc();
 	}
 	
 	
