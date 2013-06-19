@@ -190,6 +190,11 @@ public class game extends JPanel implements ActionListener {
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 			}
+			
+			if(cha.getST()) {
+				Sword sword = cha.getSword();
+				g2d.drawImage(sword.getImage(), sword.getX(), sword.getY(), this);
+			}
 
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
@@ -245,6 +250,11 @@ public class game extends JPanel implements ActionListener {
 			else fball.remove(i);
 		}
 		
+		if(cha.getST()) {
+			Sword sword = (Sword) cha.getSword();
+			sword.move();
+		}
+		
 		if(cha.getX()>490 && mapNumber < 9) {
 			mapNumber++;
 			try {
@@ -274,7 +284,24 @@ public class game extends JPanel implements ActionListener {
 		
 		Rectangle rChar = cha.getBounds();
 		
+		if(cha.getST()) {
+			Sword sword = cha.getSword();
+			Rectangle rSword = sword.getBounds();
+			
+			for (int i = 0; i < enemies.size(); i++) {
+				Enemy e = (Enemy) enemies.get(i);
+				if(e.getLife()>0) {
+					Rectangle rEnemy = e.getBounds();
+					if(rSword.intersects(rEnemy)) {
+						e.damage(sword.getDmg());
+					}
+				}
+				else enemies.remove(i);
+			}
+		}
+		
 		if(cha.getSmile()) {
+			cha.manacost(1);
 			Rectangle rSmile = cha.getBoundsSmile();
 			
 			for (int i = 0; i < enemies.size(); i++) {
