@@ -14,7 +14,7 @@ public class Boss {
 	private boolean change =false;
 	
 	public Boss(int x, int y, int dir){
-		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/enemy.gif"));
+		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/char.gif"));
 		image = ei.getImage();
 		damage = 2;
 		width = image.getWidth(null);
