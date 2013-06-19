@@ -41,22 +41,22 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Checkpoint> checkpoints;
 
 	private goal goal;
-
+	private int max = 110;
 	private Image image, imagescaled;
 	private boolean ingame;
 	private boolean win;
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
-	private int[] pos1 = new int[110]; 	//später ändern für verschiedene Maps
-	private int[] pos2 = new int[110];
-	private int[] posE1 = new int[110];
-	private int[] posE2 = new int[110];
-	private int[] ManapotionX = new int[110];
-	private int[] ManapotionY = new int[110];
-	private int[] HealthpotionX = new int[110];
-	private int[] HealthpotionY = new int[110];
-	private int[] checkpointX = new int [110];
-	private int[] checkpointY = new int [110];
+	private int[] pos1 = new int[max]; 	//später ändern für verschiedene Maps
+	private int[] pos2 = new int[max];
+	private int[] posE1 = new int[max];
+	private int[] posE2 = new int[max];
+	private int[] ManapotionX = new int[max];
+	private int[] ManapotionY = new int[max];
+	private int[] HealthpotionX = new int[max];
+	private int[] HealthpotionY = new int[max];
+	private int[] checkpointX = new int [max];
+	private int[] checkpointY = new int [max];
 	private int mapNumber = 1;
 	int NumberofTrees = 1;
 	int Spawnpoints = 0;
@@ -474,7 +474,7 @@ public class game extends JPanel implements ActionListener {
 		
 		prototypemap = getMap(m);
 		
-		while(i < 110) {												//maximum of fields on a map: 110
+		while(i < max) {												//maximum of fields on a map: 110
 			
 			if(i % 10 == 0){
 				y = y + 50;
