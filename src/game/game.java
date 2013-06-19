@@ -545,12 +545,6 @@ public class game extends JPanel implements ActionListener {
 		}
 		
 		Rectangle rGoal = goal.getBounds();
-		
-		if (mapNumber == 3){
-		if (rChar.intersects(rGoal)){
-			ingame = false;
-			win = true;
-		}}
 
 	
 		for (int j = 0; j < trees.size(); j++) {
