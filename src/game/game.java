@@ -448,7 +448,10 @@ public class game extends JPanel implements ActionListener {
 			Trap t = (Trap) traps.get(i);
 			Rectangle rTrap = t.getBounds();
 			if (rChar.intersects(rTrap)){
-				cha.dmg(t.getDmg());
+				if (t.isVisible()){
+					cha.dmg(t.getDmg());
+					t.setVisible(false);
+				}
 			}	
 		}
 		
