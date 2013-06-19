@@ -38,6 +38,7 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Manapotion> manap;
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
+	private ArrayList<Checkpoint> checkpoints;
 
 	private goal goal;
 
@@ -53,6 +54,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] ManapotionY = new int[110];
 	private int[] HealthpotionX = new int[110];
 	private int[] HealthpotionY = new int[110];
+	private int[] checkpointX = new int [110];
+	private int[] checkpointY = new int [110];
 	private int mapNumber = 1;
 	int NumberofTrees = 1;
 	int Spawnpoints = 0;
@@ -63,6 +66,7 @@ public class game extends JPanel implements ActionListener {
 	int npcs = 0;
 	int manapotions = 0;
 	int healthpotions = 0;
+	int NumberofCheckpoints = 0;
 	
 	public game() {
 		
@@ -120,6 +124,13 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < NumberofTrees ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
+		}
+	}
+	public void initCheckpoints() {
+		checkpoints = new ArrayList<Checkpoint>();
+		
+		for (int i=0; i < NumberofCheckpoints ; i++) {
+			checkpoints.add(new Checkpoint(checkpointX[i], checkpointY[i]));
 		}
 	}
 	
@@ -189,6 +200,11 @@ public class game extends JPanel implements ActionListener {
 			for (int k = 0; k<enemies.size(); k++) {		// zeichne Gegner
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
+			}
+			for (int i = 0; i < checkpoints.size(); i++) {
+				Checkpoint c = (Checkpoint) checkpoints.get(i);
+				if(c.active()) g2d.drawImage(c.getImageac(), c.getX(), c.getY(), this);
+				else g2d.drawImage(c.getImagein(), c.getX(), c.getY(), this);
 			}
 
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
@@ -288,6 +304,30 @@ public class game extends JPanel implements ActionListener {
 				else enemies.remove(i);
 			}
 		}
+		for (int i = 0; i < checkpoints.size(); i++) {
+			Checkpoint c = (Checkpoint) checkpoints.get(i);
+			Rectangle rCheckpoint = c.getBounds();
+			
+			if (rChar.intersects(rCheckpoint)){
+				c.setActivated(true);								//setzt checkpoint bei beruehrung auf activated
+
+				if (cha.getDX() == 1) {
+					cha.addX(-1);
+				}
+				
+				if (cha.getDX() == -1) {
+					cha.addX(1);
+				}
+				
+				if (cha.getDY() == 1) {
+					cha.addY(-1);
+				}
+				
+				if (cha.getDY() == -1) {
+					cha.addY(1);
+				}
+			}
+		}	
 		
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
@@ -476,6 +516,12 @@ public class game extends JPanel implements ActionListener {
 				npcs++;
 				break;
 			}
+			case 'c' : {											// c : checkpoint
+				checkpointX[NumberofCheckpoints] = x;
+				checkpointY[NumberofCheckpoints] = y;
+				NumberofCheckpoints++;
+				break;
+			}
 			default : {
 				break;
 			}
@@ -492,6 +538,7 @@ public class game extends JPanel implements ActionListener {
 		initEnemies();
 		initManap();
 		initHealthp();
+		initCheckpoints();
 	}
 	
 	
