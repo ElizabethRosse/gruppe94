@@ -55,7 +55,6 @@ public class game extends JPanel implements ActionListener {
 	private int G_WIDTH, G_HEIGHT;
 
 	private int[] pos1 = new int[max]; 	//Arrays for object set
-
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max]; 		//Gegner X Wert
 	private int[] posE2 = new int[max];			//Gegner Y Wert
@@ -83,6 +82,8 @@ public class game extends JPanel implements ActionListener {
 	int NumberofXosses = 0;
 	int NumberofZosses = 0;
 	int NumberofBosses = 0;
+	private boolean bossdefeated = false;
+
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
 
@@ -252,7 +253,7 @@ public class game extends JPanel implements ActionListener {
 			
 			}
 			
-			for (int i = 0; i < manap.size(); i++) {							//zeichne Manapotions
+			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
 				Manapotion m = (Manapotion) manap.get(i);
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
