@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import menu.menu;
@@ -46,7 +44,6 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
 
-	private goal goal;
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame;
@@ -122,10 +119,7 @@ public class game extends JPanel implements ActionListener {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
-	
+		}	
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -857,9 +851,6 @@ public class game extends JPanel implements ActionListener {
 			}
 			else coins.remove(i);
 		}
-		
-		Rectangle rGoal = goal.getBounds();
-
 	
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
