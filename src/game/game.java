@@ -53,7 +53,11 @@ public class game extends JPanel implements ActionListener {
 	private boolean checkpointactivated = false;
 	private int G_WIDTH, G_HEIGHT;
 
+<<<<<<< HEAD
 	private int[] pos1 = new int[max]; 			//später ändern für verschiedene Maps
+=======
+	private int[] pos1 = new int[max]; 	//Arrays for object set
+>>>>>>> cf6f3a78e08962060825e8286bb6a6a1fb56cd30
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max]; 		//Gegner X Wert
 	private int[] posE2 = new int[max];			//Gegner Y Wert
@@ -78,7 +82,7 @@ public class game extends JPanel implements ActionListener {
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
 
-	int NumberofTrees = 1;
+	int NumberofTrees = 1;					//absolut number of objects of this type
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
@@ -100,7 +104,7 @@ public class game extends JPanel implements ActionListener {
 		ingame = true;
 		win = false;
 		
-		ImageIcon ii =                       //lädt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
+		ImageIcon ii =                       //laedt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
 		image = ii.getImage();
 		imagescaled = image.getScaledInstance(530, 530, UNDEFINED_CONDITION);
@@ -120,7 +124,7 @@ public class game extends JPanel implements ActionListener {
 		initfball();
 		
 		try {
-			initMap(mapNumber, 51, 240);
+			initMap(mapNumber, 51, 240);									//loading first map
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +135,7 @@ public class game extends JPanel implements ActionListener {
 		repaint();
 	}
 	
-	public void initArrows() {
+	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
 	}
@@ -141,7 +145,7 @@ public class game extends JPanel implements ActionListener {
 		fball = cha.getFBall();
 	}
 	
-	public void addNotify() {  //holt höhe und breite des Fensters um Game Over naricht mittig zu platzieren
+	public void addNotify() {  
 		super.addNotify();
 		G_WIDTH = getWidth();
 		G_HEIGHT = getHeight();
@@ -215,14 +219,14 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
 		
-		if (ingame) { //zeichne Character, Bäume usw.  wenn ingame = true ist
+		if (ingame) { //zeichne Character, Baeume usw.  wenn ingame = true ist
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
-			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
+			g2d.drawImage(imagescaled, 0, 0, this);   // laedt das Hintergrundbild
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
@@ -294,7 +298,7 @@ public class game extends JPanel implements ActionListener {
 			
      		//zeichne Infoleiste
 
-			switch(cha.getMaxhealth()) {
+			switch(cha.getMaxhealth()) {									//initilize healthbar
 			case 6 : {
 				switch(cha.gethealth()){
 				case 6 : {
@@ -503,7 +507,7 @@ public class game extends JPanel implements ActionListener {
 			}
 
 			g2d.setColor(Color.BLUE);
-			switch(cha.getMaxhealth()){
+			switch(cha.getMaxhealth()){												//initilize mana
 			case 6 : {
 				g2d.drawString("Mana left: " + (cha.getmana()), 130, 17);
 				break;
@@ -518,7 +522,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 			g2d.setColor(Color.YELLOW);
-			switch(cha.getMaxhealth()) {
+			switch(cha.getMaxhealth()) {											//initilize money
 			case 6 : {
 				g2d.drawImage(coinpic.getImage(), 250, 0, this);
 				g2d.drawString(" " + (cha.getGold()), 290, 17);
@@ -566,7 +570,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {						//checking performed actions
 		
 		if(cha.gethealth() <= 0) ingame = false; 
 		
@@ -593,7 +597,7 @@ public class game extends JPanel implements ActionListener {
 			sword.move();
 		}
 
-		if(cha.getX() > 490) {
+		if(cha.getX() > 490) {										//mapchanges
 			mapNumber++;
 			try {
 				initMap(mapNumber, 11, 240);
@@ -682,7 +686,7 @@ public class game extends JPanel implements ActionListener {
 		
 	
 
-	public void checkCollisions() {
+	public void checkCollisions() {								//checking collisions of objects with another object
 		
 		Rectangle rChar = cha.getBounds();
 	
