@@ -962,7 +962,8 @@ public class game extends JPanel implements ActionListener {
 
 		for(int k = 0; i<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
-			if(a.getBounds().intersects(rBoss)) {
+			Rectangle rArrow = a.getBounds();
+			if(rArrow.intersects(rBoss)) {
 				a.setVisible(false);
 				b.damage(a.getDmg());
 			}
@@ -978,6 +979,7 @@ public class game extends JPanel implements ActionListener {
 			if(b.getLife() <= 0) {
 				mapNumber = 220;
 				reset = 220;
+				NumberofCheckpoints = 0;
 				try {
 					initMap(mapNumber, 51, 240);
 				} catch (IOException e) {
@@ -1037,6 +1039,7 @@ public class game extends JPanel implements ActionListener {
 		if(x.getLife() <= 0) {
 			mapNumber = 310;
 			reset = 310;
+			NumberofCheckpoints = 0;
 			try {
 				initMap(mapNumber, 51, 240);
 			} catch (IOException e) {
@@ -1131,12 +1134,14 @@ public class game extends JPanel implements ActionListener {
 			f.setVisible(false);
 			z.damage(f.getDmg());
 		}
-	}}
+	}
+	}
 		if(z.getLife() <= 0) {
 			win = true;
 			ingame = false;
 		}
-	}}
+	}
+	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
@@ -1181,7 +1186,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 's' : {											// e : enemy moving horizontal
+			case 'v' : {											// e : enemy moving horizontal
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 1;
@@ -1190,7 +1195,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'v' : {											// e2 : enemy moving vertical
+			case 's' : {											// e2 : enemy moving vertical
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 2;
