@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
@@ -43,8 +42,8 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
-	private ArrayList<Boss> xosses; // boss2
-	private ArrayList<Boss> zosses; // boss3
+	private ArrayList<Xoss> xosses; // boss2
+	private ArrayList<Zoss> zosses; // boss3
 	private ArrayList<Boss> bosses;
 	private ArrayList<npc> npc;
 	private ArrayList<shopkeeper> shop;
@@ -74,6 +73,7 @@ public class game extends JPanel implements ActionListener {
 	private int[] posZ2 = new int[110];
 	private int[] npcX = new int[max];
 	private int[] npcY = new int[max];
+	private int[] npcD = new int[max];
 	private int[] shopX = new int[max];
 	private int[] shopY = new int[max];
 	private int[] ManapotionX = new int[max];
@@ -89,7 +89,6 @@ public class game extends JPanel implements ActionListener {
 	int NumberofXosses = 0;
 	int NumberofZosses = 0;
 	int NumberofBosses = 0;
-	private boolean bossdefeated = false;
 
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
@@ -176,7 +175,7 @@ public class game extends JPanel implements ActionListener {
 		npc = new ArrayList<npc>();
 		
 		for (int i=0; i < maxnpc ; i++) {
-			npc.add(new npc(npcX[i], npcY[i]));
+			npc.add(new npc(npcX[i], npcY[i], npcD[i]));
 		}
 	}
 	
@@ -227,15 +226,15 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initXoss(){														//initializiere Bosse
-		xosses = new ArrayList<Boss>();
+		xosses = new ArrayList<Xoss>();
 		for (int i =0; i<NumberofXosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
-			xosses.add(new Boss(posX1[i] +13, posX2[i] + 13, 2));
+			xosses.add(new Xoss(posX1[i] +13, posX2[i] + 13, 2));
 	}
 	
 	public void initZoss(){														//initializiere Bosse
-		zosses = new ArrayList<Boss>();
+		zosses = new ArrayList<Zoss>();
 		for (int i =0; i<NumberofZosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
-			zosses.add(new Boss(posZ1[i] +13, posZ2[i] + 13, 1));
+			zosses.add(new Zoss(posZ1[i] +13, posZ2[i] + 13, 1));
 	}
 	
 	
@@ -323,12 +322,12 @@ public class game extends JPanel implements ActionListener {
 			}
 
 			for (int i = 0; i<xosses.size();i++){								//zeichne Bosse
-				Boss x = (Boss) xosses.get(i);
+				Xoss x = (Xoss) xosses.get(i);
 			 	if (x.isVisible()) g2d.drawImage(x.getImage(), x.getX(), x.getY(), this);
 			}
 			
 			for (int i = 0; i<zosses.size();i++){								//zeichne Bosse
-				Boss z = (Boss) zosses.get(i);
+				Zoss z = (Zoss) zosses.get(i);
 			 	if (z.isVisible()) g2d.drawImage(z.getImage(), z.getX(), z.getY(), this);
 			}
 			
@@ -570,7 +569,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			}
-			g2d.setColor(Color.YELLOW);
+			g2d.setColor(Color.BLACK);
 			switch(cha.getMaxhealth()) {											//initilize money
 			case 6 : {
 				g2d.drawImage(coinpic.getImage(), 250, 0, this);
@@ -626,6 +625,40 @@ public class game extends JPanel implements ActionListener {
 		ersterJDialog.setModal(true);
 		ersterJDialog.setVisible(true);
 	}
+	
+	public void dialog2() {
+		JDialog zweiterJDialog = new JDialog();
+		zweiterJDialog.setTitle("It's dagerous out there!");
+		zweiterJDialog.setSize(400,75);
+		zweiterJDialog.setLocationRelativeTo(null);
+		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
+		zweiterJDialog.setModal(true);
+		zweiterJDialog.setVisible(true);
+		cha.makeSword();
+	}
+	
+	public void dialog3() {
+		JDialog dritterJDialog = new JDialog();
+		dritterJDialog.setTitle("Smile!");
+		dritterJDialog.setSize(400,75);
+		dritterJDialog.setLocationRelativeTo(null);
+		dritterJDialog.add(new JLabel ("You got your Smile back!(You can Smile with 'd')"));
+		dritterJDialog.setModal(true);
+		dritterJDialog.setVisible(true);
+		cha.makeSmile();
+	}
+	
+	public void dialog4() {
+		JDialog vierterJDialog = new JDialog();
+		vierterJDialog.setTitle("Arrows!");
+		vierterJDialog.setSize(400,75);
+		vierterJDialog.setLocationRelativeTo(null);
+		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'LEER')"));
+		vierterJDialog.setModal(true);
+		vierterJDialog.setVisible(true);
+		cha.makeArrow();
+	}
+	
 	public void shop() {
 		//JOptionPane.showOptionDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen?","Shop",
                 //JOptionPane.YES_NO_OPTION,
@@ -750,7 +783,7 @@ public class game extends JPanel implements ActionListener {
 	
 	public void moveXoss(){
 		for (int i = 0; i < xosses.size(); i++){
-			Boss x = (Boss) xosses.get(i);
+			Xoss x = (Xoss) xosses.get(i);
 			if (x.getLife()>0){
 				x.move();
 			}
@@ -759,10 +792,10 @@ public class game extends JPanel implements ActionListener {
 	
 	public void moveZoss(){
 		for (int i = 0; i < zosses.size(); i++){
-			Boss z = (Boss) zosses.get(i);
+			Zoss z = (Zoss) zosses.get(i);
 			if (z.getLife()>0){
 				z.move();
-			}
+			} else zosses.remove(i);
 		}
 	}
 	
@@ -809,7 +842,8 @@ public class game extends JPanel implements ActionListener {
 				if(e.getLife()>0) {
 					Rectangle rEnemy = e.getBounds();
 					if(rSmile.intersects(rEnemy)) {
-						e.damage(1);						
+						e.damage(1);
+						e.movecollide();
 					}
 				}
 				else enemies.remove(i);
@@ -980,12 +1014,24 @@ public class game extends JPanel implements ActionListener {
 			
 			else if(cha.getContinues() == 0) ingame = false;
 
-		for(int k = 0; i<arrows.size();k++) {
+		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
-			Rectangle rArrow = a.getBounds();
-			if(rArrow.intersects(rBoss)) {
+			if(a.getBounds().intersects(rBoss)) {
 				a.setVisible(false);
 				b.damage(a.getDmg());
+			}
+		}
+		if(cha.getSmile()){
+			Rectangle rSmile = cha.getBoundsSmile();
+			if(rSmile.intersects(rBoss)) {
+				b.damage(1);
+				b.movecollide();
+			}
+		}
+		if(cha.getST()){
+			Sword sword = (Sword) cha.getSword();
+			if(sword.getBounds().intersects(rBoss)){
+				b.damage(sword.getDmg());
 			}
 		}
 		for(int j = 0; j<fball.size(); j++) {
@@ -996,7 +1042,8 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		}
-			if(b.getLife() <= 0) {
+			else {
+				dialog3();
 				mapNumber = 220;
 				reset = 220;
 				NumberofCheckpoints = 0;
@@ -1010,9 +1057,10 @@ public class game extends JPanel implements ActionListener {
 		}
 
 		for (int i= 0; i < xosses.size(); i++) {
-			Boss x= (Boss) xosses.get(i);
+			Xoss x= (Xoss) xosses.get(i);
 			if(x.getLife()>0) {
-			Rectangle rBoss = x.getBounds();			
+			Rectangle rBoss = x.getBounds();
+			Rectangle rBoss2 = x.getBoundsX();
 			for (int j = 0; j < trees.size(); j++) {
 				Tree t = (Tree) trees.get(j);
 				Rectangle rTree = t.getBounds();
@@ -1020,7 +1068,7 @@ public class game extends JPanel implements ActionListener {
 					x.movecollide();
 				}	
 			}
-			if (rChar.intersects(rBoss)) {
+			if (rChar.intersects(rBoss2)) {
 				cha.dmg(x.getDmg());
 				if (cha.getDX() == 1) {
 					cha.addX(-10);
@@ -1040,9 +1088,9 @@ public class game extends JPanel implements ActionListener {
 			}	
 			else if(cha.getContinues() == 0) ingame = false;
 			
-		for(int k = 0; i<arrows.size();k++) {
+		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
-			if(a.getBounds().intersects(rBoss)) {
+			if(a.getBounds().intersects(rBoss2)) {
 				a.setVisible(false);
 				x.damage(a.getDmg());
 			}
@@ -1050,13 +1098,27 @@ public class game extends JPanel implements ActionListener {
 		
 		for(int j = 0; j<fball.size(); j++) {
 			Feuerball f = (Feuerball) fball.get(j);
-			if(f.getBounds().intersects(rBoss)) {
+			if(f.getBounds().intersects(rBoss2)) {
 				f.setVisible(false);
 				x.damage(f.getDmg());
 			}
 		}
+		if(cha.getSmile()){
+			Rectangle rSmile = cha.getBoundsSmile();
+			if(rSmile.intersects(rBoss2)) {
+				x.damage(1);
+				x.movecollide();
+			}
 		}
-		if(x.getLife() <= 0) {
+		if(cha.getST()){
+			Sword sword = (Sword) cha.getSword();
+			if(sword.getBounds().intersects(rBoss2)){
+				x.damage(sword.getDmg());
+			}
+		}
+		}
+			else {
+			dialog4();
 			mapNumber = 310;
 			reset = 310;
 			NumberofCheckpoints = 0;
@@ -1098,29 +1160,55 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rnpc = n.getBounds();
 					
 			if (rChar.intersects(rnpc)) { //stop at touching npc
+				switch (n.getDialog()){		
+				case 1 : {	if (cha.getDX() == 1) {
+								cha.setDX(0);
+								cha.addX(-1);
+								dialog1();
+							}
 						
-				if (cha.getDX() == 1) {
-					cha.setDX(0);
-					cha.addX(-1);
-					dialog1();
+							if (cha.getDX() == -1) {
+								cha.setDX(0);
+								cha.addX(1);
+								dialog1();
+							}
+						
+							if (cha.getDY() == 1) {
+								cha.setDY(0);
+								cha.addY(-1);
+								dialog1();
+							}
+						
+							if (cha.getDY() == -1) {
+								cha.setDY(0);
+								cha.addY(1);
+								dialog1();
+							}
 				}
-						
-				if (cha.getDX() == -1) {
-					cha.setDX(0);
-					cha.addX(1);
-					dialog1();
-				}
-						
-				if (cha.getDY() == 1) {
-					cha.setDY(0);
-					cha.addY(-1);
-					dialog1();
-				}
-						
-				if (cha.getDY() == -1) {
-					cha.setDY(0);
-					cha.addY(1);
-					dialog1();
+				case 2 : {
+					if (cha.getDX() == 1) {
+						cha.setDX(0);
+						cha.addX(-1);
+						dialog2();
+					}
+				
+					if (cha.getDX() == -1) {
+						cha.setDX(0);
+						cha.addX(1);
+						dialog2();
+					}
+				
+					if (cha.getDY() == 1) {
+						cha.setDY(0);
+						cha.addY(-1);
+						dialog2();
+					}
+				
+					if (cha.getDY() == -1) {
+						cha.setDY(0);
+						cha.addY(1);
+						dialog2();
+					}
 				}
 			}
 		}
@@ -1175,17 +1263,18 @@ public class game extends JPanel implements ActionListener {
 	
 	
 	for (int i= 0; i < zosses.size(); i++) {
-		Boss z = (Boss) zosses.get(i);
+		Zoss z = (Zoss) zosses.get(i);
 		if(z.getLife()>0) {
-		Rectangle rBoss = z.getBounds();			
-		for (int j = 0; j < trees.size(); j++) {
-			Tree t = (Tree) trees.get(j);
-			Rectangle rTree = t.getBounds();
-			if (rBoss.intersects(rTree)){
+		Rectangle rBoss = z.getBounds();
+		Rectangle rBoss2 = z.getBoundsZ();
+		for (int p = 0; p < trees.size(); p++) {
+			Tree o = (Tree) trees.get(p);
+			Rectangle rTreeX = o.getBounds();
+			if (rBoss.intersects(rTreeX)){
 				z.movecollide();
 			}	
 		}
-		if ((rChar.intersects(rBoss))) {
+		if ((rChar.intersects(rBoss2))) {
 			cha.dmg(z.getDmg());
 			if (cha.getDX() == 1) {
 				cha.addX(-10);
@@ -1205,26 +1294,38 @@ public class game extends JPanel implements ActionListener {
 		}
 		else if(cha.getContinues() == 0) ingame = false;
 		
-	for(int k = 0; i<arrows.size();k++) {
+	for(int k = 0; k<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
-		if(a.getBounds().intersects(rBoss)) {
+		if(a.getBounds().intersects(rBoss2)) {
 			a.setVisible(false);
 			z.damage(a.getDmg());
 		}
 	}
-	for(int j = 0; j<fball.size(); j++) {
-		Feuerball f = (Feuerball) fball.get(j);
-		if(f.getBounds().intersects(rBoss)) {
+	for(int h = 0; h<fball.size(); h++) {
+		Feuerball f = (Feuerball) fball.get(h);
+		if(f.getBounds().intersects(rBoss2)) {
 			f.setVisible(false);
 			z.damage(f.getDmg());
 		}
+	}if(cha.getSmile()){
+		Rectangle rSmile = cha.getBoundsSmile();
+		if(rSmile.intersects(rBoss2)) {
+			z.damage(1);
+			z.movecollide();
+		}
+	}
+	if(cha.getST()){
+		Sword sword = (Sword) cha.getSword();
+		if(sword.getBounds().intersects(rBoss2)){
+			z.damage(sword.getDmg());
+		}
 	}
 	}
-		if(z.getLife() <= 0) {
+		else {
 			win = true;
 			ingame = false;
 		}
-	}
+	}}
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
@@ -1341,8 +1442,15 @@ public class game extends JPanel implements ActionListener {
 			case 'n' : {											// n : npc
 				npcX[maxnpc] = x;
 				npcY[maxnpc] = y;
+				npcD[maxnpc] = 1;
 				maxnpc++;
-				initnpc();
+				break;
+			}
+			case 'q' : {                                            // q : npc für schwert
+				npcX[maxnpc] = x;
+				npcY[maxnpc] = y;
+				npcD[maxnpc] = 2;
+				maxnpc++;
 				break;
 			}
 			case 'p' : {											// p : shopkeeper
