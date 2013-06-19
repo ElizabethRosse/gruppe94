@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import menu.menu;
@@ -41,12 +39,13 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Trap> traps;
+
 	private ArrayList<Boss> bosses;
+	private ArrayList<npc> npc;
 	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
 
-	private goal goal;
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame;
@@ -63,6 +62,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] posT2 = new int[110];			//Trap Y Wert
 	private int[] posB1 = new int[110];			//Boss X Wert
 	private int[] posB2 = new int[110];			//Boss Y Wert
+	private int[] npcX = new int[max];
+	private int[] npcY = new int[max];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -75,6 +76,7 @@ public class game extends JPanel implements ActionListener {
 	
 	int NumberofBosses = 0;
 	private int reset = 110;
+	private Coin coinpic = new Coin(1000,1000);
 
 	int NumberofTrees = 1;
 	int maxcoin = 0;
@@ -87,6 +89,7 @@ public class game extends JPanel implements ActionListener {
 	int manapotions = 0;
 	int healthpotions = 0;
 	int NumberofCheckpoints = 0;
+	int maxnpc = 0;
 	
 	public game() {
 		
@@ -121,10 +124,7 @@ public class game extends JPanel implements ActionListener {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
-	
+		}	
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -152,6 +152,14 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < NumberofTrees ; i++) {
 			trees.add(new Tree(pos1[i], pos2[i]));
+		}
+	}
+	
+	public void initnpc() {
+		npc = new ArrayList<npc>();
+		
+		for (int i=0; i < maxnpc ; i++) {
+			npc.add(new npc(npcX[i], npcY[i]));
 		}
 	}
 	
@@ -228,7 +236,13 @@ public class game extends JPanel implements ActionListener {
 				if(m.isVisible()) g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
 			}
 			
-			for (int i = 0; i < healthp.size(); i++) {							//zeichne Healthpotions
+
+			for (int i = 0; i < npc.size(); i++) {
+				npc n = (npc) npc.get(i);
+				if(n.isVisible()) g2d.drawImage(n.getImage(), n.getX(), n.getY(), this);
+			}
+			
+			for (int i = 0; i < healthp.size(); i++) {
 				Healthpotion h = (Healthpotion) healthp.get(i);
 				if(h.isVisible()) g2d.drawImage(h.getImage(), h.getX(), h.getY(), this);
 			}
@@ -278,54 +292,51 @@ public class game extends JPanel implements ActionListener {
 				g2d.drawImage(sword.getImage(), sword.getX(), sword.getY(), this);
 			}
 			
-			g2d.setColor(Color.RED);
-			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
-
-			g2d.drawString("Lifes left: " + (cha.gethealth()), 5, 17);			//zeichne Infoleiste
+     		//zeichne Infoleiste
 
 			switch(cha.getMaxhealth()) {
 			case 6 : {
 				switch(cha.gethealth()){
 				case 6 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
 					break;
 				}
 				case 5 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(halfhealth, 85, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(halfhealth, 85, -5, this);
 					break;
 				}
 				case 4 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
 					break;
 				}
 				case 3 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(halfhealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(halfhealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
 					break;
 				}
 				case 2 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
 					break;
 				}
 				case 1 : {
-					g2d.drawImage(halfhealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
+					g2d.drawImage(halfhealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
 					break;
 				}
 				case 0 : {
-					g2d.drawImage(nohealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
+					g2d.drawImage(nohealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
 					break;
 				}
 				} break;	
@@ -333,66 +344,66 @@ public class game extends JPanel implements ActionListener {
 			case 8 : {
 				switch(cha.gethealth()){
 				case 8 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(health, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(health, 125, -5, this);
 					break;
 				}
 				case 7 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(halfhealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(halfhealth, 125, -5, this);
 					break;
 				}
 				case 6 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 5 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(halfhealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(halfhealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 4 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 3 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(halfhealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(halfhealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 2 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 1 : {
-					g2d.drawImage(halfhealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(halfhealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				case 0 : {
-					g2d.drawImage(nohealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
+					g2d.drawImage(nohealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
 					break;
 				}
 				}break;
@@ -400,91 +411,91 @@ public class game extends JPanel implements ActionListener {
 			case 10 : {
 				switch(cha.gethealth()) {
 				case 10 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(health, 125, 5, this);
-					g2d.drawImage(health, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(health, 125, -5, this);
+					g2d.drawImage(health, 165, -5, this);
 					break;
 				}
 				case 9 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(health, 125, 5, this);
-					g2d.drawImage(halfhealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(health, 125, -5, this);
+					g2d.drawImage(halfhealth, 165, -5, this);
 					break;
 				}
 				case 8 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(health, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(health, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 7 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(halfhealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(halfhealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 6 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(health, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(health, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 5 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(halfhealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(halfhealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 4 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(health, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(health, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 3 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(halfhealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(halfhealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 2 : {
-					g2d.drawImage(health, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(health, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 1 : {
-					g2d.drawImage(halfhealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(halfhealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				case 0 : {
-					g2d.drawImage(nohealth, 5, 5, this);
-					g2d.drawImage(nohealth, 45, 5, this);
-					g2d.drawImage(nohealth, 85, 5, this);
-					g2d.drawImage(nohealth, 125, 5, this);
-					g2d.drawImage(nohealth, 165, 5, this);
+					g2d.drawImage(nohealth, 5, -5, this);
+					g2d.drawImage(nohealth, 45, -5, this);
+					g2d.drawImage(nohealth, 85, -5, this);
+					g2d.drawImage(nohealth, 125, -5, this);
+					g2d.drawImage(nohealth, 165, -5, this);
 					break;
 				}
 				}
@@ -493,13 +504,37 @@ public class game extends JPanel implements ActionListener {
 
 			g2d.setColor(Color.BLUE);
 			switch(cha.getMaxhealth()){
-			case 6 : g2d.drawString("Mana left: " + (cha.getmana()), 100, 17);
-			case 8 : g2d.drawString("Mana left: " + (cha.getmana()), 140, 17);
-			case 10 : g2d.drawString("Mana left: " + (cha.getmana()), 180, 17);
+			case 6 : {
+				g2d.drawString("Mana left: " + (cha.getmana()), 130, 17);
+				break;
 			}
-			//g2d.setColor(Color.YELLOW);
-			//g2d.drawString("Coins: " + (cha.getGold()), 230, 17);
-			//g2d.drawString("Coins: " + (cha.getGold()), 200, 17);	
+			case 8 : {
+				g2d.drawString("Mana left: " + (cha.getmana()), 170, 17);
+				break;
+			}
+			case 10 : {
+				g2d.drawString("Mana left: " + (cha.getmana()), 210, 17);
+				break;
+			}
+			}
+			g2d.setColor(Color.YELLOW);
+			switch(cha.getMaxhealth()) {
+			case 6 : {
+				g2d.drawImage(coinpic.getImage(), 250, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 290, 17);
+				break;
+			}
+			case 8 : {
+				g2d.drawImage(coinpic.getImage(), 290, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 330, 17);
+				break;
+			}
+			case 10 : {
+				g2d.drawImage(coinpic.getImage(), 330, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 370, 17);
+				break;
+			}
+			}
 			
 		}
 		
@@ -736,6 +771,32 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
+			for (int j = 0; j < npc.size(); j++) {
+				npc n = (npc) npc.get(j);
+				Rectangle rnpc = n.getBounds();
+				
+				if (rChar.intersects(rnpc)) { //stop at touching tree
+					
+					if (cha.getDX() == 1) {
+						cha.addX(-1);
+					}
+					
+					if (cha.getDX() == -1) {
+						cha.addX(1);
+					}
+					
+					if (cha.getDY() == 1) {
+						cha.addY(-1);
+					}
+					
+					if (cha.getDY() == -1) {
+						cha.addY(1);
+					}
+					
+
+				}
+			}
+			
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
@@ -828,7 +889,6 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		}
-		Rectangle rGoal = goal.getBounds();
 
 	
 		for (int j = 0; j < trees.size(); j++) {
@@ -886,7 +946,7 @@ public class game extends JPanel implements ActionListener {
 		NumberofEnemies = 0;
 		goals = 0;
 		items = 0;
-		npcs = 0;
+		maxnpc = 0;
 		manapotions = 0;
 		healthpotions = 0;
 		maxcoin = 0;
@@ -966,7 +1026,10 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			case 'n' : {											// n : npc
-				npcs++;
+				npcX[maxnpc] = x;
+				npcY[maxnpc] = y;
+				maxnpc++;
+				initnpc();
 				break;
 			}
 			case 'c' : {											// c : checkpoint
@@ -996,6 +1059,7 @@ public class game extends JPanel implements ActionListener {
 		initHealthp();
 		initCoin();
 		initBoss();
+		initnpc();
 	}
 	
 	
