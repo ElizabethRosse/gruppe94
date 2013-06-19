@@ -230,8 +230,16 @@ public class Char {
 		this.health = maxhealth;
 	}
 	
+	public void buyHealth() {
+		gold -= 3;
+	}
+	
 	public void setGold() {
 		 gold = gold + 1;
+	}
+	
+	public void setGoldtest(int i)   {
+		gold = i;
 	}
 	
 	public int getGold() {

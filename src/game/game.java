@@ -20,6 +20,10 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
@@ -43,6 +47,7 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Boss> zosses; // boss3
 	private ArrayList<Boss> bosses;
 	private ArrayList<npc> npc;
+	private ArrayList<shopkeeper> shop;
 	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
@@ -69,6 +74,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] posZ2 = new int[110];
 	private int[] npcX = new int[max];
 	private int[] npcY = new int[max];
+	private int[] shopX = new int[max];
+	private int[] shopY = new int[max];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -99,6 +106,7 @@ public class game extends JPanel implements ActionListener {
 	int healthpotions = 0;
 	int NumberofCheckpoints = 0;
 	int maxnpc = 0;
+	int maxshops = 0;
 	
 	public game() {
 		
@@ -169,6 +177,14 @@ public class game extends JPanel implements ActionListener {
 		
 		for (int i=0; i < maxnpc ; i++) {
 			npc.add(new npc(npcX[i], npcY[i]));
+		}
+	}
+	
+	public void initshop() {
+		shop = new ArrayList<shopkeeper>();
+		
+		for (int i=0; i < maxshops ; i++) {
+			shop.add(new shopkeeper(shopX[i], shopY[i]));
 		}
 	}
 	
@@ -262,6 +278,11 @@ public class game extends JPanel implements ActionListener {
 			for (int i = 0; i < npc.size(); i++) {
 				npc n = (npc) npc.get(i);
 				if(n.isVisible()) g2d.drawImage(n.getImage(), n.getX(), n.getY(), this);
+			}
+			
+			for (int i = 0; i < shop.size(); i++) {
+				shopkeeper s = (shopkeeper) shop.get(i);
+				if(s.isVisible()) g2d.drawImage(s.getImage(), s.getX(), s.getY(), this);
 			}
 			
 			for (int i = 0; i < healthp.size(); i++) {
@@ -596,6 +617,30 @@ public class game extends JPanel implements ActionListener {
 		g.dispose(); //wie final verhindert Änderung des JFrames
 		
 	}
+	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
+		JDialog ersterJDialog = new JDialog();
+		ersterJDialog.setTitle ("Mr Moustache");
+		ersterJDialog.setSize(270,75);
+		ersterJDialog.setLocationRelativeTo(null);
+		ersterJDialog.add(new JLabel ("Yo Nerd! Die Smileys brauchen deine Hilfe!"));
+		ersterJDialog.setModal(true);
+		ersterJDialog.setVisible(true);
+	}
+	public void shop() {
+		//JOptionPane.showOptionDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen?","Shop",
+                //JOptionPane.YES_NO_OPTION,
+                //JOptionPane.PLAIN_MESSAGE, null, 
+                //new String[]{"BUY", "BYE"}, "BUY");
+				int h = JOptionPane.showConfirmDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen fuer 3 Gold?");
+		if(h==0){
+			if(cha.getGold()>=3){
+				if(cha.getMaxhealth()<10){
+					cha.buyHealth();
+					cha.setMaxhealth(cha.getMaxhealth()+2);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
@@ -823,31 +868,6 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			for (int j = 0; j < npc.size(); j++) {
-				npc n = (npc) npc.get(j);
-				Rectangle rnpc = n.getBounds();
-				
-				if (rChar.intersects(rnpc)) { //stop at touching tree
-					
-					if (cha.getDX() == 1) {
-						cha.addX(-1);
-					}
-					
-					if (cha.getDX() == -1) {
-						cha.addX(1);
-					}
-					
-					if (cha.getDY() == 1) {
-						cha.addY(-1);
-					}
-					
-					if (cha.getDY() == -1) {
-						cha.addY(1);
-					}
-					
-
-				}
-			}
 			
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
@@ -1073,7 +1093,71 @@ public class game extends JPanel implements ActionListener {
 				
 
 			}
+		for (int z = 0; z < npc.size(); z++) {
+			npc n = (npc) npc.get(z);
+			Rectangle rnpc = n.getBounds();
+					
+			if (rChar.intersects(rnpc)) { //stop at touching npc
 						
+				if (cha.getDX() == 1) {
+					cha.setDX(0);
+					cha.addX(-1);
+					dialog1();
+				}
+						
+				if (cha.getDX() == -1) {
+					cha.setDX(0);
+					cha.addX(1);
+					dialog1();
+				}
+						
+				if (cha.getDY() == 1) {
+					cha.setDY(0);
+					cha.addY(-1);
+					dialog1();
+				}
+						
+				if (cha.getDY() == -1) {
+					cha.setDY(0);
+					cha.addY(1);
+					dialog1();
+				}
+			}
+		}
+		for (int h = 0; h < shop.size(); h++) {
+			shopkeeper s = (shopkeeper) shop.get(h);
+			Rectangle rshop = s.getBounds();
+				
+			if (rChar.intersects(rshop)) { //stop at touching shopkeeper and dialog
+				
+				if (cha.getDX() == 1) {
+					cha.setDX(0);
+					cha.addX(-1);
+					shop();
+				}
+					
+				if (cha.getDX() == -1) {
+					cha.setDX(0);
+					cha.addX(1);
+					shop();
+				}
+					
+				if (cha.getDY() == 1) {
+					cha.setDY(0);
+					cha.addY(-1);
+					shop();
+				}
+					
+				if (cha.getDY() == -1) {
+					cha.setDY(0);
+					cha.addY(1);
+					shop();
+				}
+				
+					
+
+			}
+		}		
 			for (int i = 0; i<arrows.size();i++) {
 				Arrow a = (Arrow) arrows.get(i);
 				if(a.getBounds().intersects(rTree)) a.setVisible(false);
@@ -1163,6 +1247,7 @@ public class game extends JPanel implements ActionListener {
 		manapotions = 0;
 		healthpotions = 0;
 		maxcoin = 0;
+		maxshops = 0;
 		
 		
 		pos1[0] = 0;
@@ -1260,6 +1345,13 @@ public class game extends JPanel implements ActionListener {
 				initnpc();
 				break;
 			}
+			case 'p' : {											// p : shopkeeper
+				shopX[maxshops] = x;
+				shopY[maxshops] = y;
+				maxshops++;
+				initshop();
+				break;
+			}
 			case 'c' : {											// c : checkpoint
 				checkpointX[NumberofCheckpoints] = x;
 				checkpointY[NumberofCheckpoints] = y;
@@ -1288,6 +1380,7 @@ public class game extends JPanel implements ActionListener {
 		initCoin();
 		initBoss();
 		initnpc();
+		initshop();
 		initXoss();
 		initZoss();
 	}
