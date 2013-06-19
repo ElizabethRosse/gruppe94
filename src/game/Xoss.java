@@ -17,6 +17,7 @@ public class Xoss {
 	public Xoss(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/boss2.png"));
 		image = ei.getImage();
+		image = image.getScaledInstance(50, 50, -1);
 		damage = 2;
 		width = image.getWidth(null);
 		height = image.getHeight(null);
@@ -63,45 +64,38 @@ public class Xoss {
 	}
 	
 	public Rectangle getBounds(){
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x+15, y, 35, 35);
 	}
-	public void move() {
-		switch(direction){
-		case 1 : {
-			if(change) x -= dx;
-			else x += dx;
-			break;
-		}
-		case 2 : {
-			if(change) y -= dy;
-			else y += dy;
-			break;
-		}
-		default : break;
-		}
 	
+	public Rectangle getBoundsX() {
+		return new Rectangle(x+10, y, 40, 50);
+	}
+	
+	public void move() {
+		x = x+dx;
+		y = y+dy;
 	}
 	
 	public void movecollide() {
-		if (direction == 1) {
-			if(change) {
-				change = false;
-				x +=3;
-			}
-			else {
-				change = true;
-				x -= 3;
-			}
+		if (dx>0) {
+			x = x-3;
+			dx = 0;
+			dy = 2;
 		}
-		if (direction == 2) {
-			if (change) {
-				change =false;
-				y +=3;
+		else {if(dy > 0){
+			y = y-3;
+			dx = -2;
+			dy = 0;
 			}
-			else {
-				change = true;
-				y -=3;
-			}
+		else if(dx < 0) {
+			x = x+3;
+			dx = 0;
+			dy = -2;
+		}else {
+			y = y+3;
+			dx = 2;
+			dy = 0;
+		}
 	}
 	
 }
