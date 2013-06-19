@@ -264,6 +264,7 @@ public class game extends JPanel implements ActionListener {
 			g2d.setColor(Color.BLUE);
 			g2d.drawString("Mana left: " + (cha.getmana()), 100, 17);	
 			g2d.setColor(Color.YELLOW);
+			g2d.drawString("Coins: " + (cha.getGold()), 230, 17);
 			//g2d.drawString("Coins: " + (cha.getGold()), 200, 17);	
 			
 		}
@@ -320,12 +321,9 @@ public class game extends JPanel implements ActionListener {
 			Sword sword = (Sword) cha.getSword();
 			sword.move();
 		}
-		
-		if(cha.getX()>490 && mapNumber < 9) {
 
 		if(cha.getX() > 490) {
 			mapNumber++;
-		}
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
