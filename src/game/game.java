@@ -956,9 +956,10 @@ public class game extends JPanel implements ActionListener {
 				if (cha.getDY() == -1) {
 					cha.addY(10);
 				}
+			}
 			
 			else ingame = false;
-		}
+
 		for(int k = 0; i<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
 			if(a.getBounds().intersects(rBoss)) {
@@ -972,7 +973,18 @@ public class game extends JPanel implements ActionListener {
 				f.setVisible(false);
 				b.damage(f.getDmg());
 			}
-		}}
+		}
+		}
+			if(b.getLife() <= 0) {
+				mapNumber = 220;
+				reset = 220;
+				try {
+					initMap(mapNumber, 51, 240);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 
 		for (int i= 0; i < xosses.size(); i++) {
@@ -1003,9 +1015,9 @@ public class game extends JPanel implements ActionListener {
 				if (cha.getDY() == -1) {
 					cha.addY(10);
 				}
-			
+			}	
 			else ingame = false;
-		}
+			
 		for(int k = 0; i<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
 			if(a.getBounds().intersects(rBoss)) {
@@ -1013,13 +1025,25 @@ public class game extends JPanel implements ActionListener {
 				x.damage(a.getDmg());
 			}
 		}
+		
 		for(int j = 0; j<fball.size(); j++) {
 			Feuerball f = (Feuerball) fball.get(j);
 			if(f.getBounds().intersects(rBoss)) {
 				f.setVisible(false);
 				x.damage(f.getDmg());
 			}
-		}}
+		}
+		}
+		if(x.getLife() <= 0) {
+			mapNumber = 310;
+			reset = 310;
+			try {
+				initMap(mapNumber, 51, 240);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		}
 	
 		for (int j = 0; j < trees.size(); j++) {
@@ -1091,9 +1115,9 @@ public class game extends JPanel implements ActionListener {
 			if (cha.getDY() == -1) {
 				cha.addY(10);
 			}
-		
+		}
 		else ingame = false;
-	}
+		
 	for(int k = 0; i<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
 		if(a.getBounds().intersects(rBoss)) {
@@ -1108,6 +1132,10 @@ public class game extends JPanel implements ActionListener {
 			z.damage(f.getDmg());
 		}
 	}}
+		if(z.getLife() <= 0) {
+			win = true;
+			ingame = false;
+		}
 	}}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
@@ -1166,7 +1194,6 @@ public class game extends JPanel implements ActionListener {
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 2;
-				
 				NumberofEnemies++;
 				break;
 			}
@@ -1184,7 +1211,6 @@ public class game extends JPanel implements ActionListener {
 				posB2[NumberofBosses] = y;
 				
 				NumberofBosses++;
-				initBoss();
 				break;
 			}
 			
@@ -1193,7 +1219,6 @@ public class game extends JPanel implements ActionListener {
 				posX2[NumberofXosses] = y;
 				
 				NumberofXosses++;
-				initXoss();
 				break;
 			}
 			
@@ -1202,7 +1227,6 @@ public class game extends JPanel implements ActionListener {
 				posZ2[NumberofZosses] = y;
 				
 				NumberofZosses++;
-				initZoss();
 				break;
 			}
 			
@@ -1259,6 +1283,8 @@ public class game extends JPanel implements ActionListener {
 		initCoin();
 		initBoss();
 		initnpc();
+		initXoss();
+		initZoss();
 	}
 	
 	
