@@ -33,7 +33,7 @@ public class game extends JPanel implements ActionListener {
 
 	private ArrayList<Enemy> enemies;
 
-	private Enemy enemy1;
+	private Enemy boss1;
 	private goal goal;
 
 	private Image image, imagescaled;
@@ -75,7 +75,7 @@ public class game extends JPanel implements ActionListener {
 		initTrees();
 		initEnemies();
 		
-		enemy1 = new Enemy (400, 400);	// erstelle Enemy Objekt mit Koordinaten
+		boss1 = new Enemy (260, 230);	// erstelle Enemy Objekt mit Koordinaten
 		goal = new goal (300, 275);     // erstellt Ziel mit Koordinaten
 		
 		timer = new Timer(5, this);
@@ -118,7 +118,7 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();
 		initEnemies();
-	}
+		}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -141,7 +141,9 @@ public class game extends JPanel implements ActionListener {
 				Enemy e = (Enemy) enemies.get(k);
 				g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 			}
-
+			
+			if (mapNumber == 3)	g2d.drawImage(boss1.getImage(), boss1.getX(), boss1.getY(), this);
+			
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
 			g2d.setColor(Color.BLACK);
@@ -211,25 +213,19 @@ public class game extends JPanel implements ActionListener {
 		for (int k = 0; k < enemies.size(); k++) {
 			Enemy e = (Enemy) enemies.get(k);
 			Rectangle rEnemy = e.getBounds();
-			
 			if (rChar.intersects(rEnemy)) { 		//Game over bei Berührung eines Gegners
 				ingame = false;		
 			}  
 		}
 		
 		Rectangle rGoal = goal.getBounds();
-		Rectangle rEnemy = enemy1.getBounds();
-		
-		if (mapNumber == 2){
-		if (rChar.intersects(rEnemy)){			//Game Over bei Berühung mit Gegner
-			ingame = false;
-		}}
 		
 		if (mapNumber == 3){
 		if (rChar.intersects(rGoal)){
 			ingame = false;
 			win = true;
 		}}
+		
 		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
@@ -253,7 +249,21 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(1);
 				}
 				
+			Rectangle rBoss = boss1.getBounds();
+			if (rBoss.intersects(rTree)){
+				int i;
+				for (i=2; i>0; i++){
+					if (i%2 == 0) boss1.moveforwards(1);
+					if (i%2 == 1) boss1.movebackwards(1);
+				}
+			}
 			} 
+		}
+		
+		
+		Rectangle rBoss = boss1.getBounds();
+		if (rChar.intersects(rBoss)){			//Game Over bei Berühung mit Boss
+		ingame = false;
 		}
 	}
 	
