@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 public class Char {
 	
-	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction;
+	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
 	private boolean change, move;
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
@@ -30,6 +30,7 @@ public class Char {
 		direction = 1;
 		arrows = new ArrayList<Arrow>();
 		fball = new ArrayList<Feuerball>();
+		gold = 0;
 		armor = 1;
 		life = 3;
 		health = 6;
@@ -198,6 +199,14 @@ public class Char {
 	
 	public void Healthpotion() {
 		this.health = maxhealth;
+	}
+	
+	public void setGold(int g) {
+		 gold = gold + g;
+	}
+	
+	public int getGold() {
+		 return gold;
 	}
 	
 	public void setArmor(int armor) {
