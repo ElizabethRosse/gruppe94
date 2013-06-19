@@ -155,7 +155,6 @@ public class game extends JPanel implements ActionListener {
 			Graphics2D g2d = (Graphics2D)g;
 			
 			g2d.drawImage(imagescaled, 0, 0, this);   // lädt das Hintergrundbild
-			
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
 			
 			for (int i = 0; i <trees.size(); i++) {
@@ -193,9 +192,16 @@ public class game extends JPanel implements ActionListener {
 
 			if (mapNumber == 3) g2d.drawImage(goal.getImage(), goal.getX(), goal.getY(),this);              //  zeichne Ziel auf karte 3
 			
-			g2d.setColor(Color.BLACK);
-			g2d.drawString("Targets left: 1", 5, 15);
-			}
+			g2d.setColor(Color.RED);
+			g2d.setFont(new Font( "Arial", Font.BOLD, 16));
+
+			g2d.drawString("Lifes left: " + (cha.gethealth()), 5, 17);
+			g2d.setColor(Color.BLUE);
+			g2d.drawString("Mana left: " + (cha.getmana()), 100, 17);	
+			g2d.setColor(Color.YELLOW);
+			//g2d.drawString("Coins: " + (cha.getGold()), 200, 17);	
+			
+		}
 		
 		else {
 			if (win) { //Naricht bei Sieg
@@ -407,7 +413,7 @@ public class game extends JPanel implements ActionListener {
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
 		int x = 50;
-		int y = 0;
+		int y = 25;
 		char[] prototypemap = new char[110];
 		
 		
@@ -423,7 +429,7 @@ public class game extends JPanel implements ActionListener {
 		
 		
 		pos1[0] = 0;
-		pos2[0] = 0;
+		pos2[0] = 50;
 		
 		
 		prototypemap = getMap(m);
