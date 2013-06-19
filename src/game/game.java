@@ -321,11 +321,9 @@ public class game extends JPanel implements ActionListener {
 			sword.move();
 		}
 		
-		if(cha.getX()>490 && mapNumber < 9) {
 
 		if(cha.getX() > 490) {
 			mapNumber++;
-		}
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
