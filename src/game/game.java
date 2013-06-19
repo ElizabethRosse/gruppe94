@@ -69,6 +69,7 @@ public class game extends JPanel implements ActionListener {
 	private int[] coinX = new int[max];
 	private int[] coinY = new int[max];
 	private int mapNumber = 110;
+	private int reset = 110;
 
 	int NumberofTrees = 1;
 	int maxcoin = 0;
@@ -579,8 +580,34 @@ public class game extends JPanel implements ActionListener {
 		cha.move();
 		moveEnemy();
 		checkCollisions();
+		checkAlive();
 		repaint();
 	}
+	
+	public void checkAlive() {													//check, if you have tries left and reset health, else you loose
+		if((cha.getContinues() > 0) && (cha.gethealth() <= 0)) {
+			cha.Continue();
+			if(cha.getContinues() == 0) ingame = false;
+			cha.Healthpotion();
+			mapNumber = reset;
+			if(mapNumber%10 == 0) {
+				try {
+					initMap(mapNumber, 51, 240);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+			try {
+				initMap(mapNumber, checkpointX[0] + 25, checkpointY[0]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+		}
+	}
+	
 	
 	public void moveEnemy(){
 
@@ -638,6 +665,7 @@ public class game extends JPanel implements ActionListener {
 			
 				if (rChar.intersects(rCheckpoint)){
 				c.setActivated(true);								//setzt checkpoint bei beruehrung auf activated
+				reset = mapNumber;
 
 					if (cha.getDX() == 1) {
 						cha.addX(-1);
