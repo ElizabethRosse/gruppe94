@@ -11,15 +11,20 @@ import javax.swing.ImageIcon;
 public class Char {
 	
 	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction;
-	private Image image;
+	private boolean change, move;
+	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
 	
 	public Char() {
 		
 		ImageIcon ii =
-				new ImageIcon(this.getClass().getResource("images/char.gif")); // holt ein Bild fuer den Charakter
+				new ImageIcon(this.getClass().getResource("images/smile.gif")); // holt ein Bild fuer den Charakter
 		image = ii.getImage();
+		ii = new ImageIcon(this.getClass().getResource("images/Char.gif"));
+		smile = ii.getImage();
+		change = false;
+		move = true;
 		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		direction = 1;
@@ -36,21 +41,22 @@ public class Char {
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
+		if(move) {
+			x += dx;
+			y += dy;
 		
-		x += dx;
-		y += dy;
-		
-		if (x < 1) { //verhindert verlassen des Sichtbereichs nach links
-			x = 1;
-		}
-		if (x >= 500) {  //verhindert verlassen des Sichtbereichs nach rechts
-			x = 500;
-		}
-		if (y < 1) {  //verhindert verlassen des Sichtbereichs nach oben
-			y = 1;
-		}
-		if (y >= 500) {  //verhindert verlassen des Sichtbereichs nach unten
-			y = 500;
+			if (x < 1) { //verhindert verlassen des Sichtbereichs nach links
+				x = 1;
+			}
+			if (x >= 500) {  //verhindert verlassen des Sichtbereichs nach rechts
+				x = 500;
+			}
+			if (y < 1) {  //verhindert verlassen des Sichtbereichs nach oben
+				y = 1;
+			}
+			if (y >= 500) {  //verhindert verlassen des Sichtbereichs nach unten
+				y = 500;
+			}
 		}
 	}
 	
@@ -107,7 +113,12 @@ public class Char {
 	}
 	 
 	public Image getImage() {
-		 return image;
+		if (change) return smile;
+		else return image;
+	}
+	
+	public boolean getSmile() {
+		return change;
 	}
 	 
 	public ArrayList<Arrow> getArrows() {
@@ -204,17 +215,17 @@ public class Char {
 	public Rectangle getBounds() {
 		 return new Rectangle(x, y, width, height);
 	}
+	
+	public Rectangle getBoundsSmile() {
+		return new Rectangle(x-15, y-15, width+30, height+30);
+	}
 	 
 	public void keyPressed(KeyEvent e) { //veränderung der Bewegungsvariablen
 		 int key = e.getKeyCode();
 		 
-		 if (key == KeyEvent.VK_F){
-			 if(mana>0) cast();
-			 mana -= 20;
-		 }
-		 
-		 if (key == KeyEvent.VK_SPACE) {
-			 shoot();
+		 if (key == KeyEvent.VK_D){
+			 change = true;
+			 move = false;
 		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
@@ -240,6 +251,20 @@ public class Char {
 	 
 	public void keyReleased(KeyEvent e) { //zurücksetzten der Bewegungsvariablen
 		 int key = e.getKeyCode();
+		 
+		 if (key == KeyEvent.VK_D){
+			 change = false;
+			 move = true;
+		 }
+		 
+		 if (key == KeyEvent.VK_F){
+			 if(mana>0) cast();
+			 mana -= 20;
+		 }
+		 
+		 if (key == KeyEvent.VK_SPACE) {
+			 shoot();
+		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
 			 dy = 0;

@@ -8,7 +8,7 @@ public class Enemy {
 
 	private int x, y, width, height, damage;
 	private boolean visible = true;
-	private int life = 2;
+	private int life = 100;
 	private Image image;
 	
 	public Enemy(int x, int y){
