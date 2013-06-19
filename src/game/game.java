@@ -320,20 +320,15 @@ public class game extends JPanel implements ActionListener {
 			Sword sword = (Sword) cha.getSword();
 			sword.move();
 		}
-		
-		if(cha.getX()>490 && mapNumber < 9) {
 
 		if(cha.getX() > 490) {
 			mapNumber++;
-		}
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} 																								//increasing mapNumber with starting positions
-
-		}
+			}}//increasing mapNumber with starting positions
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
 			try {
