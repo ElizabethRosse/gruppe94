@@ -14,14 +14,15 @@ public class Boss {
 	private boolean change =false;
 	
 	public Boss(int x, int y, int dir){
-		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/char.gif"));
+		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/boss1.png"));
 		image = ei.getImage();
+		image = image.getScaledInstance(35, 35, -1);
 		damage = 2;
 		width = image.getWidth(null);
 		height = image.getHeight(null);
 		this.x = x;
 		this.y = y;
-		direction = dir;
+		direction = 1;
 		dx = 2;
 		dy = 0;
 	}
@@ -62,29 +63,11 @@ public class Boss {
 	}
 	
 	public Rectangle getBounds(){
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x, y, 35, 35);
 	}
 	public void move() {
 		x = x+dx;
 		y = y+dy;
-		/*switch(direction){
-		case 1 : {
-			x += dx;
-			break;
-		}
-		case 2 : {
-			y += dy;
-			break;
-		}
-		case 3 : {
-			x -= dx;
-		}
-		case 4 : {
-			y -= dy;
-		}
-		default : break;
-		}*/
-	
 	}
 	
 	public void movecollide() {
