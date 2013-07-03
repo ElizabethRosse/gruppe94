@@ -37,6 +37,7 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
+	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
 	private ArrayList<Manapotion> manap;
@@ -78,6 +79,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] npcD = new int[max];
 	private int[] shopX = new int[max];
 	private int[] shopY = new int[max];
+	private int[] falsetreeX = new int[max];
+	private int[] falsetreeY = new int[max];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -97,7 +100,8 @@ public class game extends JPanel implements ActionListener {
 	private Manapotion manapic = new Manapotion(1000,1000);
 	private Healthpotion healthpic = new Healthpotion(1000,1000);
 
-	int NumberofTrees = 1;					//absolut number of objects of this type
+	int NumberofTrees = 1;		//absolut number of objects of this type
+	int NumberofFalsetrees = 0;
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
@@ -155,6 +159,14 @@ public class game extends JPanel implements ActionListener {
 	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
+	}
+	
+	public void initfalsetrees() {
+		falsetrees = new ArrayList<Tree>();
+		
+		for (int i = 0; i < NumberofFalsetrees ; i++) {
+			falsetrees.add(new Tree(falsetreeX[i], falsetreeY[i]));
+		}
 	}
 	
 	public void initfball() {
@@ -288,6 +300,13 @@ public class game extends JPanel implements ActionListener {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			
+			}
+			
+			if (cha.haveSword()==false) {
+				for (int i = 0; i <falsetrees.size(); i++) {
+				Tree t = (Tree) falsetrees.get(i);
+				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
+				}
 			}
 			
 			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
@@ -624,9 +643,22 @@ public class game extends JPanel implements ActionListener {
 	public void dialog() {
 		JDialog startupJDialog = new JDialog();
 		startupJDialog.setTitle("How to!");
-		startupJDialog.setSize(450,75);
 		startupJDialog.setLocationRelativeTo(null);
-		startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift"));
+		if(cha.haveSword()){
+			if(cha.haveArrow()){
+				startupJDialog.setSize(620,75);
+				startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+						" | Sword: g | Arrow: Space"));
+			}
+			else {
+				startupJDialog.setSize(560,75);
+				startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h | Sword: g"));
+			}
+		}
+		else{
+			startupJDialog.setSize(500,75);
+			startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h"));
+		}
 		startupJDialog.setModal(true);
 		startupJDialog.setVisible(true);
 	}
@@ -1192,6 +1224,37 @@ public class game extends JPanel implements ActionListener {
 		}
 		}
 	
+		if(cha.haveSword()==false){
+		for (int j = 0; j < falsetrees.size(); j++) {
+			Tree t = (Tree) falsetrees.get(j);
+			Rectangle rTree = t.getBounds();
+			
+			if (rChar.intersects(rTree)) { //stop at touching tree
+				
+				if (cha.getDX()>0) {
+					if(cha.getDX()==1) cha.addX(-1);
+					else cha.addX(-3);
+				}
+				
+				if (cha.getDX()<0) {
+					if(cha.getDX()==1) cha.addX(1);
+					else cha.addX(3);
+				}
+				
+				if (cha.getDY()>0) {
+					if(cha.getDY() == 1) cha.addY(-1);
+					else cha.addY(-3);
+				}
+				
+				if (cha.getDY()<0) {
+					if(cha.getDY() == -1) cha.addY(1);
+					else cha.addY(3);
+				}
+				
+
+			}
+		}}
+		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
@@ -1407,6 +1470,7 @@ public class game extends JPanel implements ActionListener {
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
+		NumberofFalsetrees = 0;
 		goals = 0;
 		items = 0;
 		maxnpc = 0;
@@ -1533,6 +1597,13 @@ public class game extends JPanel implements ActionListener {
 				initCheckpoints();
 				break;
 			}
+			case 'ü' : {
+				falsetreeX[NumberofFalsetrees] = x;
+				falsetreeY[NumberofFalsetrees] = y;
+				NumberofFalsetrees++;
+				initfalsetrees();
+				break;
+			}
 			default : {
 				break;
 			}
@@ -1556,6 +1627,7 @@ public class game extends JPanel implements ActionListener {
 		initshop();
 		initXoss();
 		initZoss();
+		initfalsetrees();
 	}
 	
 	
@@ -1738,17 +1810,18 @@ public class game extends JPanel implements ActionListener {
 	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
-			if (ingame == false)
+			if (ingame)
 			{
-				add(new menu());
+				cha.keyPressed(e);
 			}
 			else
 			{
-			cha.keyPressed(e);
+				add(new menu());
 			}
 		}
 		public void keyReleased(KeyEvent e) {
-			cha.keyReleased(e);
+			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
+			else cha.keyReleased(e);
 		}
 		
 	}
