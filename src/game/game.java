@@ -559,8 +559,10 @@ public class game extends JPanel implements ActionListener {
 			
 			
 			g2d.setColor(Color.BLACK);										// Coin Anzeige
-				g2d.drawImage(coinpic.getImage(), 330, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 370, 17);
+				g2d.drawImage(coinpic.getImage(), 300, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 340, 17);
+				
+				g2d.drawString("Lv : " + (cha.getLVL()), 430, 17);
 			
 		}
 		
