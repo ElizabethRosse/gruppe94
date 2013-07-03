@@ -7,22 +7,18 @@ import javax.swing.ImageIcon;
 
 public class Boss {
 
-	private int x, dx, dy, y, width, height, damage, direction;
+	private int x, dx, dy, y, damage;
 	private boolean visible = true;
 	private int life = 500;
 	private Image image;
-	private boolean change =false;
 	
 	public Boss(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/boss1.png"));
 		image = ei.getImage();
 		image = image.getScaledInstance(35, 35, -1);
 		damage = 2;
-		width = image.getWidth(null);
-		height = image.getHeight(null);
 		this.x = x;
 		this.y = y;
-		direction = 1;
 		dx = 2;
 		dy = 0;
 	}
@@ -55,9 +51,6 @@ public class Boss {
 		return y;
 	}
 
-	public void setChange(){
-		change = true;
-	}
 	public Image getImage(){
 		return image;
 	}

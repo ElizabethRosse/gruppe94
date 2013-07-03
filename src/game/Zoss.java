@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Zoss {
 
-	private int x, dx, dy, y, width, height, damage, direction;
+	private int x, dx, dy, y, damage;
 	private boolean visible = true;
 	private int life = 1000;
 	private Image image;
@@ -17,11 +17,8 @@ public class Zoss {
 		image = ei.getImage();
 		image = image.getScaledInstance(75, 75, -1);
 		damage = 2;
-		width = image.getWidth(null);
-		height = image.getHeight(null);
 		this.x = x;
 		this.y = y;
-		direction = dir;
 		dx = 2;
 		dy = 0;
 	}

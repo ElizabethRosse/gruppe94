@@ -325,6 +325,13 @@ public class Char {
 			 }
 		 }
 		 
+		 if ( key == KeyEvent.VK_SHIFT) {
+			 if(dx<0) dx = -3;
+			 else if(dx>0) dx =  3;
+			 if(dy<0) dy = -3;
+			 else if(dy>0) dy =  3;
+		 }
+		 
 		 if (key == KeyEvent.VK_G){
 			 if(Sword) {sword = true;
 			 move = false;
@@ -358,6 +365,13 @@ public class Char {
 		 if (key == KeyEvent.VK_D){
 			 change = false;
 			 move = true;
+		 }
+		 
+		 if ( key == KeyEvent.VK_SHIFT) {
+			 if(dx<0) dx = -1;
+			 else if (dx>0) dx =  1;
+			 if(dy<0) dy = -1;
+			 else if(dy>0) dy = 1;
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
