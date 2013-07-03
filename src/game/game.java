@@ -149,6 +149,7 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
+		dialog();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -619,6 +620,17 @@ public class game extends JPanel implements ActionListener {
 		g.dispose(); //wie final verhindert Änderung des JFrames
 		
 	}
+	
+	public void dialog() {
+		JDialog startupJDialog = new JDialog();
+		startupJDialog.setTitle("How to!");
+		startupJDialog.setSize(450,75);
+		startupJDialog.setLocationRelativeTo(null);
+		startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift"));
+		startupJDialog.setModal(true);
+		startupJDialog.setVisible(true);
+	}
+	
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
 		JDialog ersterJDialog = new JDialog();
 		ersterJDialog.setTitle ("Mr Moustache");
