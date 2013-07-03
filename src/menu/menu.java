@@ -14,6 +14,8 @@ package menu;
 
 
 
+import game.Sounds;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -92,7 +94,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);								//hier muss noch eine verknupfung hin
+					Sounds.play("src\\game\\sounds\\trap.wav");							//hier muss noch eine verknupfung hin
 					}
 				});
 			
