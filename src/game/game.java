@@ -57,7 +57,7 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private boolean checkpointactivated = false;
-	private boolean levelup2, levelup3 = false;
+	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
 
 	private int[] pos1 = new int[max]; 	//Arrays for object set
@@ -257,6 +257,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initXP() {
+		if(levelup){
 			if ((cha.getXP() >= 1)&&levelup2){
 				dialogLVL2();
 				cha.addFDMG(50);
@@ -269,6 +270,7 @@ public class game extends JPanel implements ActionListener {
 				cha.setLVL(3);
 				levelup3 = false;
 			}
+		}
 	}
 	
 	public void paint(Graphics g) {												//painting the background
@@ -854,8 +856,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					enemies.remove(i);
 					cha.addXP(1);
-					if (cha.getXP() <= 10) levelup2 = true;
-					if (cha.getXP() > 10) levelup3 = true;
+					levelup = true;
 				}
 			}
 			/*for(int i = 0; i<traps.size();i++) {
@@ -883,8 +884,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					enemies.remove(i);
 					cha.addXP(1);
-					if (cha.getXP() <= 10) levelup2 = true;
-					if (cha.getXP() > 10) levelup3 = true;
+					levelup = true;
 				}
 
 			}
@@ -982,8 +982,7 @@ public class game extends JPanel implements ActionListener {
 			else {
 				enemies.remove(k);
 				cha.addXP(1);
-				if (cha.getXP() <= 10) levelup2 = true;
-				if (cha.getXP() > 10) levelup3 = true;
+				levelup = true;
 			}
 		}
 		
@@ -1090,8 +1089,7 @@ public class game extends JPanel implements ActionListener {
 		}
 			else {
 				cha.addXP(10);
-				if (cha.getXP() <= 10) levelup2 = true;
-				if (cha.getXP() > 10) levelup3 = true;
+				levelup = true;
 				dialog3();
 				mapNumber = 220;
 				reset = 220;
@@ -1168,8 +1166,7 @@ public class game extends JPanel implements ActionListener {
 		}
 			else {
 			cha.addXP(20);
-			if (cha.getXP() <= 10) levelup2 = true;
-			if (cha.getXP() > 10) levelup3 = true;
+			levelup = true;
 			dialog4();
 			mapNumber = 310;
 			reset = 310;
