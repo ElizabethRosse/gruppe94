@@ -32,7 +32,7 @@ public class Sounds {
 	    					clip.start();
 	    					
 	    				} catch (Exception e) {
-	    					System.out.println("play sound error: " + e.getMessage() + " for " + "Trololo 8-bit.wav");
+	    					System.out.println("play sound error: " + e.getMessage() + " for " + "Trololo.wav");
 	    				}
 	    				break;
 	    		}
