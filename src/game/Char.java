@@ -102,8 +102,16 @@ public class Char {
 		Sword = true;
 	}
 	
+	public boolean haveSword() {
+		return Sword;
+	}
+	
 	public void makeArrow() {
 		Arrow = true;
+	}
+	
+	public boolean haveArrow() {
+		return Arrow;
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
