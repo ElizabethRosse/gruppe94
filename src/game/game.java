@@ -56,6 +56,7 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private boolean checkpointactivated = false;
+	private boolean levelup = false;
 	private int G_WIDTH, G_HEIGHT;
 
 	private int[] pos1 = new int[max]; 	//Arrays for object set
@@ -250,6 +251,22 @@ public class game extends JPanel implements ActionListener {
 		for (int i=0; i < NumberofTraps ; i++) {								//Trap ArrayListe mit X und Y Werten aus Textdatei
 			traps.add(new Trap(posT1[i] + 13, posT2[i] + 13));
 		}
+	}
+	
+	public void initXP() {
+		if (levelup)
+			if (cha.getXP() == 1){
+				dialogLVL2();
+				cha.addFDMG(50);
+				cha.setLVL(2);
+				levelup = false;
+			}
+			else if (cha.getXP() == 45) {
+				dialogLVL3();
+				cha.addSDMG(5);
+				cha.setLVL(3);
+				levelup = false;
+			}
 	}
 	
 	public void paint(Graphics g) {												//painting the background
@@ -659,6 +676,26 @@ public class game extends JPanel implements ActionListener {
 		cha.makeArrow();
 	}
 	
+	public void dialogLVL2() {
+		JDialog LVL2JDialog = new JDialog();
+		LVL2JDialog.setTitle("Level Up!");
+		LVL2JDialog.setSize(400,75);
+		LVL2JDialog.setLocationRelativeTo(null);
+		LVL2JDialog.add(new JLabel ("You reached Level 2! Your fireball's damage doubled!"));
+		LVL2JDialog.setModal(true);
+		LVL2JDialog.setVisible(true);
+	}
+	
+	public void dialogLVL3() {
+		JDialog LVL3JDialog = new JDialog();
+		LVL3JDialog.setTitle("Level Up!");
+		LVL3JDialog.setSize(400,75);
+		LVL3JDialog.setLocationRelativeTo(null);
+		LVL3JDialog.add(new JLabel ("You reached Level 3! Your sword's damage doubled!"));
+		LVL3JDialog.setModal(true);
+		LVL3JDialog.setVisible(true);
+	}
+	
 	public void shop() {
 		//JOptionPane.showOptionDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen?","Shop",
                 //JOptionPane.YES_NO_OPTION,
@@ -745,6 +782,7 @@ public class game extends JPanel implements ActionListener {
 		moveZoss();
 		checkCollisions();
 		checkAlive();
+		initXP();
 		repaint();
 	}
 	
@@ -826,10 +864,14 @@ public class game extends JPanel implements ActionListener {
 				if(e.getLife()>0) {
 					Rectangle rEnemy = e.getBounds();
 					if(rSword.intersects(rEnemy)) {
-						e.damage(sword.getDmg());
+						e.damage(cha.getSDMG());
 					}
 				}
-				else enemies.remove(i);
+				else {
+					enemies.remove(i);
+					cha.addXP(1);
+					levelup = true;
+				}
 			}
 		}
 		
@@ -846,7 +888,11 @@ public class game extends JPanel implements ActionListener {
 						e.movecollide();
 					}
 				}
-				else enemies.remove(i);
+				else {
+					enemies.remove(i);
+					cha.addXP(1);
+					levelup = true;
+				}
 			}
 		}
 		if (checkpointactivated) {
@@ -935,11 +981,14 @@ public class game extends JPanel implements ActionListener {
 				Feuerball f = (Feuerball) fball.get(i);
 				if(f.getBounds().intersects(rEnemy)) {
 					f.setVisible(false);
-					e.damage(f.getDmg());
+					e.damage(cha.getFDMG());
 				}
 			}}
-			
-			else enemies.remove(k);
+			else {
+				enemies.remove(k);
+				cha.addXP(1);
+				levelup = true;
+			}
 		}
 		
 		for (int i = 0; i<manap.size(); i++) {
@@ -1031,18 +1080,20 @@ public class game extends JPanel implements ActionListener {
 		if(cha.getST()){
 			Sword sword = (Sword) cha.getSword();
 			if(sword.getBounds().intersects(rBoss)){
-				b.damage(sword.getDmg());
+				b.damage(cha.getSDMG());
 			}
 		}
 		for(int j = 0; j<fball.size(); j++) {
 			Feuerball f = (Feuerball) fball.get(j);
 			if(f.getBounds().intersects(rBoss)) {
 				f.setVisible(false);
-				b.damage(f.getDmg());
+				b.damage(cha.getFDMG());
 			}
 		}
 		}
 			else {
+				cha.addXP(10);
+				levelup = true;
 				dialog3();
 				mapNumber = 220;
 				reset = 220;
@@ -1100,7 +1151,7 @@ public class game extends JPanel implements ActionListener {
 			Feuerball f = (Feuerball) fball.get(j);
 			if(f.getBounds().intersects(rBoss2)) {
 				f.setVisible(false);
-				x.damage(f.getDmg());
+				x.damage(cha.getFDMG());
 			}
 		}
 		if(cha.getSmile()){
@@ -1113,11 +1164,13 @@ public class game extends JPanel implements ActionListener {
 		if(cha.getST()){
 			Sword sword = (Sword) cha.getSword();
 			if(sword.getBounds().intersects(rBoss2)){
-				x.damage(sword.getDmg());
+				x.damage(cha.getSDMG());
 			}
 		}
 		}
 			else {
+			cha.addXP(15);
+			levelup = true;
 			dialog4();
 			mapNumber = 310;
 			reset = 310;
@@ -1305,7 +1358,7 @@ public class game extends JPanel implements ActionListener {
 		Feuerball f = (Feuerball) fball.get(h);
 		if(f.getBounds().intersects(rBoss2)) {
 			f.setVisible(false);
-			z.damage(f.getDmg());
+			z.damage(cha.getFDMG());
 		}
 	}if(cha.getSmile()){
 		Rectangle rSmile = cha.getBoundsSmile();
@@ -1317,7 +1370,7 @@ public class game extends JPanel implements ActionListener {
 	if(cha.getST()){
 		Sword sword = (Sword) cha.getSword();
 		if(sword.getBounds().intersects(rBoss2)){
-			z.damage(sword.getDmg());
+			z.damage(cha.getSDMG());
 		}
 	}
 	}
