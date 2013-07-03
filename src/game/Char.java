@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 public class Char {
 	
 
-	private int xp, lvl, x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
+	private int xp, lvl, x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold, manapotion, healthpotion;
 	private boolean change, move, sword;
 	private boolean Smile, Sword, Arrow;
 	private Image image, smile;
@@ -31,6 +31,8 @@ public class Char {
 		change = false;
 		move = true;
 		sword = false;
+		manapotion = 0;
+		healthpotion = 0;
 		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		direction = 1;
@@ -50,6 +52,22 @@ public class Char {
 		y = 220;
 		xp = 0;
 		lvl = 1;
+	}
+	
+	public void setManapotion() {
+		manapotion += 1;
+	}
+	
+	public int getManapotion() {
+		return manapotion;
+	}
+	
+	public void setHealthpotion() {
+		healthpotion += 1;
+	}
+	
+	public int getHealthpotion() {
+		return healthpotion;
 	}
 	
 	public void setLVL(int lvl){
@@ -254,7 +272,10 @@ public class Char {
 	}
 	
 	public void Manapotion() {
-		this.mana = maxmana;
+		if((manapotion>0)&&(mana<maxmana)){
+			this.mana = maxmana;
+			manapotion -= 1;
+		}
 	}
 	
 	public void setMaxmana(int mana) {
@@ -272,7 +293,10 @@ public class Char {
 	}
 	
 	public void Healthpotion() {
+		if((healthpotion>0)&&(health<maxhealth)){
 		this.health = maxhealth;
+		healthpotion -= 1;
+		}
 	}
 	
 	public void buyHealth() {
@@ -365,6 +389,14 @@ public class Char {
 		 if (key == KeyEvent.VK_D){
 			 change = false;
 			 move = true;
+		 }
+		 
+		 if (key == KeyEvent.VK_M){
+			 Manapotion();
+		 }
+		 
+		 if (key == KeyEvent.VK_N){
+			 Healthpotion();
 		 }
 		 
 		 if ( key == KeyEvent.VK_SHIFT) {
