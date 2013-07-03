@@ -11,13 +11,15 @@ import javax.swing.ImageIcon;
 public class Char {
 	
 
-	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
+	private int xp, lvl, x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
 	private boolean change, move, sword;
 	private boolean Smile, Sword, Arrow;
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
 	private Sword Mastersword = new Sword(x,y,direction);
+	private int fdmg = 50;
+	private int sdmg = 5;
 	
 	public Char() {
 		
@@ -46,6 +48,32 @@ public class Char {
 		Smile = false;
 		x = 100;
 		y = 220;
+		xp = 0;
+		lvl = 1;
+	}
+	
+	public void setLVL(int lvl){
+		this.lvl = lvl;
+	}
+	
+	public int getLVL(){
+		return lvl;
+	}
+	
+	public int getFDMG(){
+		return fdmg;
+	}
+	
+	public void addFDMG (int fdmg){
+		this.fdmg = this.fdmg + fdmg; 
+	}
+	
+	public int getSDMG(){
+		return sdmg;
+	}
+	
+	public void addSDMG (int sdmg){
+		this.sdmg = this.sdmg + sdmg;
 	}
 	
 	public void makeSmile() {
@@ -98,6 +126,14 @@ public class Char {
 	
 	public int getY() {
 		 return y;
+	}
+	
+	public void addXP (int xp) {
+		this.xp = this.xp + xp;
+	}
+	
+	public int getXP() {
+		return xp;
 	}
 	
 	public void setX(int x) { //char-positionierung (x,y) bei mapwechsel
