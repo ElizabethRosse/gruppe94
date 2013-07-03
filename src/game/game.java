@@ -255,13 +255,13 @@ public class game extends JPanel implements ActionListener {
 	
 	public void initXP() {
 		if (levelup)
-			if (cha.getXP() == 1){
+			if (cha.getXP() == 15){
 				dialogLVL2();
 				cha.addFDMG(50);
 				cha.setLVL(2);
 				levelup = false;
 			}
-			else if (cha.getXP() == 45) {
+			else if (cha.getXP() == 30) {
 				dialogLVL3();
 				cha.addSDMG(5);
 				cha.setLVL(3);
@@ -579,7 +579,7 @@ public class game extends JPanel implements ActionListener {
 				g2d.drawImage(coinpic.getImage(), 300, 0, this);
 				g2d.drawString(" " + (cha.getGold()), 340, 17);
 				
-				g2d.drawString("Lv : " + (cha.getLVL()), 430, 17);
+				g2d.drawString("Lv : " + (cha.getLVL()), 380, 17);
 			
 		}
 		
