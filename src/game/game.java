@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -154,6 +153,7 @@ public class game extends JPanel implements ActionListener {
 		timer.start();
 		repaint();
 		dialog();
+		Sounds.play(2);
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -968,6 +968,7 @@ public class game extends JPanel implements ActionListener {
 			if (rChar.intersects(rTrap)){
 				if (t.isVisible()){
 					cha.dmg(t.getDmg());
+					Sounds.play(1);
 					t.setVisible(false);
 				}
 			}	

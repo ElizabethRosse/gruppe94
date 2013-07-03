@@ -5,13 +5,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import sun.audio.ContinuousAudioDataStream;
+//import sun.audio.ContinuousAudioDataStream;
 
 public class Sounds {
 	
-	    public static synchronized void play(final String fileName, int muse) 
-	    {
+	    public Sounds() //static synchronized void play() //final String fileName, int muse 
+	    {}
 	        // Note: use .wav files
+	    	public static synchronized void play (int muse) {
 	    	switch(muse) {
 	    		case 1 : {
 	    				try {
@@ -27,7 +28,7 @@ public class Sounds {
 	    		case 2: {
 	    				try {
 	    					Clip clip = AudioSystem.getClip();
-	    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\Trololo 8-bit.wav"));
+	    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\Trololo.wav"));
 	    					clip.open(inputStream);
 	    					clip.start();
 	    					
