@@ -11,6 +11,8 @@ public class Enemy {
 	private boolean change = false;
 	private int life = 100;
 	private Image image;
+
+	
 	
 	public Enemy(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/enemy.gif"));
