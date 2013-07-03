@@ -8,22 +8,18 @@ import javax.swing.ImageIcon;
 public class Xoss {
 
 
-	private int x, dx, dy, y, width, height, damage, direction;
+	private int x, dx, dy, y, damage;
 	private boolean visible = true;
 	private int life = 500;
 	private Image image;
-	private boolean change =false;
 	
 	public Xoss(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/boss2.png"));
 		image = ei.getImage();
 		image = image.getScaledInstance(50, 50, -1);
 		damage = 2;
-		width = image.getWidth(null);
-		height = image.getHeight(null);
 		this.x = x;
 		this.y = y;
-		direction = dir;
 		dx = 2;
 		dy = 0;
 	}
@@ -56,9 +52,6 @@ public class Xoss {
 		return y;
 	}
 
-	public void setChange(){
-		change = true;
-	}
 	public Image getImage(){
 		return image;
 	}

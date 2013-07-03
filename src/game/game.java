@@ -554,39 +554,13 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 
-			g2d.setColor(Color.BLUE);
-			switch(cha.getMaxhealth()){												//initilize mana
-			case 6 : {
-				g2d.drawString("Mana left: " + (cha.getmana()), 130, 17);
-				break;
-			}
-			case 8 : {
-				g2d.drawString("Mana left: " + (cha.getmana()), 170, 17);
-				break;
-			}
-			case 10 : {
+			g2d.setColor(Color.BLUE);										// Mana Anzeige
 				g2d.drawString("Mana left: " + (cha.getmana()), 210, 17);
-				break;
-			}
-			}
-			g2d.setColor(Color.BLACK);
-			switch(cha.getMaxhealth()) {											//initilize money
-			case 6 : {
-				g2d.drawImage(coinpic.getImage(), 250, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 290, 17);
-				break;
-			}
-			case 8 : {
-				g2d.drawImage(coinpic.getImage(), 290, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 330, 17);
-				break;
-			}
-			case 10 : {
+			
+			
+			g2d.setColor(Color.BLACK);										// Coin Anzeige
 				g2d.drawImage(coinpic.getImage(), 330, 0, this);
 				g2d.drawString(" " + (cha.getGold()), 370, 17);
-				break;
-			}
-			}
 			
 		}
 		
@@ -831,10 +805,17 @@ public class game extends JPanel implements ActionListener {
 				}
 				else enemies.remove(i);
 			}
+			/*for(int i = 0; i<traps.size();i++) {
+				Trap t = (Trap) traps.get(i);
+				Rectangle rTrap = t.getBounds();
+				if(rTrap.intersects(rSword)){
+					
+				}
+			}*/
 		}
 		
 		if(cha.getSmile()) {
-			cha.manacost(1);
+				cha.manacost(1);
 			Rectangle rSmile = cha.getBoundsSmile();
 			
 			for (int i = 0; i < enemies.size(); i++) {
@@ -846,7 +827,7 @@ public class game extends JPanel implements ActionListener {
 						e.movecollide();
 					}
 				}
-				else enemies.remove(i);
+				else enemies.remove(i);	
 			}
 		}
 		if (checkpointactivated) {
@@ -906,19 +887,20 @@ public class game extends JPanel implements ActionListener {
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
-					if (cha.getDX() == 1) {
+					e.movecollide();
+					if (cha.getDX()>0) {
 						cha.addX(-10);
 					}
 					
-					if (cha.getDX() == -1) {
+					if (cha.getDX()<0) {
 						cha.addX(10);
 					}
 					
-					if (cha.getDY() == 1) {
+					if (cha.getDY()>0) {
 						cha.addY(-10);
 					}
 					
-					if (cha.getDY() == -1) {
+					if (cha.getDY()<0) {
 						cha.addY(10);
 					}
 				}
@@ -1032,6 +1014,7 @@ public class game extends JPanel implements ActionListener {
 			Sword sword = (Sword) cha.getSword();
 			if(sword.getBounds().intersects(rBoss)){
 				b.damage(sword.getDmg());
+				b.movecollide();
 			}
 		}
 		for(int j = 0; j<fball.size(); j++) {
@@ -1137,20 +1120,24 @@ public class game extends JPanel implements ActionListener {
 			
 			if (rChar.intersects(rTree)) { //stop at touching tree
 				
-				if (cha.getDX() == 1) {
-					cha.addX(-1);
+				if (cha.getDX()>0) {
+					if(cha.getDX()==1) cha.addX(-1);
+					else cha.addX(-3);
 				}
 				
-				if (cha.getDX() == -1) {
-					cha.addX(1);
+				if (cha.getDX()<0) {
+					if(cha.getDX()==1) cha.addX(1);
+					else cha.addX(3);
 				}
 				
-				if (cha.getDY() == 1) {
-					cha.addY(-1);
+				if (cha.getDY()>0) {
+					if(cha.getDY() == 1) cha.addY(-1);
+					else cha.addY(-3);
 				}
 				
-				if (cha.getDY() == -1) {
-					cha.addY(1);
+				if (cha.getDY()<0) {
+					if(cha.getDY() == -1) cha.addY(1);
+					else cha.addY(3);
 				}
 				
 
@@ -1161,27 +1148,27 @@ public class game extends JPanel implements ActionListener {
 					
 			if (rChar.intersects(rnpc)) { //stop at touching npc
 				switch (n.getDialog()){		
-				case 1 : {	if (cha.getDX() == 1) {
+				case 1 : {	if (cha.getDX()>0) {
 								cha.setDX(0);
-								cha.addX(-1);
+								cha.addX(-5);
 								dialog1();
 							}
 						
-							if (cha.getDX() == -1) {
+							if (cha.getDX()<0) {
 								cha.setDX(0);
-								cha.addX(1);
+								cha.addX(5);
 								dialog1();
 							}
 						
-							if (cha.getDY() == 1) {
+							if (cha.getDY()>0) {
 								cha.setDY(0);
-								cha.addY(-1);
+								cha.addY(-5);
 								dialog1();
 							}
 						
-							if (cha.getDY() == -1) {
+							if (cha.getDY()<0) {
 								cha.setDY(0);
-								cha.addY(1);
+								cha.addY(5);
 								dialog1();
 							}
 				}
