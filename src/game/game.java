@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -1714,6 +1715,14 @@ public class game extends JPanel implements ActionListener {
 		dat.close();
 		return prototypemap;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
