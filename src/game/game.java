@@ -93,6 +93,8 @@ public class game extends JPanel implements ActionListener {
 
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
+	private Manapotion manapic = new Manapotion(1000,1000);
+	private Healthpotion healthpic = new Healthpotion(1000,1000);
 
 	int NumberofTrees = 1;					//absolut number of objects of this type
 	int maxcoin = 0;
@@ -578,7 +580,13 @@ public class game extends JPanel implements ActionListener {
 				g2d.drawImage(coinpic.getImage(), 300, 0, this);
 				g2d.drawString(" " + (cha.getGold()), 340, 17);
 				
-				g2d.drawString("Lv : " + (cha.getLVL()), 380, 17);
+				g2d.drawString("Lv : " + (cha.getLVL()), 370, 17);
+				
+			g2d.drawImage(manapic.getImage(), 400, -2, this);
+			g2d.drawString(" " + (cha.getManapotion()), 430, 17);
+
+			g2d.drawImage(healthpic.getImage(), 450, -2, this);
+			g2d.drawString(" " + (cha.getHealthpotion()), 480, 17);
 			
 		}
 		
@@ -889,20 +897,20 @@ public class game extends JPanel implements ActionListener {
 				c.setActivated(true);								//setzt checkpoint bei beruehrung auf activated
 				reset = mapNumber;
 
-					if (cha.getDX() == 1) {
-						cha.addX(-1);
+					if (cha.getDX()>0) {
+						cha.addX(-3);
 					}
 				
-					if (cha.getDX() == -1) {
-						cha.addX(1);
+					if (cha.getDX()<0) {
+						cha.addX(3);
 					}
 				
-					if (cha.getDY() == 1) {
-						cha.addY(-1);
+					if (cha.getDY()>0) {
+						cha.addY(-3);
 					}
 				
-					if (cha.getDY() == -1) {
-						cha.addY(1);
+					if (cha.getDY()<0) {
+						cha.addY(3);
 					}
 				}
 			}	
@@ -938,7 +946,7 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
 					e.movecollide();
-					if (cha.getDX()>0) {
+					/*if (cha.getDX()>0) {
 						cha.addX(-10);
 					}
 					
@@ -952,7 +960,7 @@ public class game extends JPanel implements ActionListener {
 					
 					if (cha.getDY()<0) {
 						cha.addY(10);
-					}
+					}*/
 				}
 				else ingame = false;
 			}
@@ -983,10 +991,10 @@ public class game extends JPanel implements ActionListener {
 			if(m.isVisible()){
 			Rectangle rMana = m.getBounds();
 			
-			if(rChar.intersects(rMana)) {
-				cha.Manapotion();
-				m.setVisible(false);
-			}
+				if(rChar.intersects(rMana)) {
+					cha.setManapotion();
+					m.setVisible(false);
+				}
 			}
 			else manap.remove(i);
 		}
@@ -997,7 +1005,7 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rHealth = h.getBounds();
 			
 			if(rChar.intersects(rHealth)) {
-				cha.Healthpotion();
+				cha.setHealthpotion();
 				h.setVisible(false);
 			}
 			}
@@ -1233,27 +1241,27 @@ public class game extends JPanel implements ActionListener {
 							}
 				}
 				case 2 : {
-					if (cha.getDX() == 1) {
+					if (cha.getDX()>0) {
 						cha.setDX(0);
-						cha.addX(-1);
+						cha.addX(-5);
 						dialog2();
 					}
 				
-					if (cha.getDX() == -1) {
+					if (cha.getDX()<0) {
 						cha.setDX(0);
-						cha.addX(1);
+						cha.addX(5);
 						dialog2();
 					}
 				
-					if (cha.getDY() == 1) {
+					if (cha.getDY()>0) {
 						cha.setDY(0);
-						cha.addY(-1);
+						cha.addY(-5);
 						dialog2();
 					}
 				
-					if (cha.getDY() == -1) {
+					if (cha.getDY()<0) {
 						cha.setDY(0);
-						cha.addY(1);
+						cha.addY(5);
 						dialog2();
 					}
 				}
@@ -1265,27 +1273,27 @@ public class game extends JPanel implements ActionListener {
 				
 			if (rChar.intersects(rshop)) { //stop at touching shopkeeper and dialog
 				
-				if (cha.getDX() == 1) {
+				if (cha.getDX()>0) {
 					cha.setDX(0);
-					cha.addX(-1);
+					cha.addX(-5);
 					shop();
 				}
 					
-				if (cha.getDX() == -1) {
+				if (cha.getDX()<0) {
 					cha.setDX(0);
-					cha.addX(1);
+					cha.addX(5);
 					shop();
 				}
 					
-				if (cha.getDY() == 1) {
+				if (cha.getDY()>0) {
 					cha.setDY(0);
-					cha.addY(-1);
+					cha.addY(-5);
 					shop();
 				}
 					
-				if (cha.getDY() == -1) {
+				if (cha.getDY()<0) {
 					cha.setDY(0);
-					cha.addY(1);
+					cha.addY(5);
 					shop();
 				}
 				
