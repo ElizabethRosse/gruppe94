@@ -25,7 +25,7 @@ public class Sounds {
 	    		}
 	    		case 2: {
 	    				try {
-	    					Clip clip = AudioSystem.getClip();
+	    					final Clip clip = AudioSystem.getClip();
 	    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\Trololo.wav"));
 	    					clip.open(inputStream);
 	    					clip.start();
