@@ -33,7 +33,7 @@ public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer;
+	private Timer timer, backgroundt;
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -244,7 +244,7 @@ public class game extends JPanel implements ActionListener {
 			}
 		};
 		Sounds.play(2);
-		Timer backgroundt = new Timer(185000, background);
+		backgroundt = new Timer(185000, background);
 		backgroundt.start();
 	}
 	
@@ -782,6 +782,8 @@ public class game extends JPanel implements ActionListener {
 
 		if(cha.getX() > 490) {										//mapchanges
 			mapNumber++;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
@@ -790,6 +792,8 @@ public class game extends JPanel implements ActionListener {
 			}}//increasing mapNumber with starting positions
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
@@ -798,6 +802,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
 			mapNumber = mapNumber + 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 225, 480);
 			} catch (IOException e1) {
@@ -806,6 +812,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
 			mapNumber = mapNumber - 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
