@@ -210,8 +210,16 @@ public class Char {
 		return arrows;
 	}
 	
+	public void resArrows() {
+		arrows = new ArrayList<Arrow>();
+	}
+	
 	public ArrayList<Feuerball> getFBall() {
 		return fball;
+	}
+	
+	public void resFball() {
+		fball = new ArrayList<Feuerball>();
 	}
 	
 	public void shoot() {
