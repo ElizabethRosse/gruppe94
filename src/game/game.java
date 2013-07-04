@@ -153,7 +153,7 @@ public class game extends JPanel implements ActionListener {
 		timer.start();
 		repaint();
 		dialog();
-		Sounds.play(2);
+		initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -234,6 +234,18 @@ public class game extends JPanel implements ActionListener {
 		for(int i = 0; i< healthpotions; i++) {
 			healthp.add(new Healthpotion(HealthpotionX[i], HealthpotionY[i]));
 		}
+	}
+	
+	public void initBackgroundMusik() {
+		ActionListener background = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Sounds.play(2);
+			}
+		};
+		Sounds.play(2);
+		Timer backgroundt = new Timer(185000, background);
+		backgroundt.start();
 	}
 	
 	public void initBoss(){														//initializiere Bosse
@@ -641,26 +653,24 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialog() {
-		JDialog startupJDialog = new JDialog();
+		/*JDialog startupJDialog = new JDialog();
 		startupJDialog.setTitle("How to!");
-		startupJDialog.setLocationRelativeTo(null);
+		startupJDialog.setLocationRelativeTo(null);*/
 		if(cha.haveSword()){
 			if(cha.haveArrow()){
-				startupJDialog.setSize(620,75);
-				startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
-						" | Sword: g | Arrow: Space"));
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+						" | Sword: g | Arrow: Space");
 			}
 			else {
-				startupJDialog.setSize(560,75);
-				startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h | Sword: g"));
-			}
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+						" | Sword: g ");
+				}
 		}
 		else{
-			startupJDialog.setSize(500,75);
-			startupJDialog.add(new JLabel("Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h"));
-		}
-		startupJDialog.setModal(true);
-		startupJDialog.setVisible(true);
+			JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" );
+			}
+		/*startupJDialog.setModal(true);
+		startupJDialog.setVisible(true);*/
 	}
 	
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
@@ -899,6 +909,7 @@ public class game extends JPanel implements ActionListener {
 				}
 				else {
 					enemies.remove(i);
+					NumberofEnemies -= 1;
 					cha.addXP(1);
 					levelup = true;
 				}
@@ -927,6 +938,7 @@ public class game extends JPanel implements ActionListener {
 				}
 				else {
 					enemies.remove(i);
+					NumberofEnemies -= 1;
 					cha.addXP(1);
 					levelup = true;
 				}
@@ -1026,6 +1038,7 @@ public class game extends JPanel implements ActionListener {
 			}}
 			else {
 				enemies.remove(k);
+				NumberofEnemies -= 1;
 				cha.addXP(1);
 				levelup = true;
 			}
