@@ -94,7 +94,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					Sounds.play(1);							//hier muss noch eine verknupfung hin
+											//hier muss noch eine verknupfung hin
 					}
 				});
 			
