@@ -268,6 +268,11 @@ public class Char {
 		return sword;
 	}
 	
+	public void resST() {
+		sword = false;
+		move = true;
+	}
+	
 	public void sword() {
 		if(direction==1) Mastersword = new Sword(x-2+width, y-1+height/2, 1);
 		if(direction==2) Mastersword = new Sword(x-13, y-1+height/2, 2);
