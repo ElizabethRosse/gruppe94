@@ -11,13 +11,15 @@ import javax.swing.ImageIcon;
 public class Char {
 	
 
-	private int x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold;
+	private int xp, lvl, x, y, dx, dy, width, height, life, health, maxhealth, mana, maxmana, armor, direction,gold, manapotion, healthpotion;
 	private boolean change, move, sword;
 	private boolean Smile, Sword, Arrow;
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
 	private Sword Mastersword = new Sword(x,y,direction);
+	private int fdmg = 50;
+	private int sdmg = 5;
 	
 	public Char() {
 		
@@ -29,6 +31,8 @@ public class Char {
 		change = false;
 		move = true;
 		sword = false;
+		manapotion = 0;
+		healthpotion = 0;
 		width = image.getWidth(null); //holt breite/höhe vom Bild
 		height = image.getHeight(null);
 		direction = 1;
@@ -46,6 +50,48 @@ public class Char {
 		Smile = false;
 		x = 100;
 		y = 220;
+		xp = 0;
+		lvl = 1;
+	}
+	
+	public void setManapotion() {
+		manapotion += 1;
+	}
+	
+	public int getManapotion() {
+		return manapotion;
+	}
+	
+	public void setHealthpotion() {
+		healthpotion += 1;
+	}
+	
+	public int getHealthpotion() {
+		return healthpotion;
+	}
+	
+	public void setLVL(int lvl){
+		this.lvl = lvl;
+	}
+	
+	public int getLVL(){
+		return lvl;
+	}
+	
+	public int getFDMG(){
+		return fdmg;
+	}
+	
+	public void addFDMG (int fdmg){
+		this.fdmg = this.fdmg + fdmg; 
+	}
+	
+	public int getSDMG(){
+		return sdmg;
+	}
+	
+	public void addSDMG (int sdmg){
+		this.sdmg = this.sdmg + sdmg;
 	}
 	
 	public void makeSmile() {
@@ -56,8 +102,16 @@ public class Char {
 		Sword = true;
 	}
 	
+	public boolean haveSword() {
+		return Sword;
+	}
+	
 	public void makeArrow() {
 		Arrow = true;
+	}
+	
+	public boolean haveArrow() {
+		return Arrow;
 	}
 	
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
@@ -98,6 +152,14 @@ public class Char {
 	
 	public int getY() {
 		 return y;
+	}
+	
+	public void addXP (int xp) {
+		this.xp = this.xp + xp;
+	}
+	
+	public int getXP() {
+		return xp;
 	}
 	
 	public void setX(int x) { //char-positionierung (x,y) bei mapwechsel
@@ -148,8 +210,16 @@ public class Char {
 		return arrows;
 	}
 	
+	public void resArrows() {
+		arrows = new ArrayList<Arrow>();
+	}
+	
 	public ArrayList<Feuerball> getFBall() {
 		return fball;
+	}
+	
+	public void resFball() {
+		fball = new ArrayList<Feuerball>();
 	}
 	
 	public void shoot() {
@@ -198,6 +268,11 @@ public class Char {
 		return sword;
 	}
 	
+	public void resST() {
+		sword = false;
+		move = true;
+	}
+	
 	public void sword() {
 		if(direction==1) Mastersword = new Sword(x-2+width, y-1+height/2, 1);
 		if(direction==2) Mastersword = new Sword(x-13, y-1+height/2, 2);
@@ -218,7 +293,10 @@ public class Char {
 	}
 	
 	public void Manapotion() {
-		this.mana = maxmana;
+		if((manapotion>0)&&(mana<maxmana)){
+			this.mana = maxmana;
+			manapotion -= 1;
+		}
 	}
 	
 	public void setMaxmana(int mana) {
@@ -236,7 +314,10 @@ public class Char {
 	}
 	
 	public void Healthpotion() {
+		if((healthpotion>0)&&(health<maxhealth)){
 		this.health = maxhealth;
+		healthpotion -= 1;
+		}
 	}
 	
 	public void buyHealth() {
@@ -289,6 +370,13 @@ public class Char {
 			 }
 		 }
 		 
+		 if ( key == KeyEvent.VK_SHIFT) {
+			 if(dx<0) dx = -3;
+			 else if(dx>0) dx =  3;
+			 if(dy<0) dy = -3;
+			 else if(dy>0) dy =  3;
+		 }
+		 
 		 if (key == KeyEvent.VK_G){
 			 if(Sword) {sword = true;
 			 move = false;
@@ -322,6 +410,21 @@ public class Char {
 		 if (key == KeyEvent.VK_D){
 			 change = false;
 			 move = true;
+		 }
+		 
+		 if (key == KeyEvent.VK_M){
+			 Manapotion();
+		 }
+		 
+		 if (key == KeyEvent.VK_N){
+			 Healthpotion();
+		 }
+		 
+		 if ( key == KeyEvent.VK_SHIFT) {
+			 if(dx<0) dx = -1;
+			 else if (dx>0) dx =  1;
+			 if(dy<0) dy = -1;
+			 else if(dy>0) dy = 1;
 		 }
 		 
 		 if (key == KeyEvent.VK_G){

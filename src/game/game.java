@@ -33,9 +33,10 @@ public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer;
+	private Timer timer, backgroundt;
 	private Char cha;
 	private ArrayList<Tree> trees;
+	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
 	private ArrayList<Manapotion> manap;
@@ -56,6 +57,7 @@ public class game extends JPanel implements ActionListener {
 	private boolean ingame;
 	private boolean win;
 	private boolean checkpointactivated = false;
+	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
 
 	private int[] pos1 = new int[max]; 	//Arrays for object set
@@ -76,6 +78,8 @@ public class game extends JPanel implements ActionListener {
 	private int[] npcD = new int[max];
 	private int[] shopX = new int[max];
 	private int[] shopY = new int[max];
+	private int[] falsetreeX = new int[max];
+	private int[] falsetreeY = new int[max];
 	private int[] ManapotionX = new int[max];
 	private int[] ManapotionY = new int[max];
 	private int[] HealthpotionX = new int[max];
@@ -92,8 +96,11 @@ public class game extends JPanel implements ActionListener {
 
 	private int reset = 110;
 	private Coin coinpic = new Coin(1000,1000);
+	private Manapotion manapic = new Manapotion(1000,1000);
+	private Healthpotion healthpic = new Healthpotion(1000,1000);
 
-	int NumberofTrees = 1;					//absolut number of objects of this type
+	int NumberofTrees = 1;		//absolut number of objects of this type
+	int NumberofFalsetrees = 0;
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
@@ -145,11 +152,21 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
+		dialog();
+		initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
+	}
+	
+	public void initfalsetrees() {
+		falsetrees = new ArrayList<Tree>();
+		
+		for (int i = 0; i < NumberofFalsetrees ; i++) {
+			falsetrees.add(new Tree(falsetreeX[i], falsetreeY[i]));
+		}
 	}
 	
 	public void initfball() {
@@ -219,6 +236,18 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void initBackgroundMusik() {
+		ActionListener background = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Sounds.play(2);
+			}
+		};
+		Sounds.play(2);
+		backgroundt = new Timer(185000, background);
+		backgroundt.start();
+	}
+	
 	public void initBoss(){														//initializiere Bosse
 		bosses = new ArrayList<Boss>();
 		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
@@ -252,6 +281,23 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void initXP() {
+		if(levelup){
+			if ((cha.getXP() >= 1)&&levelup2){
+				dialogLVL2();
+				cha.addFDMG(50);
+				cha.setLVL(2);
+				levelup2 = false;
+			}
+			else if ((cha.getXP() >= 30)&&levelup3) {
+				dialogLVL3();
+				cha.addSDMG(5);
+				cha.setLVL(3);
+				levelup3 = false;
+			}
+		}
+	}
+	
 	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
 		
@@ -266,6 +312,13 @@ public class game extends JPanel implements ActionListener {
 				Tree t = (Tree) trees.get(i);
 				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
 			
+			}
+			
+			if (cha.haveSword()==false) {
+				for (int i = 0; i <falsetrees.size(); i++) {
+				Tree t = (Tree) falsetrees.get(i);
+				g2d.drawImage(t.getImage(), t.getX(), t.getY(), this);
+				}
 			}
 			
 			for (int i = 0; i < manap.size(); i++) {							//painting a manapotion for every entry in the array manap
@@ -554,39 +607,21 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 
-			g2d.setColor(Color.BLUE);
-			switch(cha.getMaxhealth()){												//initilize mana
-			case 6 : {
-				g2d.drawString("Mana left: " + (cha.getmana()), 130, 17);
-				break;
-			}
-			case 8 : {
-				g2d.drawString("Mana left: " + (cha.getmana()), 170, 17);
-				break;
-			}
-			case 10 : {
+			g2d.setColor(Color.BLUE);										// Mana Anzeige
 				g2d.drawString("Mana left: " + (cha.getmana()), 210, 17);
-				break;
-			}
-			}
-			g2d.setColor(Color.BLACK);
-			switch(cha.getMaxhealth()) {											//initilize money
-			case 6 : {
-				g2d.drawImage(coinpic.getImage(), 250, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 290, 17);
-				break;
-			}
-			case 8 : {
-				g2d.drawImage(coinpic.getImage(), 290, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 330, 17);
-				break;
-			}
-			case 10 : {
-				g2d.drawImage(coinpic.getImage(), 330, 0, this);
-				g2d.drawString(" " + (cha.getGold()), 370, 17);
-				break;
-			}
-			}
+			
+			
+			g2d.setColor(Color.BLACK);										// Coin Anzeige
+				g2d.drawImage(coinpic.getImage(), 300, 0, this);
+				g2d.drawString(" " + (cha.getGold()), 340, 17);
+				
+				g2d.drawString("Lv : " + (cha.getLVL()), 370, 17);
+				
+			g2d.drawImage(manapic.getImage(), 400, -2, this);
+			g2d.drawString(" " + (cha.getManapotion()), 430, 17);
+
+			g2d.drawImage(healthpic.getImage(), 450, -2, this);
+			g2d.drawString(" " + (cha.getHealthpotion()), 480, 17);
 			
 		}
 		
@@ -616,47 +651,101 @@ public class game extends JPanel implements ActionListener {
 		g.dispose(); //wie final verhindert Änderung des JFrames
 		
 	}
+	
+	public void dialog() {
+		/*JDialog startupJDialog = new JDialog();
+		startupJDialog.setTitle("How to!");
+		startupJDialog.setLocationRelativeTo(null);*/
+		cha.resST();
+		if(cha.haveSword()){
+			if(cha.haveArrow()){
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+						" | Sword: g | Arrow: Space");
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+						" | Sword: g ");
+				}
+		}
+		else{
+			JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" );
+			}
+		/*startupJDialog.setModal(true);
+		startupJDialog.setVisible(true);*/
+	}
+	
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
-		JDialog ersterJDialog = new JDialog();
+		/*JDialog ersterJDialog = new JDialog();
 		ersterJDialog.setTitle ("Mr Moustache");
 		ersterJDialog.setSize(270,75);
 		ersterJDialog.setLocationRelativeTo(null);
 		ersterJDialog.add(new JLabel ("Yo Nerd! Die Smileys brauchen deine Hilfe!"));
 		ersterJDialog.setModal(true);
-		ersterJDialog.setVisible(true);
+		ersterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"Yo Nerd! Die Smileys brauchen deine Hilfe!");
 	}
 	
 	public void dialog2() {
-		JDialog zweiterJDialog = new JDialog();
+		/*JDialog zweiterJDialog = new JDialog();
 		zweiterJDialog.setTitle("It's dagerous out there!");
 		zweiterJDialog.setSize(400,75);
 		zweiterJDialog.setLocationRelativeTo(null);
 		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
 		zweiterJDialog.setModal(true);
-		zweiterJDialog.setVisible(true);
+		zweiterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
+		cha.resST();
 		cha.makeSword();
 	}
 	
 	public void dialog3() {
-		JDialog dritterJDialog = new JDialog();
+		/*JDialog dritterJDialog = new JDialog();
 		dritterJDialog.setTitle("Smile!");
 		dritterJDialog.setSize(400,75);
 		dritterJDialog.setLocationRelativeTo(null);
 		dritterJDialog.add(new JLabel ("You got your Smile back!(You can Smile with 'd')"));
 		dritterJDialog.setModal(true);
-		dritterJDialog.setVisible(true);
+		dritterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"You got your Smile back!(Now you can Smile with 'd')");
+		cha.resST();
 		cha.makeSmile();
 	}
 	
 	public void dialog4() {
-		JDialog vierterJDialog = new JDialog();
+		/*JDialog vierterJDialog = new JDialog();
 		vierterJDialog.setTitle("Arrows!");
 		vierterJDialog.setSize(400,75);
 		vierterJDialog.setLocationRelativeTo(null);
-		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'LEER')"));
+		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'Space')"));
 		vierterJDialog.setModal(true);
-		vierterJDialog.setVisible(true);
+		vierterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"You found some Arrows!(You can shoot with 'Space')");
+		cha.resST();
 		cha.makeArrow();
+	}
+	
+	public void dialogLVL2() {
+		/*JDialog LVL2JDialog = new JDialog();
+		LVL2JDialog.setTitle("Level Up!");
+		LVL2JDialog.setSize(400,75);
+		LVL2JDialog.setLocationRelativeTo(null);
+		LVL2JDialog.add(new JLabel ("You reached Level 2! Your fireball's damage doubled!"));
+		LVL2JDialog.setModal(true);
+		LVL2JDialog.setVisible(true);*/
+		cha.resST();
+		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
+	}
+	
+	public void dialogLVL3() {
+		/*JDialog LVL3JDialog = new JDialog();
+		LVL3JDialog.setTitle("Level Up!");
+		LVL3JDialog.setSize(400,75);
+		LVL3JDialog.setLocationRelativeTo(null);
+		LVL3JDialog.add(new JLabel ("You reached Level 3! Your sword's damage doubled!"));
+		LVL3JDialog.setModal(true);
+		LVL3JDialog.setVisible(true);*/
+		cha.resST();
+		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
 	}
 	
 	public void shop() {
@@ -705,6 +794,8 @@ public class game extends JPanel implements ActionListener {
 
 		if(cha.getX() > 490) {										//mapchanges
 			mapNumber++;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
@@ -713,6 +804,8 @@ public class game extends JPanel implements ActionListener {
 			}}//increasing mapNumber with starting positions
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
@@ -721,6 +814,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
 			mapNumber = mapNumber + 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 225, 480);
 			} catch (IOException e1) {
@@ -729,6 +824,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
 			mapNumber = mapNumber - 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
@@ -745,6 +842,7 @@ public class game extends JPanel implements ActionListener {
 		moveZoss();
 		checkCollisions();
 		checkAlive();
+		initXP();
 		repaint();
 	}
 	
@@ -826,15 +924,27 @@ public class game extends JPanel implements ActionListener {
 				if(e.getLife()>0) {
 					Rectangle rEnemy = e.getBounds();
 					if(rSword.intersects(rEnemy)) {
-						e.damage(sword.getDmg());
+						e.damage(cha.getSDMG());
 					}
 				}
-				else enemies.remove(i);
+				else {
+					enemies.remove(i);
+					NumberofEnemies -= 1;
+					cha.addXP(1);
+					levelup = true;
+				}
 			}
+			/*for(int i = 0; i<traps.size();i++) {
+				Trap t = (Trap) traps.get(i);
+				Rectangle rTrap = t.getBounds();
+				if(rTrap.intersects(rSword)){
+					
+				}
+			}*/
 		}
 		
 		if(cha.getSmile()) {
-			cha.manacost(1);
+				cha.manacost(1);
 			Rectangle rSmile = cha.getBoundsSmile();
 			
 			for (int i = 0; i < enemies.size(); i++) {
@@ -846,7 +956,13 @@ public class game extends JPanel implements ActionListener {
 						e.movecollide();
 					}
 				}
-				else enemies.remove(i);
+				else {
+					enemies.remove(i);
+					NumberofEnemies -= 1;
+					cha.addXP(1);
+					levelup = true;
+				}
+
 			}
 		}
 		if (checkpointactivated) {
@@ -858,20 +974,20 @@ public class game extends JPanel implements ActionListener {
 				c.setActivated(true);								//setzt checkpoint bei beruehrung auf activated
 				reset = mapNumber;
 
-					if (cha.getDX() == 1) {
-						cha.addX(-1);
+					if (cha.getDX()>0) {
+						cha.addX(-3);
 					}
 				
-					if (cha.getDX() == -1) {
-						cha.addX(1);
+					if (cha.getDX()<0) {
+						cha.addX(3);
 					}
 				
-					if (cha.getDY() == 1) {
-						cha.addY(-1);
+					if (cha.getDY()>0) {
+						cha.addY(-3);
 					}
 				
-					if (cha.getDY() == -1) {
-						cha.addY(1);
+					if (cha.getDY()<0) {
+						cha.addY(3);
 					}
 				}
 			}	
@@ -884,6 +1000,7 @@ public class game extends JPanel implements ActionListener {
 			if (rChar.intersects(rTrap)){
 				if (t.isVisible()){
 					cha.dmg(t.getDmg());
+					Sounds.play(1);
 					t.setVisible(false);
 				}
 			}	
@@ -906,21 +1023,22 @@ public class game extends JPanel implements ActionListener {
 			if (rChar.intersects(rEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
-					if (cha.getDX() == 1) {
+					e.movecollide();
+					/*if (cha.getDX()>0) {
 						cha.addX(-10);
 					}
 					
-					if (cha.getDX() == -1) {
+					if (cha.getDX()<0) {
 						cha.addX(10);
 					}
 					
-					if (cha.getDY() == 1) {
+					if (cha.getDY()>0) {
 						cha.addY(-10);
 					}
 					
-					if (cha.getDY() == -1) {
+					if (cha.getDY()<0) {
 						cha.addY(10);
-					}
+					}*/
 				}
 				else ingame = false;
 			}
@@ -935,11 +1053,15 @@ public class game extends JPanel implements ActionListener {
 				Feuerball f = (Feuerball) fball.get(i);
 				if(f.getBounds().intersects(rEnemy)) {
 					f.setVisible(false);
-					e.damage(f.getDmg());
+					e.damage(cha.getFDMG());
 				}
 			}}
-			
-			else enemies.remove(k);
+			else {
+				enemies.remove(k);
+				NumberofEnemies -= 1;
+				cha.addXP(1);
+				levelup = true;
+			}
 		}
 		
 		for (int i = 0; i<manap.size(); i++) {
@@ -947,10 +1069,10 @@ public class game extends JPanel implements ActionListener {
 			if(m.isVisible()){
 			Rectangle rMana = m.getBounds();
 			
-			if(rChar.intersects(rMana)) {
-				cha.Manapotion();
-				m.setVisible(false);
-			}
+				if(rChar.intersects(rMana)) {
+					cha.setManapotion();
+					m.setVisible(false);
+				}
 			}
 			else manap.remove(i);
 		}
@@ -961,7 +1083,7 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rHealth = h.getBounds();
 			
 			if(rChar.intersects(rHealth)) {
-				cha.Healthpotion();
+				cha.setHealthpotion();
 				h.setVisible(false);
 			}
 			}
@@ -1031,18 +1153,21 @@ public class game extends JPanel implements ActionListener {
 		if(cha.getST()){
 			Sword sword = (Sword) cha.getSword();
 			if(sword.getBounds().intersects(rBoss)){
-				b.damage(sword.getDmg());
+				b.damage(cha.getSDMG());
+				b.movecollide();
 			}
 		}
 		for(int j = 0; j<fball.size(); j++) {
 			Feuerball f = (Feuerball) fball.get(j);
 			if(f.getBounds().intersects(rBoss)) {
 				f.setVisible(false);
-				b.damage(f.getDmg());
+				b.damage(cha.getFDMG());
 			}
 		}
 		}
 			else {
+				cha.addXP(10);
+				levelup = true;
 				dialog3();
 				mapNumber = 220;
 				reset = 220;
@@ -1100,7 +1225,7 @@ public class game extends JPanel implements ActionListener {
 			Feuerball f = (Feuerball) fball.get(j);
 			if(f.getBounds().intersects(rBoss2)) {
 				f.setVisible(false);
-				x.damage(f.getDmg());
+				x.damage(cha.getFDMG());
 			}
 		}
 		if(cha.getSmile()){
@@ -1113,11 +1238,13 @@ public class game extends JPanel implements ActionListener {
 		if(cha.getST()){
 			Sword sword = (Sword) cha.getSword();
 			if(sword.getBounds().intersects(rBoss2)){
-				x.damage(sword.getDmg());
+				x.damage(cha.getSDMG());
 			}
 		}
 		}
 			else {
+			cha.addXP(20);
+			levelup = true;
 			dialog4();
 			mapNumber = 310;
 			reset = 310;
@@ -1131,26 +1258,61 @@ public class game extends JPanel implements ActionListener {
 		}
 		}
 	
+		if(cha.haveSword()==false){
+		for (int j = 0; j < falsetrees.size(); j++) {
+			Tree t = (Tree) falsetrees.get(j);
+			Rectangle rTree = t.getBounds();
+			
+			if (rChar.intersects(rTree)) { //stop at touching tree
+				
+				if (cha.getDX()>0) {
+					if(cha.getDX()==1) cha.addX(-1);
+					else cha.addX(-3);
+				}
+				
+				if (cha.getDX()<0) {
+					if(cha.getDX()==1) cha.addX(1);
+					else cha.addX(3);
+				}
+				
+				if (cha.getDY()>0) {
+					if(cha.getDY() == 1) cha.addY(-1);
+					else cha.addY(-3);
+				}
+				
+				if (cha.getDY()<0) {
+					if(cha.getDY() == -1) cha.addY(1);
+					else cha.addY(3);
+				}
+				
+
+			}
+		}}
+		
 		for (int j = 0; j < trees.size(); j++) {
 			Tree t = (Tree) trees.get(j);
 			Rectangle rTree = t.getBounds();
 			
 			if (rChar.intersects(rTree)) { //stop at touching tree
 				
-				if (cha.getDX() == 1) {
-					cha.addX(-1);
+				if (cha.getDX()>0) {
+					if(cha.getDX()==1) cha.addX(-1);
+					else cha.addX(-3);
 				}
 				
-				if (cha.getDX() == -1) {
-					cha.addX(1);
+				if (cha.getDX()<0) {
+					if(cha.getDX()==1) cha.addX(1);
+					else cha.addX(3);
 				}
 				
-				if (cha.getDY() == 1) {
-					cha.addY(-1);
+				if (cha.getDY()>0) {
+					if(cha.getDY() == 1) cha.addY(-1);
+					else cha.addY(-3);
 				}
 				
-				if (cha.getDY() == -1) {
-					cha.addY(1);
+				if (cha.getDY()<0) {
+					if(cha.getDY() == -1) cha.addY(1);
+					else cha.addY(3);
 				}
 				
 
@@ -1161,52 +1323,52 @@ public class game extends JPanel implements ActionListener {
 					
 			if (rChar.intersects(rnpc)) { //stop at touching npc
 				switch (n.getDialog()){		
-				case 1 : {	if (cha.getDX() == 1) {
+				case 1 : {	if (cha.getDX()>0) {
 								cha.setDX(0);
-								cha.addX(-1);
+								cha.addX(-5);
 								dialog1();
 							}
 						
-							if (cha.getDX() == -1) {
+							if (cha.getDX()<0) {
 								cha.setDX(0);
-								cha.addX(1);
+								cha.addX(5);
 								dialog1();
 							}
 						
-							if (cha.getDY() == 1) {
+							if (cha.getDY()>0) {
 								cha.setDY(0);
-								cha.addY(-1);
+								cha.addY(-5);
 								dialog1();
 							}
 						
-							if (cha.getDY() == -1) {
+							if (cha.getDY()<0) {
 								cha.setDY(0);
-								cha.addY(1);
+								cha.addY(5);
 								dialog1();
 							}
 				}
 				case 2 : {
-					if (cha.getDX() == 1) {
+					if (cha.getDX()>0) {
 						cha.setDX(0);
-						cha.addX(-1);
+						cha.addX(-5);
 						dialog2();
 					}
 				
-					if (cha.getDX() == -1) {
+					if (cha.getDX()<0) {
 						cha.setDX(0);
-						cha.addX(1);
+						cha.addX(5);
 						dialog2();
 					}
 				
-					if (cha.getDY() == 1) {
+					if (cha.getDY()>0) {
 						cha.setDY(0);
-						cha.addY(-1);
+						cha.addY(-5);
 						dialog2();
 					}
 				
-					if (cha.getDY() == -1) {
+					if (cha.getDY()<0) {
 						cha.setDY(0);
-						cha.addY(1);
+						cha.addY(5);
 						dialog2();
 					}
 				}
@@ -1218,27 +1380,27 @@ public class game extends JPanel implements ActionListener {
 				
 			if (rChar.intersects(rshop)) { //stop at touching shopkeeper and dialog
 				
-				if (cha.getDX() == 1) {
+				if (cha.getDX()>0) {
 					cha.setDX(0);
-					cha.addX(-1);
+					cha.addX(-5);
 					shop();
 				}
 					
-				if (cha.getDX() == -1) {
+				if (cha.getDX()<0) {
 					cha.setDX(0);
-					cha.addX(1);
+					cha.addX(5);
 					shop();
 				}
 					
-				if (cha.getDY() == 1) {
+				if (cha.getDY()>0) {
 					cha.setDY(0);
-					cha.addY(-1);
+					cha.addY(-5);
 					shop();
 				}
 					
-				if (cha.getDY() == -1) {
+				if (cha.getDY()<0) {
 					cha.setDY(0);
-					cha.addY(1);
+					cha.addY(5);
 					shop();
 				}
 				
@@ -1305,7 +1467,7 @@ public class game extends JPanel implements ActionListener {
 		Feuerball f = (Feuerball) fball.get(h);
 		if(f.getBounds().intersects(rBoss2)) {
 			f.setVisible(false);
-			z.damage(f.getDmg());
+			z.damage(cha.getFDMG());
 		}
 	}if(cha.getSmile()){
 		Rectangle rSmile = cha.getBoundsSmile();
@@ -1317,7 +1479,7 @@ public class game extends JPanel implements ActionListener {
 	if(cha.getST()){
 		Sword sword = (Sword) cha.getSword();
 		if(sword.getBounds().intersects(rBoss2)){
-			z.damage(sword.getDmg());
+			z.damage(cha.getSDMG());
 		}
 	}
 	}
@@ -1342,6 +1504,7 @@ public class game extends JPanel implements ActionListener {
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
+		NumberofFalsetrees = 0;
 		goals = 0;
 		items = 0;
 		maxnpc = 0;
@@ -1468,6 +1631,13 @@ public class game extends JPanel implements ActionListener {
 				initCheckpoints();
 				break;
 			}
+			case 'ü' : {
+				falsetreeX[NumberofFalsetrees] = x;
+				falsetreeY[NumberofFalsetrees] = y;
+				NumberofFalsetrees++;
+				initfalsetrees();
+				break;
+			}
 			default : {
 				break;
 			}
@@ -1491,6 +1661,7 @@ public class game extends JPanel implements ActionListener {
 		initshop();
 		initXoss();
 		initZoss();
+		initfalsetrees();
 	}
 	
 	
@@ -1661,22 +1832,21 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	
-	
-	
 	public class KAdapter extends KeyAdapter { 
 		
 		public void keyPressed(KeyEvent e) {
-			if (ingame == false)
+			if (ingame)
 			{
-				add(new menu());
+				cha.keyPressed(e);
 			}
 			else
 			{
-			cha.keyPressed(e);
+				add(new menu());
 			}
 		}
 		public void keyReleased(KeyEvent e) {
-			cha.keyReleased(e);
+			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
+			else cha.keyReleased(e);
 		}
 		
 	}

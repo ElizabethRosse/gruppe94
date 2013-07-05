@@ -92,7 +92,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);								//hier muss noch eine verknupfung hin
+											//hier muss noch eine verknupfung hin
 					}
 				});
 			
