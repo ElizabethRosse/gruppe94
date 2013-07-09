@@ -1,6 +1,5 @@
 package menu;
 
-
 /*Changelog
  * 
  * 5.5.13 : creating file      (Oliver Heldt)
@@ -25,12 +24,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Box;
+import javax.swing.Timer;
 
+import game.game;
 
 
 	public class menu extends JFrame
 		{
 		 static final long serialVersionUID = 1L;
+		 
+		 private JPanel Surface;
+		 private game game = new game();
+		 private boolean reset = false;
+		 private Timer timer;
 
 
 		public static void main(String[] args)
@@ -42,7 +48,11 @@ import javax.swing.Box;
         //constructor
 		public menu() 
 			{
-			add(CreateMenuFrame());
+			Surface = CreateMenuFrame();
+			
+			
+			add(Surface);
+			
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
@@ -52,12 +62,47 @@ import javax.swing.Box;
 			//setResizable(false);
 			setVisible(true);
 			}
+		
+		public void rem() {
+			this.remove(Surface);
+			game = new game();
+			add(game);
+		}
+		
+		public void remG() {
+			game.setVisible(false);
+			add(Surface);
 			
+			
+		}
+		public void TimeCheck(){
+			ActionListener TimeCheck = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (game.MENU()) {
+					reset();
+					timer.stop();
+					
+				}
+			}};
+			timer = new Timer(5,TimeCheck);
+			timer.start();
+			//if (game.MENU()) {
+				//reset();
+				//timer.stop();
+			//}
+			
+		}
+		
+		public void reset() {
+			game.setVisible(false);
+			this.remove(game);
+			add(Surface);
+		}
 			
 		public JPanel CreateMenuFrame ()
 			{
 			
-			
+			TimeCheck();
 			
 			final JPanel surface = new JPanel(new GridBagLayout());
 			surface.setBackground(Color.WHITE);
@@ -72,8 +117,12 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					dispose();								//closing old frame to prevent problems with the game panel
-					new init();								//connection to init
+					//dispose();								//closing old frame to prevent problems with the game panel
+					//new init();								//connection to init
+					
+					rem();
+					//TimeCheck();
+					
 					}
 				});
 			
