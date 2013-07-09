@@ -1309,21 +1309,25 @@ public class game extends JPanel implements ActionListener {
 				if (cha.getDX()>0) {
 					if(cha.getDX()==1) cha.addX(-1);
 					else cha.addX(-3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDX()<0) {
 					if(cha.getDX()==1) cha.addX(1);
 					else cha.addX(3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDY()>0) {
 					if(cha.getDY() == 1) cha.addY(-1);
 					else cha.addY(-3);
+					cha.setDY(0);
 				}
 				
 				if (cha.getDY()<0) {
 					if(cha.getDY() == -1) cha.addY(1);
 					else cha.addY(3);
+					cha.setDY(0);
 				}
 				
 
