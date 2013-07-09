@@ -57,7 +57,7 @@ import game.game;
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
 			setTitle("Game");
-			setSize(530, 530);
+			setSize(515, 538);
 			setLocationRelativeTo(null);
 			//setResizable(false);
 			setVisible(true);
