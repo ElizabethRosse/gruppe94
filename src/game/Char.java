@@ -230,10 +230,22 @@ public class Char {
 	}
 	
 	public void cast() {
-			if (direction==1) fball.add(new Feuerball(x  +width  , y-3+height/2, direction));
-			else if (direction==2) fball.add(new Feuerball(x-2        , y-3+height/2, direction));
-			else if (direction==3) fball.add(new Feuerball(x-3+width/2, y  +height  , direction));
-			else if (direction==4) fball.add(new Feuerball(x-3+width/2, y           , direction));
+			if (direction==1) {
+				fball.add(new Feuerball(x  +width  , y-3+height/2, direction));
+				Sounds.play(4);
+			}
+			else if (direction==2) {
+				fball.add(new Feuerball(x-2        , y-3+height/2, direction));
+				Sounds.play(4);
+			}
+			else if (direction==3) {
+				fball.add(new Feuerball(x-3+width/2, y  +height  , direction));
+				Sounds.play(4);
+			}
+			else if (direction==4) {
+				fball.add(new Feuerball(x-3+width/2, y           , direction));
+				Sounds.play(4);
+			}
 	}
 	 
 	public void dmg (int dmg){

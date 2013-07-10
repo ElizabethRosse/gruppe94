@@ -55,7 +55,7 @@ public class game extends JPanel implements ActionListener {
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame, MENU = false;
-	private boolean win;
+	private boolean win, pause;
 	private boolean checkpointactivated = false;
 	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
@@ -124,6 +124,7 @@ public class game extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		ingame = true;
 		win = false;
+		pause = false;
 		
 		ImageIcon ii =                       //laedt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
@@ -164,7 +165,7 @@ public class game extends JPanel implements ActionListener {
 		timer.start();
 		repaint();
 		//dialog();
-		initBackgroundMusik();
+		//initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -247,7 +248,7 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initBackgroundMusik() {
+	/*public void initBackgroundMusik() {
 		ActionListener background = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -257,10 +258,14 @@ public class game extends JPanel implements ActionListener {
 		Sounds.play(2);
 		backgroundt = new Timer(185000, background);
 		backgroundt.start();
-	}
+	}*/
 	
 	public boolean MENU() {
 		return MENU;
+	}
+	
+	public void resMENU() {
+		MENU = false;
 	}
 	
 	public void initBoss(){														//initializiere Bosse
@@ -311,6 +316,23 @@ public class game extends JPanel implements ActionListener {
 				levelup3 = false;
 			}
 		}
+	}
+	
+	public void pause() {
+		timer.stop();
+		MENU = true;
+		pause = true;
+	}
+	
+	public void retpause() {
+		timer.start();
+		pause = false;
+		MENU = false;
+		repaint();
+	}
+	
+	public boolean getpause() {
+		return pause;
 	}
 	
 	public void paint(Graphics g) {												//painting the background
@@ -1376,6 +1398,7 @@ public class game extends JPanel implements ActionListener {
 						cha.setDX(0);
 						cha.addX(-5);
 						dialog2();
+						
 					}
 				
 					if (cha.getDX()<0) {
@@ -1395,6 +1418,7 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
+					Sounds.play(3);
 				}
 			}
 		}
@@ -1872,6 +1896,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) pause();
 			else cha.keyReleased(e);
 		}
 		

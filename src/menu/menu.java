@@ -27,7 +27,7 @@ import javax.swing.Box;
 import javax.swing.Timer;
 
 import game.game;
-
+import game.Sounds;
 
 	public class menu extends JFrame
 		{
@@ -35,8 +35,8 @@ import game.game;
 		 
 		 private JPanel Surface;
 		 private game game = new game();
-		 private boolean reset = false;
-		 private Timer timer;
+		 //private boolean reset = false;
+		 private Timer timer, backgroundt;
 
 
 		public static void main(String[] args)
@@ -49,7 +49,6 @@ import game.game;
 		public menu() 
 			{
 			Surface = CreateMenuFrame();
-			
 			
 			add(Surface);
 			
@@ -66,6 +65,7 @@ import game.game;
 		public void rem() {
 			this.remove(Surface);
 			game = new game();
+			timer.start();
 			add(game);
 		}
 		
@@ -75,6 +75,19 @@ import game.game;
 			
 			
 		}
+		
+		public void initBackgroundMusik() {
+			ActionListener background = new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					Sounds.play(2);
+				}
+			};
+			Sounds.play(2);
+			backgroundt = new Timer(185000, background);
+			backgroundt.start();
+		}
+		
 		public void TimeCheck(){
 			ActionListener TimeCheck = new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -86,23 +99,27 @@ import game.game;
 			}};
 			timer = new Timer(5,TimeCheck);
 			timer.start();
-			//if (game.MENU()) {
-				//reset();
-				//timer.stop();
-			//}
-			
 		}
 		
 		public void reset() {
 			game.setVisible(false);
-			this.remove(game);
 			add(Surface);
+		}
+		
+		public void pauseEnd() {
+			if(game.getpause()){
+				timer.start();
+				game.retpause();
+				game.setVisible(true);
+				this.remove(Surface);
+			}
 		}
 			
 		public JPanel CreateMenuFrame ()
 			{
 			
 			TimeCheck();
+			initBackgroundMusik();
 			
 			final JPanel surface = new JPanel(new GridBagLayout());
 			surface.setBackground(Color.WHITE);
@@ -132,7 +149,7 @@ import game.game;
 			
 			
 			
-			JButton options = new JButton("Options");			//option button, not yet used
+			JButton options = new JButton("Fortsetzen");			//after pause
 			
 			options.setPreferredSize( new Dimension(150,25));
 			
@@ -141,7 +158,7 @@ import game.game;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-											//hier muss noch eine verknupfung hin
+						pauseEnd();					//hier muss noch eine verknupfung hin
 					}
 				});
 			
