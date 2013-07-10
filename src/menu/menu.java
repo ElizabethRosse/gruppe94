@@ -55,8 +55,8 @@ import game.Sounds;
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
-			setTitle("Game");
-			setSize(518, 538);
+			setTitle("Ich will ein Glücksbärchie sein !!!");
+			setSize(515, 538);
 			setLocationRelativeTo(null);
 			//setResizable(false);
 			setVisible(true);
@@ -125,7 +125,7 @@ import game.Sounds;
 			surface.setBackground(Color.WHITE);
 			
 
-			JButton start = new JButton("Start Game");			//start button
+			JButton start = new JButton("New Game");			//start button
 			
 			start.setPreferredSize( new Dimension(150,25));
 			

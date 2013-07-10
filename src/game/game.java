@@ -21,19 +21,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+//import javax.swing.JDialog;
+//import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-import menu.menu;
+//import menu.menu;
 
 public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer, backgroundt;
+	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -409,12 +409,14 @@ public class game extends JPanel implements ActionListener {
 	public void initXP() {
 		if(levelup){
 			if ((cha.getXP() >= 1)&&levelup2){
+				Sounds.play(7);
 				dialogLVL2();
 				cha.addFDMG(50);
 				cha.setLVL(2);
 				levelup2 = false;
 			}
 			else if ((cha.getXP() >= 30)&&levelup3) {
+				Sounds.play(7);
 				dialogLVL3();
 				cha.addSDMG(5);
 				cha.setLVL(3);
@@ -840,6 +842,7 @@ public class game extends JPanel implements ActionListener {
 		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
 		zweiterJDialog.setModal(true);
 		zweiterJDialog.setVisible(true);*/
+		Sounds.play(3);
 		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
 		cha.resST();
 		cha.makeSword();
@@ -1075,6 +1078,7 @@ public class game extends JPanel implements ActionListener {
 					}
 				}
 				else {
+					Sounds.play(6);
 					enemies.remove(i);
 					NumberofEnemies -= 1;
 					cha.addXP(1);
@@ -1204,6 +1208,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}}
 			else {
+				Sounds.play(6);
 				enemies.remove(k);
 				NumberofEnemies -= 1;
 				cha.addXP(1);
@@ -1523,7 +1528,6 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
-					Sounds.play(3);
 				}
 			}
 		}

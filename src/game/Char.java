@@ -286,10 +286,22 @@ public class Char {
 	}
 	
 	public void sword() {
-		if(direction==1) Mastersword = new Sword(x-2+width, y-1+height/2, 1);
-		if(direction==2) Mastersword = new Sword(x-13, y-1+height/2, 2);
-		if(direction==3) Mastersword = new Sword(x+1, y-1+height, 3);
-		if(direction==4) Mastersword = new Sword(x-1+width/2, y-13, 4);
+		if (direction==1) {
+			Mastersword = new Sword(x-2+width, y-1+height/2, 1);
+			//Sounds.play(5);
+		}
+		if(direction==2) {
+			Mastersword = new Sword(x-13, y-1+height/2, 2);
+			//Sounds.play(5);
+		}
+		if(direction==3) {
+			Mastersword = new Sword(x+1, y-1+height, 3);
+			//Sounds.play(5);
+		}
+		if(direction==4) {
+			Mastersword = new Sword(x-1+width/2, y-13, 4);
+			//Sounds.play(5);
+		}
 	}
 	
 	public Sword getSword() {
@@ -457,6 +469,7 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_G){
+			 if (Sword) Sounds.play(5);
 			 sword = false;
 			 move = true;
 		 }
