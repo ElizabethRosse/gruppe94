@@ -21,19 +21,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+//import javax.swing.JDialog;
+//import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-import menu.menu;
+//import menu.menu;
 
 public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer, backgroundt;
+	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -726,6 +726,7 @@ public class game extends JPanel implements ActionListener {
 		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
 		zweiterJDialog.setModal(true);
 		zweiterJDialog.setVisible(true);*/
+		Sounds.play(3);
 		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
 		cha.resST();
 		cha.makeSword();
@@ -1409,7 +1410,6 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
-					Sounds.play(3);
 				}
 			}
 		}
