@@ -34,7 +34,7 @@ import game.Sounds;
 		 static final long serialVersionUID = 1L;
 		 
 		 private JPanel Surface;
-		 private game game = new game();
+		 private game game = new game(true);
 		 //private boolean reset = false;
 		 private Timer timer, backgroundt;
 
@@ -62,9 +62,9 @@ import game.Sounds;
 			setVisible(true);
 			}
 		
-		public void rem() {
+		public void rem(boolean check) {
 			this.remove(Surface);
-			game = new game();
+			game = new game(check);
 			timer.start();
 			add(game);
 		}
@@ -137,7 +137,7 @@ import game.Sounds;
 					//dispose();								//closing old frame to prevent problems with the game panel
 					//new init();								//connection to init
 					
-					rem();
+					rem(true);
 					//TimeCheck();
 					
 					}
@@ -145,8 +145,29 @@ import game.Sounds;
 			
 			GridBagConstraints startc = new GridBagConstraints();
 			startc.gridx = 0;
-			startc.gridy = 1;
+			startc.gridy = 3;
 			
+			JButton load = new JButton("Load Game");			//start button
+			
+			load.setPreferredSize( new Dimension(150,25));
+			
+			load.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					//dispose();								//closing old frame to prevent problems with the game panel
+					//new init();								//connection to init
+					
+					rem(false);
+					//TimeCheck();
+					
+					}
+				});
+			
+			GridBagConstraints loadc = new GridBagConstraints();
+			loadc.gridx = 0;
+			loadc.gridy = 5;
 			
 			
 			JButton options = new JButton("Fortsetzen");			//after pause
@@ -164,7 +185,7 @@ import game.Sounds;
 			
 			GridBagConstraints optionsc = new GridBagConstraints();
 			optionsc.gridx = 0;
-			optionsc.gridy = 3;
+			optionsc.gridy = 1;
 			
 			
 			
@@ -184,7 +205,7 @@ import game.Sounds;
 			
 			GridBagConstraints closec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
 			closec.gridx = 0;
-			closec.gridy = 5;
+			closec.gridy = 7;
 			
 			
 			
@@ -225,6 +246,15 @@ import game.Sounds;
 			placeholderc.weightx = 1.0;
 			placeholderc.weighty = 1.0;
 			
+			Box placeholder5 = new Box(getDefaultCloseOperation());
+			
+			GridBagConstraints placeholder5c = new GridBagConstraints();
+			placeholder5c.gridx = 0;
+			placeholder5c.gridy = 8;
+			placeholder5c.fill = GridBagConstraints.BOTH;
+			placeholder5c.weightx = 1.0;
+			placeholder5c.weighty = 1.0;
+			
 			
 			surface.add(placeholder, placeholderc);
 			surface.add(placeholder2, placeholder2c);
@@ -233,6 +263,8 @@ import game.Sounds;
 			surface.add(start, startc);
 			surface.add(options, optionsc);
 			surface.add(close, closec);
+			surface.add(load, loadc);
+			surface.add(placeholder5, placeholder5c);
 			
 			return surface;
 			}

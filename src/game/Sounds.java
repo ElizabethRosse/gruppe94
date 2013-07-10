@@ -58,8 +58,43 @@ public class Sounds {
     					System.out.println("play sound error: " + e.getMessage() + " for " + "shot.wav");
     				}
     				break;
-	    		}	 	    		
-	    		
+	    		}	 	    	
+	    		case 5: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\swing.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "swing.wav");
+    				}
+    				break;
+	    		}	 	   	    		
+	    		case 6: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\scream.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "scream.wav");
+    				}
+    				break;
+	    		}		   
+	    		case 7: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\levelup.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "levelup.wav");
+    				}
+    				break;
+	    		}		    		
     			}
 	    	
 	    	
