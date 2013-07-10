@@ -325,12 +325,14 @@ public class game extends JPanel implements ActionListener {
 	public void initXP() {
 		if(levelup){
 			if ((cha.getXP() >= 1)&&levelup2){
+				Sounds.play(7);
 				dialogLVL2();
 				cha.addFDMG(50);
 				cha.setLVL(2);
 				levelup2 = false;
 			}
 			else if ((cha.getXP() >= 30)&&levelup3) {
+				Sounds.play(7);
 				dialogLVL3();
 				cha.addSDMG(5);
 				cha.setLVL(3);
