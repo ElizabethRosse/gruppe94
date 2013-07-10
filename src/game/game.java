@@ -116,7 +116,7 @@ public class game extends JPanel implements ActionListener {
 	
 	private boolean start  = true;
 	
-	public game() {
+	public game(/*boolean newGame*/) {
 		
 		addKeyListener(new KAdapter());
 		setFocusable(true);
@@ -139,17 +139,26 @@ public class game extends JPanel implements ActionListener {
 		
 		
 		setSize(500, 500);
-		
+		//if (newGame) {
 		cha = new Char();
-		initArrows();
-		initfball();
-		
-		try {
+		/*try {
 			initMap(mapNumber, 51, 240);									//loading first map
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		} else {*/
+			cha = new Char();
+			try {
+				initMap(mapNumber, 51, 240);									//loading saved map
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		//}
+		}
+		
+		initArrows();
+		initfball();
 		
 		timer = new Timer(5, this);
 		timer.start();
