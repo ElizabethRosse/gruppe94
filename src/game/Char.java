@@ -17,8 +17,9 @@ public class Char {
 	private Image image, smile;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
+	private ArrayList<GeisterBall> gball;
 	private Sword Mastersword = new Sword(x,y,direction);
-	private int fdmg = 50;
+	private int fdmg, gdmg = 50;
 	private int sdmg = 5;
 	
 	public Char() {
@@ -38,6 +39,7 @@ public class Char {
 		direction = 1;
 		arrows = new ArrayList<Arrow>();
 		fball = new ArrayList<Feuerball>();
+		gball = new ArrayList<GeisterBall>();
 		gold = 0;
 		armor = 1;
 		life = 3;
@@ -76,6 +78,14 @@ public class Char {
 	
 	public int getLVL(){
 		return lvl;
+	}
+	
+	public int getGDMG() {
+		return gdmg;
+	}
+	
+	public void addGDMG (int gdmg){
+		this.gdmg = this.gdmg + gdmg;
 	}
 	
 	public int getFDMG(){
@@ -222,6 +232,14 @@ public class Char {
 		fball = new ArrayList<Feuerball>();
 	}
 	
+	public ArrayList<GeisterBall> getGBall() {
+		return gball;
+	}
+	
+	public void resGball() {
+		gball = new ArrayList<GeisterBall>();
+	}
+	
 	public void shoot() {
 			if (direction==1) arrows.add(new Arrow(x  +width  , y-3+height/2, direction));
 			else if (direction==2) arrows.add(new Arrow(x-2        , y-3+height/2, direction));
@@ -235,7 +253,14 @@ public class Char {
 			else if (direction==3) fball.add(new Feuerball(x-3+width/2, y  +height  , direction));
 			else if (direction==4) fball.add(new Feuerball(x-3+width/2, y           , direction));
 	}
-	 
+	
+	public void ghost() {
+		if (direction==1) gball.add(new GeisterBall(x  +width  , y-3+height/2, direction));
+		else if (direction==2) gball.add(new GeisterBall(x-2        , y-3+height/2, direction));
+		else if (direction==3) gball.add(new GeisterBall(x-3+width/2, y  +height  , direction));
+		else if (direction==4) gball.add(new GeisterBall(x-3+width/2, y           , direction));
+}
+	
 	public void dmg (int dmg){
 		switch(dmg%armor){
 		case 0 : {
@@ -440,6 +465,11 @@ public class Char {
 		 if (key == KeyEvent.VK_F){
 			 if(mana>19) {cast();
 			 mana -= 20;}
+		 }
+		 
+		 if (key == KeyEvent.VK_V){
+			 if(mana>9) {ghost();
+			 mana -= 10;}
 		 }
 		 
 		 if (key == KeyEvent.VK_SPACE) {
