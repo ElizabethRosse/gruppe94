@@ -1367,6 +1367,7 @@ public class game extends JPanel implements ActionListener {
 						cha.setDX(0);
 						cha.addX(-5);
 						dialog2();
+						
 					}
 				
 					if (cha.getDX()<0) {
@@ -1386,6 +1387,7 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
+					Sounds.play(3);
 				}
 			}
 		}
