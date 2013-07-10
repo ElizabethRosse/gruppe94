@@ -33,7 +33,7 @@ public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer;
+	private Timer timer, backgroundt;
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -54,8 +54,8 @@ public class game extends JPanel implements ActionListener {
 
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
-	private boolean ingame;
-	private boolean win;
+	private boolean ingame, MENU = false;
+	private boolean win, pause;
 	private boolean checkpointactivated = false;
 	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
@@ -114,6 +114,8 @@ public class game extends JPanel implements ActionListener {
 	int maxnpc = 0;
 	int maxshops = 0;
 	
+	private boolean start  = true;
+	
 	public game() {
 		
 		addKeyListener(new KAdapter());
@@ -122,6 +124,7 @@ public class game extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		ingame = true;
 		win = false;
+		pause = false;
 		
 		ImageIcon ii =                       //laedt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
@@ -152,8 +155,8 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
-		dialog();
-		initBackgroundMusik();
+		//dialog();
+		//initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -236,7 +239,7 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initBackgroundMusik() {
+	/*public void initBackgroundMusik() {
 		ActionListener background = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -244,8 +247,12 @@ public class game extends JPanel implements ActionListener {
 			}
 		};
 		Sounds.play(2);
-		Timer backgroundt = new Timer(185000, background);
+		backgroundt = new Timer(185000, background);
 		backgroundt.start();
+	}*/
+	
+	public boolean MENU() {
+		return MENU;
 	}
 	
 	public void initBoss(){														//initializiere Bosse
@@ -298,8 +305,29 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void pause() {
+		timer.stop();
+		pause = true;
+	}
+	
+	public void retpause() {
+		timer.start();
+		pause = false;
+		MENU = false;
+		repaint();
+	}
+	
+	public boolean getpause() {
+		return pause;
+	}
+	
 	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
+		
+		if (start) {
+			start = false;
+			dialog();
+		}
 		
 		if (ingame) { //zeichne Character, Baeume usw.  wenn ingame = true ist
 			
@@ -656,6 +684,7 @@ public class game extends JPanel implements ActionListener {
 		/*JDialog startupJDialog = new JDialog();
 		startupJDialog.setTitle("How to!");
 		startupJDialog.setLocationRelativeTo(null);*/
+		cha.resST();
 		if(cha.haveSword()){
 			if(cha.haveArrow()){
 				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
@@ -674,66 +703,77 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
-		JDialog ersterJDialog = new JDialog();
+		/*JDialog ersterJDialog = new JDialog();
 		ersterJDialog.setTitle ("Mr Moustache");
 		ersterJDialog.setSize(270,75);
 		ersterJDialog.setLocationRelativeTo(null);
 		ersterJDialog.add(new JLabel ("Yo Nerd! Die Smileys brauchen deine Hilfe!"));
 		ersterJDialog.setModal(true);
-		ersterJDialog.setVisible(true);
+		ersterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"Yo Nerd! Die Smileys brauchen deine Hilfe!");
 	}
 	
 	public void dialog2() {
-		JDialog zweiterJDialog = new JDialog();
+		/*JDialog zweiterJDialog = new JDialog();
 		zweiterJDialog.setTitle("It's dagerous out there!");
 		zweiterJDialog.setSize(400,75);
 		zweiterJDialog.setLocationRelativeTo(null);
 		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
 		zweiterJDialog.setModal(true);
-		zweiterJDialog.setVisible(true);
+		zweiterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
+		cha.resST();
 		cha.makeSword();
 	}
 	
 	public void dialog3() {
-		JDialog dritterJDialog = new JDialog();
+		/*JDialog dritterJDialog = new JDialog();
 		dritterJDialog.setTitle("Smile!");
 		dritterJDialog.setSize(400,75);
 		dritterJDialog.setLocationRelativeTo(null);
 		dritterJDialog.add(new JLabel ("You got your Smile back!(You can Smile with 'd')"));
 		dritterJDialog.setModal(true);
-		dritterJDialog.setVisible(true);
+		dritterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"You got your Smile back!(Now you can Smile with 'd')");
+		cha.resST();
 		cha.makeSmile();
 	}
 	
 	public void dialog4() {
-		JDialog vierterJDialog = new JDialog();
+		/*JDialog vierterJDialog = new JDialog();
 		vierterJDialog.setTitle("Arrows!");
 		vierterJDialog.setSize(400,75);
 		vierterJDialog.setLocationRelativeTo(null);
-		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'LEER')"));
+		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'Space')"));
 		vierterJDialog.setModal(true);
-		vierterJDialog.setVisible(true);
+		vierterJDialog.setVisible(true);*/
+		JOptionPane.showMessageDialog(null,"You found some Arrows!(You can shoot with 'Space')");
+		cha.resST();
 		cha.makeArrow();
 	}
 	
 	public void dialogLVL2() {
-		JDialog LVL2JDialog = new JDialog();
+		/*JDialog LVL2JDialog = new JDialog();
 		LVL2JDialog.setTitle("Level Up!");
 		LVL2JDialog.setSize(400,75);
 		LVL2JDialog.setLocationRelativeTo(null);
 		LVL2JDialog.add(new JLabel ("You reached Level 2! Your fireball's damage doubled!"));
 		LVL2JDialog.setModal(true);
-		LVL2JDialog.setVisible(true);
+		LVL2JDialog.setVisible(true);*/
+		cha.resST();
+		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
 	}
 	
 	public void dialogLVL3() {
-		JDialog LVL3JDialog = new JDialog();
+		/*JDialog LVL3JDialog = new JDialog();
 		LVL3JDialog.setTitle("Level Up!");
 		LVL3JDialog.setSize(400,75);
 		LVL3JDialog.setLocationRelativeTo(null);
 		LVL3JDialog.add(new JLabel ("You reached Level 3! Your sword's damage doubled!"));
 		LVL3JDialog.setModal(true);
-		LVL3JDialog.setVisible(true);
+		LVL3JDialog.setVisible(true);*/
+		cha.resST();
+		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
 	}
 	
 	public void shop() {
@@ -755,7 +795,7 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
 		
-		if(cha.gethealth() <= 0) ingame = false; 
+		//if(cha.gethealth() <= 0) ingame = false; 
 		
         initArrows();
 		
@@ -782,6 +822,8 @@ public class game extends JPanel implements ActionListener {
 
 		if(cha.getX() > 490) {										//mapchanges
 			mapNumber++;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
@@ -790,6 +832,8 @@ public class game extends JPanel implements ActionListener {
 			}}//increasing mapNumber with starting positions
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
 			mapNumber--;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
@@ -798,6 +842,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
 			mapNumber = mapNumber + 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 225, 480);
 			} catch (IOException e1) {
@@ -806,6 +852,8 @@ public class game extends JPanel implements ActionListener {
 			} 
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
 			mapNumber = mapNumber - 10;
+			cha.resArrows();
+			cha.resFball();
 			try {
 				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
@@ -830,7 +878,7 @@ public class game extends JPanel implements ActionListener {
 		if((cha.getContinues() > 0) && (cha.gethealth() <= 0)) {
 			cha.Continue();
 			if(cha.getContinues() == 0) ingame = false;
-			cha.Healthpotion();
+			cha.resContinue();
 			mapNumber = reset;
 			if(mapNumber%10 == 0) {
 				try {
@@ -1020,7 +1068,7 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(10);
 					}*/
 				}
-				else ingame = false;
+				//else ingame = false;
 			}
 			for(int i = 0; i<arrows.size();i++) {
 				Arrow a = (Arrow) arrows.get(i);
@@ -1114,7 +1162,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			else if(cha.getContinues() == 0) ingame = false;
+			//else if(cha.getContinues() == 0) ingame = false;
 
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1191,7 +1239,7 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(10);
 				}
 			}	
-			else if(cha.getContinues() == 0) ingame = false;
+			//else if(cha.getContinues() == 0) ingame = false;
 			
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1278,21 +1326,25 @@ public class game extends JPanel implements ActionListener {
 				if (cha.getDX()>0) {
 					if(cha.getDX()==1) cha.addX(-1);
 					else cha.addX(-3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDX()<0) {
 					if(cha.getDX()==1) cha.addX(1);
 					else cha.addX(3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDY()>0) {
 					if(cha.getDY() == 1) cha.addY(-1);
 					else cha.addY(-3);
+					cha.setDY(0);
 				}
 				
 				if (cha.getDY()<0) {
 					if(cha.getDY() == -1) cha.addY(1);
 					else cha.addY(3);
+					cha.setDY(0);
 				}
 				
 
@@ -1332,6 +1384,7 @@ public class game extends JPanel implements ActionListener {
 						cha.setDX(0);
 						cha.addX(-5);
 						dialog2();
+						
 					}
 				
 					if (cha.getDX()<0) {
@@ -1351,6 +1404,7 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
+					Sounds.play(3);
 				}
 			}
 		}
@@ -1434,7 +1488,7 @@ public class game extends JPanel implements ActionListener {
 				cha.addY(10);
 			}
 		}
-		else if(cha.getContinues() == 0) ingame = false;
+		//else if(cha.getContinues() == 0) ingame = false;
 		
 	for(int k = 0; k<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
@@ -1830,11 +1884,17 @@ public class game extends JPanel implements ActionListener {
 			}
 			else
 			{
-				add(new menu());
+				
+				MENU = true;
+				//add(new menu());
 			}
 		}
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				pause();
+				MENU = true;
+			}
 			else cha.keyReleased(e);
 		}
 		

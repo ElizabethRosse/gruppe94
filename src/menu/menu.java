@@ -1,6 +1,5 @@
 package menu;
 
-
 /*Changelog
  * 
  * 5.5.13 : creating file      (Oliver Heldt)
@@ -14,8 +13,6 @@ package menu;
 
 
 
-import game.Sounds;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -27,12 +24,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Box;
+import javax.swing.Timer;
 
-
+import game.game;
+import game.Sounds;
 
 	public class menu extends JFrame
 		{
 		 static final long serialVersionUID = 1L;
+		 
+		 private JPanel Surface;
+		 private game game = new game();
+		 //private boolean reset = false;
+		 private Timer timer, backgroundt;
 
 
 		public static void main(String[] args)
@@ -44,22 +48,79 @@ import javax.swing.Box;
         //constructor
 		public menu() 
 			{
-			add(CreateMenuFrame());
+			Surface = CreateMenuFrame();
+			
+			
+			add(Surface);
+			
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
 			setTitle("Game");
-			setSize(530, 530);
+			setSize(515, 538);
 			setLocationRelativeTo(null);
 			//setResizable(false);
 			setVisible(true);
 			}
+		
+		public void rem() {
+			this.remove(Surface);
+			game = new game();
+			add(game);
+		}
+		
+		public void remG() {
+			game.setVisible(false);
+			add(Surface);
 			
+			
+		}
+		
+		public void initBackgroundMusik() {
+			ActionListener background = new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					Sounds.play(2);
+				}
+			};
+			Sounds.play(2);
+			backgroundt = new Timer(185000, background);
+			backgroundt.start();
+		}
+		
+		public void TimeCheck(){
+			ActionListener TimeCheck = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (game.MENU()) {
+					reset();
+					timer.stop();
+					
+				}
+			}};
+			timer = new Timer(5,TimeCheck);
+			timer.start();			
+		}
+		
+		public void reset() {
+			game.setVisible(false);
+			this.remove(game);
+			add(Surface);
+		}
+		
+		public void pauseEnd() {
+			if(game.getpause()){
+				game.retpause();
+				game.setVisible(true);
+				this.remove(Surface);
+				add(game);
+			}
+		}
 			
 		public JPanel CreateMenuFrame ()
 			{
 			
-			
+			TimeCheck();
+			initBackgroundMusik();
 			
 			final JPanel surface = new JPanel(new GridBagLayout());
 			surface.setBackground(Color.WHITE);
@@ -74,8 +135,12 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					dispose();								//closing old frame to prevent problems with the game panel
-					new init();								//connection to init
+					//dispose();								//closing old frame to prevent problems with the game panel
+					//new init();								//connection to init
+					
+					rem();
+					//TimeCheck();
+					
 					}
 				});
 			
@@ -85,7 +150,7 @@ import javax.swing.Box;
 			
 			
 			
-			JButton options = new JButton("Options");			//option button, not yet used
+			JButton options = new JButton("Fortsetzen");			//after pause
 			
 			options.setPreferredSize( new Dimension(150,25));
 			
@@ -94,7 +159,7 @@ import javax.swing.Box;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					Sounds.play(1);							//hier muss noch eine verknupfung hin
+						pauseEnd();					//hier muss noch eine verknupfung hin
 					}
 				});
 			
