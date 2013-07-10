@@ -255,6 +255,10 @@ public class game extends JPanel implements ActionListener {
 		return MENU;
 	}
 	
+	public void resMENU() {
+		MENU = false;
+	}
+	
 	public void initBoss(){														//initializiere Bosse
 		bosses = new ArrayList<Boss>();
 		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
@@ -307,6 +311,7 @@ public class game extends JPanel implements ActionListener {
 	
 	public void pause() {
 		timer.stop();
+		MENU = true;
 		pause = true;
 	}
 	
@@ -1891,10 +1896,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
-			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				pause();
-				MENU = true;
-			}
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) pause();
 			else cha.keyReleased(e);
 		}
 		

@@ -50,7 +50,6 @@ import game.Sounds;
 			{
 			Surface = CreateMenuFrame();
 			
-			
 			add(Surface);
 			
 			
@@ -66,6 +65,7 @@ import game.Sounds;
 		public void rem() {
 			this.remove(Surface);
 			game = new game();
+			timer.start();
 			add(game);
 		}
 		
@@ -98,21 +98,20 @@ import game.Sounds;
 				}
 			}};
 			timer = new Timer(5,TimeCheck);
-			timer.start();			
+			timer.start();
 		}
 		
 		public void reset() {
 			game.setVisible(false);
-			this.remove(game);
 			add(Surface);
 		}
 		
 		public void pauseEnd() {
 			if(game.getpause()){
+				timer.start();
 				game.retpause();
 				game.setVisible(true);
 				this.remove(Surface);
-				add(game);
 			}
 		}
 			
