@@ -320,6 +320,11 @@ public class Char {
 		}
 	}
 	
+	public void resContinue() {
+		this.health = maxhealth;
+		this.mana = maxmana;
+	}
+	
 	public void buyHealth() {
 		gold -= 3;
 	}

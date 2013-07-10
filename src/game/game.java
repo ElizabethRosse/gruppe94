@@ -54,7 +54,7 @@ public class game extends JPanel implements ActionListener {
 
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
-	private boolean ingame;
+	private boolean ingame, MENU = false;
 	private boolean win;
 	private boolean checkpointactivated = false;
 	private boolean levelup = false, levelup2 = true, levelup3 = true;
@@ -114,6 +114,8 @@ public class game extends JPanel implements ActionListener {
 	int maxnpc = 0;
 	int maxshops = 0;
 	
+	private boolean start  = true;
+	
 	public game() {
 		
 		addKeyListener(new KAdapter());
@@ -152,7 +154,7 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
-		dialog();
+		//dialog();
 		initBackgroundMusik();
 	}
 	
@@ -248,6 +250,10 @@ public class game extends JPanel implements ActionListener {
 		backgroundt.start();
 	}
 	
+	public boolean MENU() {
+		return MENU;
+	}
+	
 	public void initBoss(){														//initializiere Bosse
 		bosses = new ArrayList<Boss>();
 		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
@@ -300,6 +306,11 @@ public class game extends JPanel implements ActionListener {
 	
 	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
+		
+		if (start) {
+			start = false;
+			dialog();
+		}
 		
 		if (ingame) { //zeichne Character, Baeume usw.  wenn ingame = true ist
 			
@@ -767,7 +778,7 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
 		
-		if(cha.gethealth() <= 0) ingame = false; 
+		//if(cha.gethealth() <= 0) ingame = false; 
 		
         initArrows();
 		
@@ -850,7 +861,7 @@ public class game extends JPanel implements ActionListener {
 		if((cha.getContinues() > 0) && (cha.gethealth() <= 0)) {
 			cha.Continue();
 			if(cha.getContinues() == 0) ingame = false;
-			cha.Healthpotion();
+			cha.resContinue();
 			mapNumber = reset;
 			if(mapNumber%10 == 0) {
 				try {
@@ -1040,7 +1051,7 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(10);
 					}*/
 				}
-				else ingame = false;
+				//else ingame = false;
 			}
 			for(int i = 0; i<arrows.size();i++) {
 				Arrow a = (Arrow) arrows.get(i);
@@ -1134,7 +1145,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
-			else if(cha.getContinues() == 0) ingame = false;
+			//else if(cha.getContinues() == 0) ingame = false;
 
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1211,7 +1222,7 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(10);
 				}
 			}	
-			else if(cha.getContinues() == 0) ingame = false;
+			//else if(cha.getContinues() == 0) ingame = false;
 			
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1298,21 +1309,25 @@ public class game extends JPanel implements ActionListener {
 				if (cha.getDX()>0) {
 					if(cha.getDX()==1) cha.addX(-1);
 					else cha.addX(-3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDX()<0) {
 					if(cha.getDX()==1) cha.addX(1);
 					else cha.addX(3);
+					cha.setDX(0);
 				}
 				
 				if (cha.getDY()>0) {
 					if(cha.getDY() == 1) cha.addY(-1);
 					else cha.addY(-3);
+					cha.setDY(0);
 				}
 				
 				if (cha.getDY()<0) {
 					if(cha.getDY() == -1) cha.addY(1);
 					else cha.addY(3);
+					cha.setDY(0);
 				}
 				
 
@@ -1454,7 +1469,7 @@ public class game extends JPanel implements ActionListener {
 				cha.addY(10);
 			}
 		}
-		else if(cha.getContinues() == 0) ingame = false;
+		//else if(cha.getContinues() == 0) ingame = false;
 		
 	for(int k = 0; k<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
@@ -1841,7 +1856,9 @@ public class game extends JPanel implements ActionListener {
 			}
 			else
 			{
-				add(new menu());
+				
+				MENU = true;
+				//add(new menu());
 			}
 		}
 		public void keyReleased(KeyEvent e) {
