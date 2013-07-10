@@ -21,19 +21,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+//import javax.swing.JDialog;
+//import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-import menu.menu;
+//import menu.menu;
 
 public class game extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Timer timer, backgroundt;
+	private Timer timer;
 	private Char cha;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -58,7 +58,7 @@ public class game extends JPanel implements ActionListener {
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame, MENU = false;
-	private boolean win;
+	private boolean win, pause;
 	private boolean checkpointactivated = false;
 	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
@@ -135,6 +135,7 @@ public class game extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		ingame = true;
 		win = false;
+		pause = false;
 		
 		ImageIcon ii =                       //laedt ein Grass image und skaliert es groesser damit es das Sichtfeld abdeckt
 				new ImageIcon(this.getClass().getResource("images/grass.jpg"));
@@ -166,7 +167,7 @@ public class game extends JPanel implements ActionListener {
 		timer.start();
 		repaint();
 		//dialog();
-		initBackgroundMusik();
+		//initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -254,7 +255,7 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void initBackgroundMusik() {
+	/*public void initBackgroundMusik() {
 		ActionListener background = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -264,10 +265,14 @@ public class game extends JPanel implements ActionListener {
 		Sounds.play(2);
 		backgroundt = new Timer(185000, background);
 		backgroundt.start();
-	}
+	}*/
 	
 	public boolean MENU() {
 		return MENU;
+	}
+	
+	public void resMENU() {
+		MENU = false;
 	}
 	
 	public void initBoss(){														//initializiere Bosse
@@ -332,6 +337,23 @@ public class game extends JPanel implements ActionListener {
 				levelup3 = false;
 			}
 		}
+	}
+	
+	public void pause() {
+		timer.stop();
+		MENU = true;
+		pause = true;
+	}
+	
+	public void retpause() {
+		timer.start();
+		pause = false;
+		MENU = false;
+		repaint();
+	}
+	
+	public boolean getpause() {
+		return pause;
 	}
 	
 	public void paint(Graphics g) {												//painting the background
@@ -750,6 +772,7 @@ public class game extends JPanel implements ActionListener {
 		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
 		zweiterJDialog.setModal(true);
 		zweiterJDialog.setVisible(true);*/
+		Sounds.play(3);
 		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
 		cha.resST();
 		cha.makeSword();
@@ -1011,6 +1034,7 @@ public class game extends JPanel implements ActionListener {
 					}
 				}
 				else {
+					Sounds.play(6);
 					enemies.remove(i);
 					NumberofEnemies -= 1;
 					cha.addXP(1);
@@ -1155,6 +1179,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}}
 			else {
+				Sounds.play(6);
 				enemies.remove(k);
 				NumberofEnemies -= 1;
 				cha.addXP(1);
@@ -1561,6 +1586,7 @@ public class game extends JPanel implements ActionListener {
 						cha.setDX(0);
 						cha.addX(-5);
 						dialog2();
+						
 					}
 				
 					if (cha.getDX()<0) {
@@ -2117,6 +2143,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_H) dialog();
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) pause();
 			else cha.keyReleased(e);
 		}
 		
