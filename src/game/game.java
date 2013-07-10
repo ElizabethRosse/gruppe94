@@ -961,6 +961,7 @@ public class game extends JPanel implements ActionListener {
 					}
 				}
 				else {
+					Sounds.play(6);
 					enemies.remove(i);
 					NumberofEnemies -= 1;
 					cha.addXP(1);
@@ -1090,6 +1091,7 @@ public class game extends JPanel implements ActionListener {
 				}
 			}}
 			else {
+				Sounds.play(6);
 				enemies.remove(k);
 				NumberofEnemies -= 1;
 				cha.addXP(1);
@@ -1409,7 +1411,6 @@ public class game extends JPanel implements ActionListener {
 						cha.addY(5);
 						dialog2();
 					}
-					Sounds.play(3);
 				}
 			}
 		}
