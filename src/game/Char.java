@@ -335,6 +335,7 @@ public class Char {
 	public void resContinue() {
 		this.health = maxhealth;
 		this.mana = maxmana;
+		this.gold = 0;
 	}
 	
 	public void buyHealth() {
