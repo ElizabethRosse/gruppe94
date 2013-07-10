@@ -3,7 +3,9 @@ package game;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Saving {
 	 FileReader datei = null;
@@ -24,7 +26,7 @@ public class Saving {
 	 public int[] load() throws IOException {
 		 String line;
 		 int wert;
-		 int[] loadings = new int[12];
+		 int[] loadings = new int[16];
 		 line = dat.readLine();
 		 int a = 0;
 			
@@ -36,5 +38,17 @@ public class Saving {
 		 }
 		 dat.close();
 		 return loadings;
+	 }
+	 
+	 public void save(int[] save) throws IOException{
+		 String line;
+		 PrintWriter pWriter;
+		 pWriter = new PrintWriter(new FileWriter("test.txt"));
+		 
+		 for (int i=0; i <12; i++) {
+			 line = ""  + save[i];
+			 pWriter.println("Hallo Welt!");
+	         pWriter.flush(); 
+		 }
 	 }
 }

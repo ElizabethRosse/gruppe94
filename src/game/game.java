@@ -116,7 +116,7 @@ public class game extends JPanel implements ActionListener {
 	
 	private boolean start  = true;
 	
-	public game(/*boolean newGame*/) {
+	public game(boolean newGame) {
 		
 		addKeyListener(new KAdapter());
 		setFocusable(true);
@@ -140,26 +140,131 @@ public class game extends JPanel implements ActionListener {
 		
 		
 		setSize(500, 500);
-		//if (newGame) {
 		cha = new Char();
-		/*try {
-			initMap(mapNumber, 51, 240);									//loading first map
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		} else {*/
-			cha = new Char();
+		
+		if (newGame) {
 			try {
-				initMap(mapNumber, 51, 240);									//loading saved map
+				initMap(mapNumber, 51, 240);									//loading first map
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			int a = 0;															//loading a saved game
+			int[] i = new int[16];
+			Saving save = new Saving();
+			
+			try {
+				i = save.load();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			while (a < 16) {
+			switch (a)  {														//initialising the saved version
+				case 0 : {
+					mapNumber = i[a];
+					a++;
+					break;
+				}
+				case 1 : {
+					cha.setContinues(i[a]); 
+					a++;
+					break;
+				}
+				case 2 : {
+					cha.setMaxhealth(i[a]);
+					a++;
+					break;
+				}
+				case 3 : {
+					cha.setGoldtest(i[a]);
+					a++;
+					break;
+				}
+				case 4 : {
+					cha.setMaxmana(i[a]);
+					a++;
+					break;
+				}
+				case 5 : {
+					if (i[a] == 1) {
+						cha.makeSword();
+						}
+					a++;
+					break;
+				}
+				case 6 : {
+					if (i[a] == 1) {
+						cha.makeArrow();
+						}
+					a++;
+					break;
+				}
+				case 7 : {
+					cha.setX(i[a]);
+					a++;
+					break;
+				}
+				case 8 : {
+					cha.setY(i[a]);
+					a++;
+					break;
+				}
+				case 9 : {
+					if (i[a] == 1) {
+					cha.makeSmile();
+					}
+					a++;
+					break;
+				}
+				case 10 : {
+					while (i[a] > 0) {
+						cha.setManapotion();
+						i[a]--;
+					}
+					a++;
+					break;
+				}
+				case 11 : {
+					while (i[a] > 0) {
+					cha.setHealthpotion();
+					i[a]--;
+					}
+					a++;
+					break;
+				}
+				case 12 : {
+					cha.setLVL(i[a]);
+					a++;
+					break;
+					}
+				case 13 : {
+					cha.setMana(i[a]);
+					a++;
+					break;
+					}
+				case 14 : {
+					cha.setHealth(i[a]);
+					a++;
+					break;
+					}
+				case 15 : {
+					reset = i[a];
+					a++;
+					break;
+					}
+				}
+			}
+			try {
+				initMap(mapNumber, cha.getX(), cha.getY());									//loading saved map
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-		//}
 		}
-		
+		}
+			
 		initArrows();
 		initfball();
+		
 		
 		timer = new Timer(5, this);
 		timer.start();

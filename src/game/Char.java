@@ -345,6 +345,18 @@ public class Char {
 		 gold = gold + 1;
 	}
 	
+	public void setContinues(int i) {
+		 life = i;
+	}
+	
+	public void setHealth(int i) {
+		 health = i;
+	}
+	
+	public void setMana(int i) {
+		 mana = i;
+	}
+	
 	public void setGoldtest(int i)   {
 		gold = i;
 	}
