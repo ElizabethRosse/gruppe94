@@ -1041,12 +1041,12 @@ public class game extends JPanel implements ActionListener {
 					levelup = true;
 				}
 			}
-			for (int i = 0; i < benemies.size(); i++) {
-				BlueEnemy b = (BlueEnemy) benemies.get(i);
-				if(b.getLife()>0) {
-					Rectangle rBEnemy = b.getBounds();
-					if(rSword.intersects(rBEnemy)) {
-						b.damage(cha.getSDMG());
+			for (int i = 0; i < aenemies.size(); i++) {
+				ArmorEnemy a = (ArmorEnemy) aenemies.get(i);
+				if(a.getLife()>0) {
+					Rectangle rAEnemy = a.getBounds();
+					if(rSword.intersects(rAEnemy)) {
+						a.damage(cha.getSDMG());
 					}
 				}
 				else {
@@ -1200,6 +1200,14 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 			
+			for(int i = 0; i<arrows.size();i++) {
+				Arrow c = (Arrow) arrows.get(i);
+				if(c.getBounds().intersects(rAEnemy)) {
+					c.setVisible(false);
+					a.damage(a.getDmg());
+				}
+			}
+
 			
 			if (rChar.intersects(rAEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
@@ -1207,21 +1215,6 @@ public class game extends JPanel implements ActionListener {
 					a.movecollide();
 				}
 
-			}
-			
-			for(int i = 0; i<fball.size(); i++) {
-				Feuerball f = (Feuerball) fball.get(i);
-				if(f.getBounds().intersects(rAEnemy)) {
-					f.setVisible(false);
-					a.damage(cha.getFDMG());
-				}
-			}
-			for(int i = 0; i<gball.size(); i++) {
-				GeisterBall g = (GeisterBall) gball.get(i);
-				if(g.getBounds().intersects(rAEnemy)) {
-					g.setVisible(false);
-					a.damage(cha.getGDMG());
-				}
 			}
 			
 			}
@@ -1254,13 +1247,7 @@ public class game extends JPanel implements ActionListener {
 				}
 
 			}
-			for(int i = 0; i<arrows.size();i++) {
-				Arrow a = (Arrow) arrows.get(i);
-				if(a.getBounds().intersects(rBEnemy)) {
-					a.setVisible(false);
-					b.damage(a.getDmg());
-				}
-			}
+			
 			for(int i = 0; i<gball.size(); i++) {
 				GeisterBall g = (GeisterBall) gball.get(i);
 				if(g.getBounds().intersects(rBEnemy)) {
@@ -1276,7 +1263,7 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 
-		
+				
 		for (int i = 0; i<manap.size(); i++) {
 			Manapotion m = (Manapotion) manap.get(i);
 			if(m.isVisible()){
