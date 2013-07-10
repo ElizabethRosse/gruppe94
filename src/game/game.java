@@ -39,9 +39,12 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
 	private ArrayList<Feuerball> fball;
+	private ArrayList<GeisterBall> gball;
 	private ArrayList<Manapotion> manap;
 	private ArrayList<Healthpotion> healthp;
 	private ArrayList<Enemy> enemies;
+	private ArrayList<BlueEnemy> benemies;
+	private ArrayList<ArmorEnemy> aenemies;
 	private ArrayList<Trap> traps;
 	private ArrayList<Xoss> xosses; // boss2
 	private ArrayList<Zoss> zosses; // boss3
@@ -64,6 +67,12 @@ public class game extends JPanel implements ActionListener {
 	private int[] pos2 = new int[max];
 	private int[] posE1 = new int[max]; 		//Gegner X Wert
 	private int[] posE2 = new int[max];			//Gegner Y Wert
+	private int[] posBE1 = new int [max];		//BlueEnemy X Wert
+	private int[] posBE2 = new int [max];		//BlueEnemy Y Wert
+	private int[] posA1 = new int [max];		//ArmorEnemy X Wert
+	private int[] posA2 = new int [max];		//ArmorEnemy Y Wert
+	private int[] posBDIR = new int [110];		//BlueEnemy Vertikal oder Horizontal
+	private int[] posADIR = new int [110];		//ArmorEnemy Vertikal oder Horizontal
 	private int[] posEDIR = new int[110];		//Gegener Vertikal oder Horizontal
 	private int[] posT1 = new int[110];			//Trap X Wert
 	private int[] posT2 = new int[110];			//Trap Y Wert
@@ -104,6 +113,8 @@ public class game extends JPanel implements ActionListener {
 	int maxcoin = 0;
 	int Spawnpoints = 0;
 	int NumberofEnemies = 0;
+	int NumberofBEnemies = 0;
+	int NumberofAEnemies = 0;
 	int NumberofTraps = 0;
 	int goals = 0;
 	int items = 0;
@@ -174,6 +185,11 @@ public class game extends JPanel implements ActionListener {
 	public void initfball() {
 		fball = new ArrayList<Feuerball>();
 		fball = cha.getFBall();
+	}
+	
+	public void initgball() {
+		gball = new ArrayList<GeisterBall>();
+		gball = cha.getGBall();
 	}
 	
 	public void addNotify() {  
@@ -280,6 +296,20 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 
+	public void initBEnemies() {
+		benemies = new ArrayList<BlueEnemy>();
+		for (int i=0; i < NumberofBEnemies ; i++) {								//BlueEnemy ArrayList mit X, Y und Direction aus Textdatei
+			benemies.add(new BlueEnemy(posBE1[i] + 13, posBE2[i] + 13, posBDIR[i]));
+		}
+	}
+	
+	public void initAEnemies() {
+		aenemies = new ArrayList<ArmorEnemy>();
+		for (int i=0; i < NumberofAEnemies ; i++) {								//ArmorEnemy ArrayList mit X, Y und Direction aus Textdatei
+			aenemies.add(new ArmorEnemy(posA1[i] + 13, posA2[i] + 13, posADIR[i]));
+		}
+	}
+	
 	public void initTraps() {													//initializiere Traps
 		traps = new ArrayList<Trap>();
 		for (int i=0; i < NumberofTraps ; i++) {								//Trap ArrayListe mit X und Y Werten aus Textdatei
@@ -364,6 +394,12 @@ public class game extends JPanel implements ActionListener {
 					g2d.drawImage(f.getImage(), f.getX(), f.getY(),  this);
 			}
 			
+			for (int i = 0; i< gball.size(); i++) {								//zeichne Geisterbälle
+				GeisterBall o = (GeisterBall) gball.get(i);
+				if (o.isVisible())
+					g2d.drawImage(o.getImage(), o.getX(), o.getY(), this);
+			}
+			
 			for (int i = 0; i < arrows.size(); i++) {							//zeichne Arrows
 				Arrow a = (Arrow) arrows.get(i);
 				if (a.isVisible())
@@ -379,6 +415,16 @@ public class game extends JPanel implements ActionListener {
 				Enemy e = (Enemy) enemies.get(k);
 				if (e.isVisible()) g2d.drawImage(e.getImage(), e.getX(), e.getY(), this);
 					}
+			
+			for (int k = 0; k<benemies.size(); k++) {
+				BlueEnemy b = (BlueEnemy) benemies.get(k);
+				if (b.isVisible()) g2d.drawImage(b.getImage(), b.getX(), b.getY(), this);
+			}
+			
+			for (int k = 0; k<aenemies.size(); k++) {
+				ArmorEnemy a = (ArmorEnemy) aenemies.get(k);
+				if (a.isVisible()) g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
+			}
 			
 			for (int i = 0; i<bosses.size();i++){								//zeichne Bosse
 				Boss b = (Boss) bosses.get(i);
@@ -670,16 +716,16 @@ public class game extends JPanel implements ActionListener {
 		cha.resST();
 		if(cha.haveSword()){
 			if(cha.haveArrow()){
-				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Geisterball: v | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
 						" | Sword: g | Arrow: Space");
 			}
 			else {
-				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
+				JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Geisterball: v | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" +
 						" | Sword: g ");
 				}
 		}
 		else{
-			JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" );
+			JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Geisterball: v | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" );
 			}
 		/*startupJDialog.setModal(true);
 		startupJDialog.setVisible(true);*/
@@ -790,6 +836,14 @@ public class game extends JPanel implements ActionListener {
 		}
 		
 		initfball();
+		initgball();
+		
+		for (int i = 0; i< gball.size(); i++) {
+			GeisterBall g = (GeisterBall) gball.get(i);
+			if (g.isVisible())
+				g.move();
+			else gball.remove(i);
+		}
 		
 		for(int i = 0; i < fball.size(); i++) {
 			Feuerball f = (Feuerball) fball.get(i);
@@ -807,6 +861,7 @@ public class game extends JPanel implements ActionListener {
 			mapNumber++;
 			cha.resArrows();
 			cha.resFball();
+			cha.resGball();
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
@@ -817,6 +872,7 @@ public class game extends JPanel implements ActionListener {
 			mapNumber--;
 			cha.resArrows();
 			cha.resFball();
+			cha.resGball();
 			try {
 				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
@@ -827,6 +883,7 @@ public class game extends JPanel implements ActionListener {
 			mapNumber = mapNumber + 10;
 			cha.resArrows();
 			cha.resFball();
+			cha.resGball();
 			try {
 				initMap(mapNumber, 225, 480);
 			} catch (IOException e1) {
@@ -837,6 +894,7 @@ public class game extends JPanel implements ActionListener {
 			mapNumber = mapNumber - 10;
 			cha.resArrows();
 			cha.resFball();
+			cha.resGball();
 			try {
 				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
@@ -915,7 +973,21 @@ public class game extends JPanel implements ActionListener {
 			if(e.getLife()>0) {
 				e.move();
 			}
-		}	
+		}
+
+		for (int i = 0; i < benemies.size(); i++) {
+			BlueEnemy b = (BlueEnemy) benemies.get(i);
+			if(b.getLife()>0) {
+				b.move();
+			}
+		}
+		
+		for (int i = 0; i < aenemies.size(); i++) {
+			ArmorEnemy a = (ArmorEnemy) aenemies.get(i);
+			if(a.getLife()>0) {
+				a.move();
+			}
+		}
 	}		
 		
 		
@@ -941,6 +1013,21 @@ public class game extends JPanel implements ActionListener {
 				else {
 					enemies.remove(i);
 					NumberofEnemies -= 1;
+					cha.addXP(1);
+					levelup = true;
+				}
+			}
+			for (int i = 0; i < benemies.size(); i++) {
+				BlueEnemy b = (BlueEnemy) benemies.get(i);
+				if(b.getLife()>0) {
+					Rectangle rBEnemy = b.getBounds();
+					if(rSword.intersects(rBEnemy)) {
+						b.damage(cha.getSDMG());
+					}
+				}
+				else {
+					benemies.remove(i);
+					NumberofBEnemies -= 1;
 					cha.addXP(1);
 					levelup = true;
 				}
@@ -973,7 +1060,22 @@ public class game extends JPanel implements ActionListener {
 					cha.addXP(1);
 					levelup = true;
 				}
-
+			}
+			for (int i = 0; i < aenemies.size(); i++) {
+				ArmorEnemy a = (ArmorEnemy) aenemies.get(i);
+				if(a.getLife()>0) {
+					Rectangle rAEnemy = a.getBounds();
+					if(rSmile.intersects(rAEnemy)) {
+						a.damage(1);
+						a.movecollide();
+					}
+				}
+				else {
+					aenemies.remove(i);
+					NumberofAEnemies -= 1;
+					cha.addXP(1);
+					levelup = true;
+				}
 			}
 		}
 		if (checkpointactivated) {
@@ -1035,23 +1137,8 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
 					e.movecollide();
-					/*if (cha.getDX()>0) {
-						cha.addX(-10);
-					}
-					
-					if (cha.getDX()<0) {
-						cha.addX(10);
-					}
-					
-					if (cha.getDY()>0) {
-						cha.addY(-10);
-					}
-					
-					if (cha.getDY()<0) {
-						cha.addY(10);
-					}*/
 				}
-				//else ingame = false;
+
 			}
 			for(int i = 0; i<arrows.size();i++) {
 				Arrow a = (Arrow) arrows.get(i);
@@ -1074,6 +1161,96 @@ public class game extends JPanel implements ActionListener {
 				levelup = true;
 			}
 		}
+
+		for (int k = 0; k < aenemies.size(); k++) {
+			ArmorEnemy a = (ArmorEnemy) aenemies.get(k);
+			if(a.getLife()>0) {
+			Rectangle rAEnemy = a.getBounds();
+			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rAEnemy.intersects(rTree)){
+					a.movecollide();
+				}
+			}
+			
+			
+			if (rChar.intersects(rAEnemy)){    //schaden bei Berühung mit Gegner
+				if ((cha.gethealth() > 0)) {
+					cha.dmg(a.getDmg());
+					a.movecollide();
+				}
+
+			}
+			
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rAEnemy)) {
+					f.setVisible(false);
+					a.damage(cha.getFDMG());
+				}
+			}
+			for(int i = 0; i<gball.size(); i++) {
+				GeisterBall g = (GeisterBall) gball.get(i);
+				if(g.getBounds().intersects(rAEnemy)) {
+					g.setVisible(false);
+					a.damage(cha.getGDMG());
+				}
+			}
+			
+			}
+			else {
+				aenemies.remove(k);
+				NumberofAEnemies -= 1;
+				cha.addXP(1);
+				levelup = true;
+			}
+		}
+
+		for (int k = 0; k < benemies.size(); k++) {
+			BlueEnemy b = (BlueEnemy) benemies.get(k);
+			if(b.getLife()>0) {
+			Rectangle rBEnemy = b.getBounds();
+			
+			for (int j = 0; j < trees.size(); j++) {
+				Tree t = (Tree) trees.get(j);
+				Rectangle rTree = t.getBounds();
+				if (rBEnemy.intersects(rTree)){
+					b.movecollide();
+				}
+			}
+			
+			
+			if (rChar.intersects(rBEnemy)){    //schaden bei Berühung mit Gegner
+				if ((cha.gethealth() > 0)) {
+					cha.dmg(b.getDmg());
+					b.movecollide();
+				}
+
+			}
+			for(int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rBEnemy)) {
+					a.setVisible(false);
+					b.damage(a.getDmg());
+				}
+			}
+			for(int i = 0; i<gball.size(); i++) {
+				GeisterBall g = (GeisterBall) gball.get(i);
+				if(g.getBounds().intersects(rBEnemy)) {
+					g.setVisible(false);
+					b.damage(cha.getGDMG());
+				}
+			}}
+			else {
+				benemies.remove(k);
+				NumberofBEnemies -= 1;
+				cha.addXP(1);
+				levelup = true;
+			}
+		}
+
 		
 		for (int i = 0; i<manap.size(); i++) {
 			Manapotion m = (Manapotion) manap.get(i);
@@ -1175,6 +1352,15 @@ public class game extends JPanel implements ActionListener {
 				b.damage(cha.getFDMG());
 			}
 		}
+		
+		for (int j = 0; j<gball.size(); j++) {
+			GeisterBall g = (GeisterBall) gball.get(j);
+			if (g.getBounds().intersects(rBoss)) {
+				g.setVisible(false);
+				b.damage(cha.getGDMG());
+			}
+		}
+		
 		}
 			else {
 				cha.addXP(10);
@@ -1237,6 +1423,14 @@ public class game extends JPanel implements ActionListener {
 			if(f.getBounds().intersects(rBoss2)) {
 				f.setVisible(false);
 				x.damage(cha.getFDMG());
+			}
+		}
+		
+		for (int j = 0; j<gball.size(); j++) {
+			GeisterBall g = (GeisterBall) gball.get(j);
+			if (g.getBounds().intersects(rBoss2)) {
+				g.setVisible(false);
+				x.damage(cha.getGDMG());
 			}
 		}
 		if(cha.getSmile()){
@@ -1435,6 +1629,10 @@ public class game extends JPanel implements ActionListener {
 				Feuerball f = (Feuerball) fball.get(i);
 				if(f.getBounds().intersects(rTree)) f.setVisible(false);
 			}
+			for (int i = 0; i<gball.size();i++) {
+				GeisterBall g = (GeisterBall) gball.get(i);
+				if (g.getBounds().intersects(rTree)) g.setVisible(false);
+			}
 		}
 		
 	
@@ -1484,7 +1682,16 @@ public class game extends JPanel implements ActionListener {
 			f.setVisible(false);
 			z.damage(cha.getFDMG());
 		}
-	}if(cha.getSmile()){
+	}
+	for (int h = 0; h<gball.size(); h++) {
+		GeisterBall g = (GeisterBall) gball.get(h);
+		if (g.getBounds().intersects(rBoss2)) {
+			g.setVisible(false);
+			z.damage(cha.getGDMG());
+		}
+	}
+	
+	if(cha.getSmile()){
 		Rectangle rSmile = cha.getBoundsSmile();
 		if(rSmile.intersects(rBoss2)) {
 			z.damage(1);
@@ -1519,6 +1726,8 @@ public class game extends JPanel implements ActionListener {
 		NumberofTrees = 1;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
+		NumberofBEnemies = 0;
+		NumberofAEnemies = 0;
 		NumberofFalsetrees = 0;
 		goals = 0;
 		items = 0;
@@ -1564,6 +1773,40 @@ public class game extends JPanel implements ActionListener {
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 2;
 				NumberofEnemies++;
+				break;
+			}
+			
+			case 'k' : {											// e : BlueEnemy moving horizontal
+				posBE1[NumberofBEnemies] = x;
+				posBE2[NumberofBEnemies] = y;
+				posBDIR[NumberofBEnemies] = 1;
+				
+				NumberofBEnemies++;
+				break;
+			}
+			
+			case 'l' : {											// e2 : BlueEnemy moving vertical
+				posBE1[NumberofBEnemies] = x;
+				posBE2[NumberofBEnemies] = y;
+				posBDIR[NumberofBEnemies] = 2;
+				NumberofBEnemies++;
+				break;
+			}
+			
+			case 'd' : {											// e : ArmorEnemy moving horizontal
+				posA1[NumberofAEnemies] = x;
+				posA2[NumberofAEnemies] = y;
+				posADIR[NumberofAEnemies] = 1;
+				
+				NumberofAEnemies++;
+				break;
+			}
+			
+			case 'f' : {											// e2 : ArmorEnemy moving vertical
+				posA1[NumberofAEnemies] = x;
+				posA2[NumberofAEnemies] = y;
+				posADIR[NumberofAEnemies] = 2;
+				NumberofAEnemies++;
 				break;
 			}
 			
@@ -1667,6 +1910,8 @@ public class game extends JPanel implements ActionListener {
 		
 		initTrees();											// important for repainting
 		initEnemies();
+		initBEnemies();
+		initAEnemies();
 		initTraps();
 		initManap();
 		initHealthp();
