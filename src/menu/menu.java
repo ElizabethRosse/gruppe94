@@ -50,6 +50,7 @@ import game.Sounds;
 			{
 			Surface = CreateMenuFrame();
 			
+			
 			add(Surface);
 			
 			
@@ -58,7 +59,7 @@ import game.Sounds;
 			setTitle("Ich will ein Glücksbärchie sein !!!");
 			setSize(515, 538);
 			setLocationRelativeTo(null);
-			//setResizable(false);
+			setResizable(false);
 			setVisible(true);
 			}
 		
@@ -77,6 +78,7 @@ import game.Sounds;
 		}
 		
 		public void initBackgroundMusik() {
+			
 			ActionListener background = new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
@@ -117,7 +119,6 @@ import game.Sounds;
 			
 		public JPanel CreateMenuFrame ()
 			{
-			
 			TimeCheck();
 			initBackgroundMusik();
 			
