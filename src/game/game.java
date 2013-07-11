@@ -826,7 +826,7 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
-		g.dispose(); //wie final verhindert Änderung des JFrames
+		g.dispose();
 		
 	}
 	
@@ -1246,6 +1246,13 @@ public class game extends JPanel implements ActionListener {
 					a.movecollide();
 				}
 			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rAEnemy)) {
+					f.setVisible(false);
+					
+				}
+			}
 			}
 			else {
 				aenemies.remove(k);
@@ -1283,7 +1290,15 @@ public class game extends JPanel implements ActionListener {
 					g.setVisible(false);
 					b.damage(cha.getGDMG());
 				}
-			}}
+			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rBEnemy)) {
+					f.setVisible(false);
+					
+				}
+			}
+			}
 			else {
 				benemies.remove(k);
 				NumberofBEnemies -= 1;
