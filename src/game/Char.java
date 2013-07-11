@@ -47,6 +47,7 @@ public class Char {
 		maxhealth = 6;
 		mana = 100;
 		maxmana = 100;
+		fdmg = 50;
 		Sword = false;
 		Arrow = false;
 		Smile = false;
@@ -343,6 +344,7 @@ public class Char {
 	
 	public void Manapotion() {
 		if((manapotion>0)&&(mana<maxmana)){
+			Sounds.play(8);
 			this.mana = maxmana;
 			manapotion -= 1;
 		}
@@ -364,8 +366,9 @@ public class Char {
 	
 	public void Healthpotion() {
 		if((healthpotion>0)&&(health<maxhealth)){
-		this.health = maxhealth;
-		healthpotion -= 1;
+			Sounds.play(8);
+			this.health = maxhealth;
+			healthpotion -= 1;
 		}
 	}
 	
@@ -506,8 +509,9 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_V){
-			 if(mana>9) {ghost();
-			 mana -= 10;}
+			 if(mana>9) {
+				 ghost();
+				 mana -= 10;}
 		 }
 		 
 		 if (key == KeyEvent.VK_SPACE) {
