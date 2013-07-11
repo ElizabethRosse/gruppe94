@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class GeisterBall {
 	
 	private int x,y, manacost;
-	private Image image;
+	private Image image, imageD, imageR, imageL;
 	boolean visible;
 	private int width, height, direction, damage;
 	
@@ -18,6 +18,16 @@ public class GeisterBall {
 		
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/spirit.png"));
 		image = ii.getImage();
+				  ii = new ImageIcon(this.getClass().getResource("images/spiritD.png"));
+		imageD = ii.getImage();
+		width = image.getWidth(null);
+		height = image.getHeight(null);
+		
+				  ii = new ImageIcon(this.getClass().getResource("images/spiritR.png"));
+		imageR = ii.getImage();
+				  ii = new ImageIcon(this.getClass().getResource("images/spiritL.png"));
+		imageL = ii.getImage();
+		
 		damage = 50;
 		visible = true;
 		width = image.getWidth(null);
@@ -29,7 +39,13 @@ public class GeisterBall {
 	}
 	
 	public Image getImage() {
-		return image;
+		switch(direction){
+		case 1 : return imageR; 
+		case 2 : return imageL;
+		case 3 : return imageD;
+		case 4 : return image;
+		default: return imageR;
+		}
 	}
 	
 	public int getCost() {
