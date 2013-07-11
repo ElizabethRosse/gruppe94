@@ -21,13 +21,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-//import javax.swing.JDialog;
-//import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-//import menu.menu;
 
 public class game extends JPanel implements ActionListener {
 
@@ -268,9 +265,8 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, cha.getX(), cha.getY());									//loading saved map
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-		}
+			}
 		}
 			
 		initArrows();
@@ -280,8 +276,6 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
-		//dialog();
-		//initBackgroundMusik();
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
@@ -369,17 +363,6 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
-	/*public void initBackgroundMusik() {
-		ActionListener background = new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				Sounds.play(2);
-			}
-		};
-		Sounds.play(2);
-		backgroundt = new Timer(185000, background);
-		backgroundt.start();
-	}*/
 	
 	public boolean MENU() {
 		return MENU;
@@ -848,9 +831,6 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialog() {
-		/*JDialog startupJDialog = new JDialog();
-		startupJDialog.setTitle("How to!");
-		startupJDialog.setLocationRelativeTo(null);*/
 		cha.resST();
 		if(cha.haveSword()){
 			if(cha.haveArrow()){
@@ -865,29 +845,13 @@ public class game extends JPanel implements ActionListener {
 		else{
 			JOptionPane.showMessageDialog(null,"Move: Pfeiltasten | Feuerball: f | Geisterball: v | Manapotion: m | Healthpotion: n | Sprint: Shift | Help: h" );
 			}
-		/*startupJDialog.setModal(true);
-		startupJDialog.setVisible(true);*/
 	}
 	
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
-		/*JDialog ersterJDialog = new JDialog();
-		ersterJDialog.setTitle ("Mr Moustache");
-		ersterJDialog.setSize(270,75);
-		ersterJDialog.setLocationRelativeTo(null);
-		ersterJDialog.add(new JLabel ("Yo Nerd! Die Smileys brauchen deine Hilfe!"));
-		ersterJDialog.setModal(true);
-		ersterJDialog.setVisible(true);*/
 		JOptionPane.showMessageDialog(null,"Yo Nerd! Die Smileys brauchen deine Hilfe!");
 	}
 	
 	public void dialog2() {
-		/*JDialog zweiterJDialog = new JDialog();
-		zweiterJDialog.setTitle("It's dagerous out there!");
-		zweiterJDialog.setSize(400,75);
-		zweiterJDialog.setLocationRelativeTo(null);
-		zweiterJDialog.add(new JLabel ("Take this it's dangerous out there!(You got a Sword(use with 'g'))"));
-		zweiterJDialog.setModal(true);
-		zweiterJDialog.setVisible(true);*/
 		Sounds.play(3);
 		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
 		cha.resST();
@@ -895,60 +859,28 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialog3() {
-		/*JDialog dritterJDialog = new JDialog();
-		dritterJDialog.setTitle("Smile!");
-		dritterJDialog.setSize(400,75);
-		dritterJDialog.setLocationRelativeTo(null);
-		dritterJDialog.add(new JLabel ("You got your Smile back!(You can Smile with 'd')"));
-		dritterJDialog.setModal(true);
-		dritterJDialog.setVisible(true);*/
 		JOptionPane.showMessageDialog(null,"You got your Smile back!(Now you can Smile with 'd')");
 		cha.resST();
 		cha.makeSmile();
 	}
 	
 	public void dialog4() {
-		/*JDialog vierterJDialog = new JDialog();
-		vierterJDialog.setTitle("Arrows!");
-		vierterJDialog.setSize(400,75);
-		vierterJDialog.setLocationRelativeTo(null);
-		vierterJDialog.add(new JLabel ("You got some Arrows!(Shoot them with 'Space')"));
-		vierterJDialog.setModal(true);
-		vierterJDialog.setVisible(true);*/
 		JOptionPane.showMessageDialog(null,"You found some Arrows!(You can shoot with 'Space')");
 		cha.resST();
 		cha.makeArrow();
 	}
 	
 	public void dialogLVL2() {
-		/*JDialog LVL2JDialog = new JDialog();
-		LVL2JDialog.setTitle("Level Up!");
-		LVL2JDialog.setSize(400,75);
-		LVL2JDialog.setLocationRelativeTo(null);
-		LVL2JDialog.add(new JLabel ("You reached Level 2! Your fireball's damage doubled!"));
-		LVL2JDialog.setModal(true);
-		LVL2JDialog.setVisible(true);*/
 		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
 	}
 	
 	public void dialogLVL3() {
-		/*JDialog LVL3JDialog = new JDialog();
-		LVL3JDialog.setTitle("Level Up!");
-		LVL3JDialog.setSize(400,75);
-		LVL3JDialog.setLocationRelativeTo(null);
-		LVL3JDialog.add(new JLabel ("You reached Level 3! Your sword's damage doubled!"));
-		LVL3JDialog.setModal(true);
-		LVL3JDialog.setVisible(true);*/
 		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
 	}
 	
 	public void shop() {
-		//JOptionPane.showOptionDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen?","Shop",
-                //JOptionPane.YES_NO_OPTION,
-                //JOptionPane.PLAIN_MESSAGE, null, 
-                //new String[]{"BUY", "BYE"}, "BUY");
 				int h = JOptionPane.showConfirmDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen fuer 3 Gold?");
 		if(h==0){
 			if(cha.getGold()>=3){
@@ -962,9 +894,6 @@ public class game extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
-		
-		//if(cha.gethealth() <= 0) ingame = false; 
-		
         initArrows();
 		
 		for(int i = 0; i < arrows.size(); i++) {
@@ -1004,7 +933,6 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, 11, 240);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}}//increasing mapNumber with starting positions
 		else if(cha.getX() < 10 ) { 															//decrease mapNumber
@@ -1015,7 +943,6 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, 480, 240);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 		} else if(cha.getY() < 35 ) { 															//decrease mapNumber
@@ -1026,7 +953,6 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, 225, 480);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 		} else if(cha.getY() > 490 ) { 															//decrease mapNumber
@@ -1037,7 +963,6 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, 220, 36);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 		}
@@ -1064,14 +989,12 @@ public class game extends JPanel implements ActionListener {
 				try {
 					initMap(mapNumber, 51, 240);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 			try {
 				initMap(mapNumber, checkpointX[0] + 25, checkpointY[0]);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			}
@@ -1136,7 +1059,6 @@ public class game extends JPanel implements ActionListener {
 		
 		Rectangle rChar = cha.getBounds();
 	
-		
 		if(cha.getST()) {
 			Sword sword = cha.getSword();
 			Rectangle rSword = sword.getBounds();
@@ -1172,13 +1094,6 @@ public class game extends JPanel implements ActionListener {
 					levelup = true;
 				}
 			}
-			/*for(int i = 0; i<traps.size();i++) {
-				Trap t = (Trap) traps.get(i);
-				Rectangle rTrap = t.getBounds();
-				if(rTrap.intersects(rSword)){
-					
-				}
-			}*/
 		}
 		
 		if(cha.getSmile()) {
@@ -1330,9 +1245,7 @@ public class game extends JPanel implements ActionListener {
 					cha.dmg(a.getDmg());
 					a.movecollide();
 				}
-
 			}
-			
 			}
 			else {
 				aenemies.remove(k);
@@ -1449,8 +1362,6 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(10);
 				}
 			}
-			
-			//else if(cha.getContinues() == 0) ingame = false;
 
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1536,7 +1447,6 @@ public class game extends JPanel implements ActionListener {
 					cha.addY(10);
 				}
 			}	
-			//else if(cha.getContinues() == 0) ingame = false;
 			
 		for(int k = 0; k<arrows.size();k++) {
 			Arrow a = (Arrow) arrows.get(k);
@@ -1585,7 +1495,6 @@ public class game extends JPanel implements ActionListener {
 			try {
 				initMap(mapNumber, 51, 240);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1796,7 +1705,6 @@ public class game extends JPanel implements ActionListener {
 				cha.addY(10);
 			}
 		}
-		//else if(cha.getContinues() == 0) ingame = false;
 		
 	for(int k = 0; k<arrows.size();k++) {
 		Arrow a = (Arrow) arrows.get(k);
@@ -1866,10 +1774,8 @@ public class game extends JPanel implements ActionListener {
 		maxcoin = 0;
 		maxshops = 0;
 		
-		
 		pos1[0] = 0;
 		pos2[0] = 25;
-		
 		
 		prototypemap = getMap(m);
 		
@@ -2113,92 +2019,92 @@ public class game extends JPanel implements ActionListener {
 			datei = new FileReader("src\\game\\maps\\map11");
 			dat = new BufferedReader(datei);																				//map11
 		break;
-	}
+		}
 		case 103 : {
 			datei = new FileReader("src\\game\\maps\\map12");
 			dat = new BufferedReader(datei);																				//map12
 		break;
-	}
+		}
 		case 220 : {
 			datei = new FileReader("src\\game\\maps\\map13");
 			dat = new BufferedReader(datei);																				//map13
 		break;
-	}
+		}
 		case 221 : {
 			datei = new FileReader("src\\game\\maps\\map14");
 			dat = new BufferedReader(datei);																				//map14
 		break;
-	}
+		}
 		case 222 : {
 			datei = new FileReader("src\\game\\maps\\map15");
 			dat = new BufferedReader(datei);																				//map15
 		break;
-	}
+		}
 		case 223 : {
 			datei = new FileReader("src\\game\\maps\\map16");
 			dat = new BufferedReader(datei);																				//map16
 		break;
-	}
+		}
 		case 210 : {
 			datei = new FileReader("src\\game\\maps\\map17");
 			dat = new BufferedReader(datei);																				//map17
 		break;
-	}
+		}
 		case 211 : {
 			datei = new FileReader("src\\game\\maps\\map18");
 			dat = new BufferedReader(datei);																				//map18
 		break;
-	}
+		}
 		case 212 : {
 			datei = new FileReader("src\\game\\maps\\map19");
 			dat = new BufferedReader(datei);																				//map19
 		break;
-	}
+		}
 		case 213 : {
 			datei = new FileReader("src\\game\\maps\\map20");
 			dat = new BufferedReader(datei);																				//map20
 		break;
-	}
+		}
 		case 200 : {
 			datei = new FileReader("src\\game\\maps\\map21");
 			dat = new BufferedReader(datei);																				//map21
 		break;
-	}
+		}
 		case 201 : {
 			datei = new FileReader("src\\game\\maps\\map22");
 			dat = new BufferedReader(datei);																				//map22
 		break;
-	}
+		}
 		case 202 : {
 			datei = new FileReader("src\\game\\maps\\map23");
 			dat = new BufferedReader(datei);																				//map23
 		break;
-	}
+		}
 		case 203 : {
 			datei = new FileReader("src\\game\\maps\\map24");
 			dat = new BufferedReader(datei);																				//map24
 		break;
-	}
+		}
 		case 310 : {
 			datei = new FileReader("src\\game\\maps\\map25");
 			dat = new BufferedReader(datei);																				//map25
 		break;
-	}
+		}
 		case 311 : {
 			datei = new FileReader("src\\game\\maps\\map26");
 			dat = new BufferedReader(datei);																				//map26
 		break;
-	}
+		}
 		case 301 : {
 			datei = new FileReader("src\\game\\maps\\map27");
 			dat = new BufferedReader(datei);																				//map27
 		break;
-	}
+		}
 		case 300 : {
 			datei = new FileReader("src\\game\\maps\\map28");
 			dat = new BufferedReader(datei);																				//map28
 		break;
-	}
+		}
 		default : {
 				datei = new FileReader("src\\game\\maps\\map1");
 				dat = new BufferedReader(datei);																				//map1
@@ -2232,7 +2138,6 @@ public class game extends JPanel implements ActionListener {
 			{
 				
 				MENU = true;
-				//add(new menu());
 			}
 		}
 		public void keyReleased(KeyEvent e) {
