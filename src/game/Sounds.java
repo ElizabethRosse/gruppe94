@@ -23,7 +23,7 @@ public class Sounds {
 	    				}
 	    				break;
 	    		}
-	    		case 2: {
+	    		/*case 2: {
 	    				try {
 	    					final Clip clip = AudioSystem.getClip();
 	    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\Trololo.wav"));
@@ -34,7 +34,7 @@ public class Sounds {
 	    					System.out.println("play sound error: " + e.getMessage() + " for " + "Trololo.wav");
 	    				}
 	    				break;
-	    		}
+	    		}*/
 	    		case 3: {
     				try {
     					final Clip clip = AudioSystem.getClip();

@@ -60,6 +60,10 @@ public class Char {
 		manapotion += 1;
 	}
 	
+	public boolean haveSmile() {
+		return Smile;
+	}
+	
 	public int getManapotion() {
 		return manapotion;
 	}
@@ -417,7 +421,7 @@ public class Char {
 	public int getmana (){
 		return mana;
 	}
-	 
+	
 	public Rectangle getBounds() {
 		 return new Rectangle(x, y, width, height);
 	}

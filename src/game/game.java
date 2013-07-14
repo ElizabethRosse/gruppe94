@@ -189,7 +189,7 @@ public class game extends JPanel implements ActionListener {
 					break;
 				}
 				case 4 : {
-					cha.setMaxmana(i[a]);
+					cha.addXP(i[a]);
 					a++;
 					break;
 				}
@@ -276,6 +276,109 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
+	}
+	
+	public void save() {
+		int a = 0;															//save the game
+		int[] i = new int[16];
+		Saving save = new Saving();
+		
+		while (a < 16) {
+		switch (a)  {														//initialising saveing data, reading all relevant game information
+			case 0 : {
+				i[a] = mapNumber;
+				a++;
+				break;
+			}
+			case 1 : {
+				i[a] = cha.getContinues(); 
+				a++;
+				break;
+			}
+			case 2 : {
+				i[a] = cha.getMaxhealth();
+				a++;
+				break;
+			}
+			case 3 : {
+				i[a] = cha.getGold();
+				a++;
+				break;
+			}
+			case 4 : {
+				i[a] = cha.getXP();
+				a++;
+				break;
+			}
+			case 5 : {
+				if (cha.haveSword()) {
+					i[a] = 1;
+					} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 6 : {
+				if (cha.haveArrow()) {
+					i[a] = 1;
+					} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 7 : {
+				i[a] = cha.getX();
+				a++;
+				break;
+			}
+			case 8 : {
+				i[a] = cha.getY();
+				a++;
+				break;
+			}
+			case 9 : {
+				if (cha.haveSmile()) {
+				i[a] = 1;
+				} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 10 : {
+				i[a] = cha.getManapotion();
+				a++;
+				break;
+			}
+			case 11 : {
+				i[a] = cha.getHealthpotion();
+				a++;
+				break;
+			}
+			case 12 : {
+				i[a] = cha.getLVL();
+				a++;
+				break;
+				}
+			case 13 : {
+				i[a] = cha.getmana();
+				a++;
+				break;
+				}
+			case 14 : {
+				i[a] = cha.gethealth();
+				a++;
+				break;
+				}
+			case 15 : {
+				i[a] = reset;
+				a++;
+				break;
+				}
+			}
+		}
+		try {
+			save.save(i);									// saves the game
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void initArrows() {								//create the arraylist of objects
