@@ -519,7 +519,10 @@ public class Char {
 		 }
 		 
 		 if (key == KeyEvent.VK_SPACE) {
-			 if(Arrow) shoot();
+			 if(Arrow) {
+				 Sounds.play(9);
+				 shoot();
+			 }
 		 }
 		 
 		 if (key == KeyEvent.VK_UP) {
