@@ -421,14 +421,14 @@ public class game extends JPanel implements ActionListener {
 	
 	public void initXP() {
 		if(levelup){
-			if ((cha.getXP() >= 1)&&levelup2){
+			if ((cha.getXP() >= 10)&&levelup2){
 				Sounds.play(7);
 				dialogLVL2();
 				cha.addFDMG(50);
 				cha.setLVL(2);
 				levelup2 = false;
 			}
-			else if ((cha.getXP() >= 30)&&levelup3) {
+			else if ((cha.getXP() >= 100)&&levelup3) {
 				Sounds.play(7);
 				dialogLVL3();
 				cha.addSDMG(5);
@@ -1076,7 +1076,7 @@ public class game extends JPanel implements ActionListener {
 					Sounds.play(6);
 					enemies.remove(i);
 					NumberofEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(2);
 					levelup = true;
 				}
 			}
@@ -1091,7 +1091,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					benemies.remove(i);
 					NumberofBEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(5);
 					levelup = true;
 				}
 			}
@@ -1113,7 +1113,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					enemies.remove(i);
 					NumberofEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(2);
 					levelup = true;
 				}
 			}
@@ -1129,7 +1129,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					aenemies.remove(i);
 					NumberofAEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(10);
 					levelup = true;
 				}
 			}
@@ -1220,7 +1220,7 @@ public class game extends JPanel implements ActionListener {
 				Sounds.play(6);
 				enemies.remove(k);
 				NumberofEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(2);
 				levelup = true;
 			}
 		}
@@ -1270,7 +1270,7 @@ public class game extends JPanel implements ActionListener {
 			else {
 				aenemies.remove(k);
 				NumberofAEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(10);
 				levelup = true;
 			}
 		}
@@ -1313,7 +1313,7 @@ public class game extends JPanel implements ActionListener {
 			for(int i = 0; i<fball.size(); i++) {
 				Feuerball f = (Feuerball) fball.get(i);
 				if(f.getBounds().intersects(rBEnemy)) {
-					f.setVisible(false);
+					//f.setVisible(false);
 					
 				}
 			}
@@ -1321,7 +1321,7 @@ public class game extends JPanel implements ActionListener {
 			else {
 				benemies.remove(k);
 				NumberofBEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(5);
 				levelup = true;
 			}
 		}
@@ -1436,7 +1436,7 @@ public class game extends JPanel implements ActionListener {
 		
 		}
 			else {
-				cha.addXP(10);
+				cha.addXP(15);
 				levelup = true;
 				dialog3();
 				mapNumber = 220;
@@ -1744,6 +1744,7 @@ public class game extends JPanel implements ActionListener {
 		Arrow a = (Arrow) arrows.get(k);
 		if(a.getBounds().intersects(rBoss2)) {
 			a.setVisible(false);
+			arrows.remove(k);
 			z.damage(a.getDmg());
 		}
 	}
