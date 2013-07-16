@@ -7,9 +7,11 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -80,22 +82,146 @@ public class MapMenu extends JMenuBar {
 	
 	public void save() {																		//saves the map
 		
+		char[] Map = new char[8];
+		
 		try {
 			JFileChooser saveDialog = new JFileChooser();
 			saveDialog.showSaveDialog(window);
-			FileOutputStream dat = new FileOutputStream(saveDialog.getSelectedFile());			//user says where the data is saved
-			BufferedOutputStream buf = new BufferedOutputStream(dat);
-			ObjectOutputStream write = new ObjectOutputStream(buf);
+			PrintWriter dat = new PrintWriter(saveDialog.getSelectedFile());			//user says where the data is saved
 			
-			write.writeObject(window.actualMap.map);											//data contains: map, mapname, tileset-name; in this row
-			write.writeObject(window.actualMap.mapName);										
-			write.writeObject(window.actualMap.tilesetDataname);
-			write.close();
+			System.out.println(window.actualMap.map);
+			
+			Map = convertsave(window.actualMap.map);
+			
+			for(int i = 0; i < 10; i++) {
+				
+				int j = 0;
+				String line = "";
+				
+				while (j < 10) {
+					line = "" + Map[i+j];
+				}
+				
+				dat.println(line);
+				dat.flush();
+			}
+			dat.close();
 			
 		} catch(IOException e) {
 		
 			e.printStackTrace();
 		}
+	}
+	
+	public char[] convertsave(int[] [] map) {
+		
+		char[] Map = new char[8];
+		int a = 0;
+		
+		for(int i= 0; i < window.actualMap.map.length; i++) {
+			
+			for(int j = 0; j < window.actualMap.map[i].length; j++) {
+				
+				switch (window.actualMap.map[i] [j]) {
+				case 0 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 1 : {
+					Map[a] = 't';
+					a++;
+					break;
+				}
+				case 2 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 3 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 4 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 5 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 6 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 7 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 8 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 9 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 10 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 11 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 12 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 13 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 14 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 15 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 16 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				case 17 : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				default : {
+					Map[a] = ' ';
+					a++;
+					break;
+				}
+				}
+			}
+		}
+	return Map;	
 	}
 
 }

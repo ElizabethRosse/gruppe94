@@ -1891,7 +1891,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 0;													//loop variables
+		int i = 1;													//loop variables
 		int x = 50;
 		int y = 25;
 		char[] prototypemap = new char[110];
@@ -1920,7 +1920,7 @@ public class game extends JPanel implements ActionListener {
 		
 		prototypemap = getMap(m);
 		
-		while(i < 10) {												//maximum of fields on a map: 110
+		while(i < 110) {												//maximum of fields on a map: 110
 			
 			if(i % 10 == 0){
 				y = y + 50;
@@ -1928,7 +1928,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 			switch(prototypemap[i]) {
-			case 2 : {											// # : wall
+			case '#' : {											// # : wall
 				pos1[NumberofTrees] = x;
 				pos2[NumberofTrees] = y;
 				NumberofTrees++;
@@ -1986,7 +1986,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 1 : {												// t : traps
+			case 't' : {												// t : traps
 				posT1[NumberofTraps] = x;
 				posT2[NumberofTraps] = y;
 				
@@ -2057,7 +2057,7 @@ public class game extends JPanel implements ActionListener {
 				initshop();
 				break;
 			}
-			case 3 : {											// c : checkpoint
+			case 'c' : {											// c : checkpoint
 				checkpointX[NumberofCheckpoints] = x;
 				checkpointY[NumberofCheckpoints] = y;
 				NumberofCheckpoints++;
