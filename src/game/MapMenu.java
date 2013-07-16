@@ -82,16 +82,15 @@ public class MapMenu extends JMenuBar {
 	
 	public void save() {																		//saves the map
 		
-		char[] Map = new char[8];
+		char[] Map = new char[300];
 		
 		try {
 			JFileChooser saveDialog = new JFileChooser();
 			saveDialog.showSaveDialog(window);
 			PrintWriter dat = new PrintWriter(saveDialog.getSelectedFile());			//user says where the data is saved
 			
-			System.out.println(window.actualMap.map);
-			
 			Map = convertsave(window.actualMap.map);
+			int a = 0;
 			
 			for(int i = 0; i < 10; i++) {
 				
@@ -99,7 +98,10 @@ public class MapMenu extends JMenuBar {
 				String line = "";
 				
 				while (j < 10) {
-					line = "" + Map[i+j];
+					line = "" + Map[a];
+					System.out.println(Map[a]);
+					a++;
+					j++;
 				}
 				
 				dat.println(line);
@@ -115,7 +117,7 @@ public class MapMenu extends JMenuBar {
 	
 	public char[] convertsave(int[] [] map) {
 		
-		char[] Map = new char[8];
+		char[] Map = new char[300];
 		int a = 0;
 		
 		for(int i= 0; i < window.actualMap.map.length; i++) {

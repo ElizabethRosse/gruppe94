@@ -36,7 +36,6 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private dog d;
-	private Xoss xoss;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
@@ -1221,6 +1220,7 @@ public class game extends JPanel implements ActionListener {
 		if (rChar.intersects(rDog)){
 			if (d.isVisible() && drawdog){
 				d.setVisible(false);
+				Sounds.play(11);
 				getDog = true;
 			}
 		}
