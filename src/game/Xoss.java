@@ -89,12 +89,26 @@ public class Xoss {
 		else if (direction==4) arrows.add(new Arrow(x-3+width/2, y           , direction));
 	}
 
-	public void randomdirection() {
+	public void changedirection(int x, int y) {
 		double h = Math.random();
-		if (h < 0.25) direction = 1;
+		/*if (h < 0.25) direction = 1;
 		else if (h > 0.25 && h < 0.5) direction = 2;
 		else if (h > 0.5 && h < 0.75) direction = 3;
-		else direction = 4;
+		else direction = 4;*/
+		if (x> this.x && y> this.y) {
+			if(h>0.5) direction = 3;
+			else direction = 1;
+		}
+		else if (x< this.y && y< this.y){
+			if(h>0.5) direction = 2;
+			else direction = 4;
+		}
+		else if (x> this.x && y< this.y){
+			if ( h>0.5) direction = 4;
+			else direction = 1;
+		}
+		else if (h>0.5) direction = 3;
+		else direction = 2;
 	}
 	
 	public void move() {

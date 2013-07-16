@@ -1043,7 +1043,7 @@ public class game extends JPanel implements ActionListener {
         	if (q == 50) {
         		boss.shoot();
         		q = 0;
-        		boss.randomdirection();
+        		boss.changedirection(cha.getX(), cha.getY());
         	}
         }
         
