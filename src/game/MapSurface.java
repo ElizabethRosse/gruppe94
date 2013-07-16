@@ -55,13 +55,13 @@ public class MapSurface extends JPanel {
 		endx = endx / 50;
 		endy = endy / 50;
 		
-		/*if(endx < window.actualMap.map.length) {											//used to paint an "extra" placeholder
+		if(endx < window.actualMap.map.length) {											//used to paint an "extra" placeholder
 			endx++;
 		}
 		
 		if(endy < window.actualMap.map[0].length) {
 			endy++;
-		}*/
+		}
 		
 		for(int x = startx; x < endx; x++) {												//paints the current tile
 			

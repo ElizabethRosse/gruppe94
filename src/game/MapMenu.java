@@ -127,7 +127,7 @@ public class MapMenu extends JMenuBar {
 	
 	public int[] [] convertload(char[] map) {
 		
-		int[] [] Map = new int[10] [10];
+		int[] [] Map = new int[11] [11];
 		
 		for(int i = 0; i < 10; i++) {											//going through char-array and read it out, convert into integer and the right position in integer [] []
 			
@@ -218,6 +218,11 @@ public class MapMenu extends JMenuBar {
 				}											//end switch
 			}												//end for (j)
 		}													//end for (i)
+		
+		for(int i = 0; i < 11 ; i++) {
+			Map[i] [10] = 0;
+			Map[10] [i] = 0;
+		}
 		return Map;
 	}
 	
@@ -226,9 +231,9 @@ public class MapMenu extends JMenuBar {
 		char[] Map = new char[300];
 		int a = 0;
 		
-		for(int i= 0; i < window.actualMap.map.length; i++) {
+		for(int i= 0; i < 10; i++) {
 			
-			for(int j = 0; j < window.actualMap.map[i].length; j++) {
+			for(int j = 0; j < 10; j++) {
 				
 				switch (window.actualMap.map[j] [i]) {
 				case 0 : {

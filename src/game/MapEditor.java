@@ -15,7 +15,7 @@ public class MapEditor extends JFrame {									//creates the map-editor
 		
 		this.requestFocus();
 		
-		int[] [] map = new int[10] [10];								//contains the map as integer
+		int[] [] map = new int[11] [11];								//contains the map as integer
 		
 		String name = "first map";
 		String tilesetDataname = "src\\game\\images\\mapedit.png";		//data in which are all objectives as picture
