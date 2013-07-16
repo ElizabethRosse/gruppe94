@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -56,16 +57,28 @@ public class MapMenu extends JMenuBar {
 		try {
 			JFileChooser saveDialog = new JFileChooser();
 			saveDialog.showOpenDialog(window);
-			FileInputStream dat = new FileInputStream(saveDialog.getSelectedFile());					//user loads the file
-			BufferedInputStream buf = new BufferedInputStream(dat);
-			ObjectInputStream read = new ObjectInputStream(buf);
+			FileReader dat = new FileReader(saveDialog.getSelectedFile());					//user loads the file
+			BufferedReader buf = new BufferedReader(dat);
 			
-			int[] [] map = (int[] []) read.readObject();
-			String name = (String) read.readObject();
-			String dataname = (String) read.readObject();
+			String line = "";
 			
-			window.actualMap = new Map(map,name,dataname);												//read at first the map, than the name of the map and the tileset-name
-			read.close();
+			char[] Map = new char[300];
+			
+			String substring = buf.readLine();
+			
+			while(substring != null) {
+				line = line + substring;
+				substring = buf.readLine();
+			}
+			
+			Map = line.toCharArray();
+			
+			int[] [] map = convertload(Map);
+			//String name = (String) read.readObject();
+			//String dataname = (String) read.readObject();
+			
+			window.actualMap = new Map(map,"src\\game\\images\\mapedit.png","");												//read at first the map, than the name of the map and the tileset-name
+			dat.close();
 			window.surface.changeMap();
 			window.palette.repaint();
 			window.surface.repaint();
@@ -73,8 +86,6 @@ public class MapMenu extends JMenuBar {
 			window.repaint();																			//repaint everything to show the changes
 			
 		} catch(IOException e) {
-			e.getStackTrace();
-		} catch(ClassNotFoundException e) {
 			e.getStackTrace();
 		}
 		
@@ -112,6 +123,102 @@ public class MapMenu extends JMenuBar {
 		
 			e.printStackTrace();
 		}
+	}
+	
+	public int[] [] convertload(char[] map) {
+		
+		int[] [] Map = new int[10] [10];
+		
+		for(int i = 0; i < 10; i++) {											//going through char-array and read it out, convert into integer and the right position in integer [] []
+			
+			for(int j = 0; j < 10; j++) {
+				
+				switch (map[(i*10)+j]) {										//i*10 to kompensate the reset of j
+				
+				case 't' : {
+					Map [j] [i] = 3;
+					break;
+				}
+				case '#' : {
+					Map [j] [i] = 4;
+					break;
+				}
+				case 'c' : {
+					Map [j] [i] = 5;
+					break;
+				}
+				case 'v' : {
+					Map [j] [i] = 6;
+					break;
+				}
+				case 's' : {
+					Map [j] [i] = 7;
+					break;
+				}
+				case 'b' : {
+					Map [j] [i] = 8;
+					break;
+				}
+				case 'q' : {
+					Map [j] [i] = 10;
+					break;
+				}
+				case 'h' : {
+					Map [j] [i] = 11;
+					break;
+				}
+				case 'd' : {
+					Map [j] [i] = 12;
+					break;
+				}
+				case 'f' : {
+					Map [j] [i] = 13;
+					break;
+				}
+				case 'x' : {
+					Map [j] [i] = 14;
+					break;
+				}
+				case 'ü' : {
+					Map [j] [i] = 16;
+					break;
+				}
+				case 'm' : {
+					Map [j] [i] = 17;
+					break;
+				}
+				case 'k' : {
+					Map [j] [i] = 18;
+					break;
+				}
+				case 'l' : {
+					Map [j] [i] = 19;
+					break;
+				}
+				case 'z' : {
+					Map [j] [i] = 20;
+					break;
+				}
+				case 'p' : {
+					Map [j] [i] = 22;
+					break;
+				}
+				case 'g' : {
+					Map [j] [i] = 23;
+					break;
+				}
+				case ' ' : {
+					Map[j] [i] = 0;
+				}
+				default : {
+					Map [j] [i] = 0;
+					break;
+				}
+				
+				}											//end switch
+			}												//end for (j)
+		}													//end for (i)
+		return Map;
 	}
 	
 	public char[] convertsave(int[] [] map) {
