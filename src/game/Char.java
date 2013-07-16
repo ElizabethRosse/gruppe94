@@ -242,7 +242,7 @@ public class Char {
 	}
 	
 	public void shoot() {
-			if (direction==1) arrows.add(new Arrow(x  +width  , y-3+height/2, direction));
+			if      (direction==1) arrows.add(new Arrow(x  +width  , y-3+height/2, direction));
 			else if (direction==2) arrows.add(new Arrow(x-2        , y-3+height/2, direction));
 			else if (direction==3) arrows.add(new Arrow(x-3+width/2, y  +height  , direction));
 			else if (direction==4) arrows.add(new Arrow(x-3+width/2, y           , direction));
