@@ -32,9 +32,11 @@ public class game extends JPanel implements ActionListener {
 	
 	private Timer timer;
 	private Char cha;
+	private Xoss xoss;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
+	private ArrayList<Arrow> xarrows;
 	private ArrayList<Feuerball> fball;
 	private ArrayList<GeisterBall> gball;
 	private ArrayList<Manapotion> manap;
@@ -121,6 +123,7 @@ public class game extends JPanel implements ActionListener {
 	int NumberofCheckpoints = 0;
 	int maxnpc = 0;
 	int maxshops = 0;
+	int q = 0;
 	
 	private boolean start  = true;
 	
@@ -281,6 +284,13 @@ public class game extends JPanel implements ActionListener {
 	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
+	}
+	public void initBossArrows() {
+		xarrows = new ArrayList<Arrow>();
+		for(int i = 0; i < xosses.size();i++) {
+			Xoss boss = (Xoss) xosses.get(i);
+			xarrows = boss.getBossArrows();
+		}
 	}
 	
 	public void initfalsetrees() {
@@ -523,6 +533,12 @@ public class game extends JPanel implements ActionListener {
 			
 			for (int i = 0; i < arrows.size(); i++) {							//zeichne Arrows
 				Arrow a = (Arrow) arrows.get(i);
+				if (a.isVisible())
+					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
+			}
+			
+			for (int i = 0; i < xarrows.size(); i++) {							//zeichne Arrows
+				Arrow a = (Arrow) xarrows.get(i);
 				if (a.isVisible())
 					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
 			}
@@ -895,6 +911,24 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
         initArrows();
+        initBossArrows();
+        
+        for(int  i = 0;i < xosses.size(); i++) {
+        	Xoss boss = (Xoss) xosses.get(i);
+        	q++;
+        	if (q == 50) {
+        		boss.shoot();
+        		q = 0;
+        		boss.randomdirection();
+        	}
+        }
+        
+        for(int i = 0; i < xarrows.size(); i++) {
+			Arrow a = (Arrow) xarrows.get(i);
+			if (a.isVisible())
+				a.move();
+			else xarrows.remove(i);
+		}
 		
 		for(int i = 0; i < arrows.size(); i++) {
 			Arrow a = (Arrow) arrows.get(i);
@@ -1218,6 +1252,15 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 
+		for(int i = 0; i<xarrows.size();i++) {
+			Arrow c = (Arrow) xarrows.get(i);
+			if(c.getBounds().intersects(rChar)) {
+				c.setVisible(false);
+				cha.dmg(1);
+			}
+		}
+		
+		
 		for (int k = 0; k < aenemies.size(); k++) {
 			ArmorEnemy a = (ArmorEnemy) aenemies.get(k);
 			if(a.getLife()>0) {
@@ -1238,7 +1281,6 @@ public class game extends JPanel implements ActionListener {
 					a.damage(a.getDmg());
 				}
 			}
-
 			
 			if (rChar.intersects(rAEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
