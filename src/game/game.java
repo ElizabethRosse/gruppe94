@@ -929,7 +929,7 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
-		g.dispose(); //wie final verhindert Änderung des JFrames
+		g.dispose();
 		
 	}
 	
@@ -1349,6 +1349,13 @@ public class game extends JPanel implements ActionListener {
 					a.movecollide();
 				}
 			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rAEnemy)) {
+					f.setVisible(false);
+					
+				}
+			}
 			}
 			else {
 				aenemies.remove(k);
@@ -1386,7 +1393,15 @@ public class game extends JPanel implements ActionListener {
 					g.setVisible(false);
 					b.damage(cha.getGDMG());
 				}
-			}}
+			}
+			for(int i = 0; i<fball.size(); i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rBEnemy)) {
+					f.setVisible(false);
+					
+				}
+			}
+			}
 			else {
 				benemies.remove(k);
 				NumberofBEnemies -= 1;
@@ -2069,144 +2084,144 @@ public class game extends JPanel implements ActionListener {
 		char[] prototypemap = new char[110];
 		switch(m) {	
 		case 110 : {
-				datei = new FileReader("src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);																				//map1
+			datei = new FileReader("src\\game\\maps\\map1");
+			dat = new BufferedReader(datei);																				//map1
 			break;
 		}
 		case 111 : {
-				datei = new FileReader("src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);																				//map2		
+			datei = new FileReader("src\\game\\maps\\map2");
+			dat = new BufferedReader(datei);																				//map2		
 			break;
 		}
 		case 112 : {			
 			datei = new FileReader("src\\game\\maps\\map3");
-			dat = new BufferedReader(datei);																					//map3				
-		break;
+			dat = new BufferedReader(datei);																				//map3				
+			break;
 		}
 		case 113 : {
-				datei = new FileReader("src\\game\\maps\\map4");
-				dat = new BufferedReader(datei);																				//map4			
+			datei = new FileReader("src\\game\\maps\\map4");
+			dat = new BufferedReader(datei);																				//map4			
 			break;
 		}
 		case 123 : {
-				datei = new FileReader("src\\game\\maps\\map5");
-				dat = new BufferedReader(datei);																				//map5			
+			datei = new FileReader("src\\game\\maps\\map5");
+			dat = new BufferedReader(datei);																				//map5			
 			break;
 		}
 		case 122 : {
-				datei = new FileReader("src\\game\\maps\\map6");
-				dat = new BufferedReader(datei);																				//map6				
+			datei = new FileReader("src\\game\\maps\\map6");
+			dat = new BufferedReader(datei);																				//map6				
 			break;
 		}
 		case 121 : {
-				datei = new FileReader("src\\game\\maps\\map7");
-				dat = new BufferedReader(datei);																				//map7			
+			datei = new FileReader("src\\game\\maps\\map7");
+			dat = new BufferedReader(datei);																				//map7			
 			break;
 		}
 		case 120 : {
-				datei = new FileReader("src\\game\\maps\\map8");
-				dat = new BufferedReader(datei);																				//map8			
+			datei = new FileReader("src\\game\\maps\\map8");
+			dat = new BufferedReader(datei);																				//map8			
 			break;
 		}
 		case 100 : {
-				datei = new FileReader("src\\game\\maps\\map9");
-				dat = new BufferedReader(datei);																				//map9			
+			datei = new FileReader("src\\game\\maps\\map9");
+			dat = new BufferedReader(datei);																				//map9			
 			break;
 		}
 		case 101 : {
 			datei = new FileReader("src\\game\\maps\\map10");
 			dat = new BufferedReader(datei);																				//map10
-		break;
+			break;
 		}
 		case 102 : {
 			datei = new FileReader("src\\game\\maps\\map11");
 			dat = new BufferedReader(datei);																				//map11
-		break;
+			break;
 		}
 		case 103 : {
 			datei = new FileReader("src\\game\\maps\\map12");
 			dat = new BufferedReader(datei);																				//map12
-		break;
+			break;
 		}
 		case 220 : {
 			datei = new FileReader("src\\game\\maps\\map13");
 			dat = new BufferedReader(datei);																				//map13
-		break;
+			break;
 		}
 		case 221 : {
 			datei = new FileReader("src\\game\\maps\\map14");
 			dat = new BufferedReader(datei);																				//map14
-		break;
+			break;
 		}
 		case 222 : {
 			datei = new FileReader("src\\game\\maps\\map15");
 			dat = new BufferedReader(datei);																				//map15
-		break;
+			break;
 		}
 		case 223 : {
 			datei = new FileReader("src\\game\\maps\\map16");
 			dat = new BufferedReader(datei);																				//map16
-		break;
+			break;
 		}
 		case 210 : {
 			datei = new FileReader("src\\game\\maps\\map17");
 			dat = new BufferedReader(datei);																				//map17
-		break;
+			break;
 		}
 		case 211 : {
 			datei = new FileReader("src\\game\\maps\\map18");
 			dat = new BufferedReader(datei);																				//map18
-		break;
+			break;
 		}
 		case 212 : {
 			datei = new FileReader("src\\game\\maps\\map19");
 			dat = new BufferedReader(datei);																				//map19
-		break;
+			break;
 		}
 		case 213 : {
 			datei = new FileReader("src\\game\\maps\\map20");
 			dat = new BufferedReader(datei);																				//map20
-		break;
+			break;
 		}
 		case 200 : {
 			datei = new FileReader("src\\game\\maps\\map21");
 			dat = new BufferedReader(datei);																				//map21
-		break;
+			break;
 		}
 		case 201 : {
 			datei = new FileReader("src\\game\\maps\\map22");
 			dat = new BufferedReader(datei);																				//map22
-		break;
+			break;
 		}
 		case 202 : {
 			datei = new FileReader("src\\game\\maps\\map23");
 			dat = new BufferedReader(datei);																				//map23
-		break;
+			break;
 		}
 		case 203 : {
 			datei = new FileReader("src\\game\\maps\\map24");
 			dat = new BufferedReader(datei);																				//map24
-		break;
+			break;
 		}
 		case 310 : {
 			datei = new FileReader("src\\game\\maps\\map25");
 			dat = new BufferedReader(datei);																				//map25
-		break;
+			break;
 		}
 		case 311 : {
 			datei = new FileReader("src\\game\\maps\\map26");
 			dat = new BufferedReader(datei);																				//map26
-		break;
+			break;
 		}
 		case 301 : {
 			datei = new FileReader("src\\game\\maps\\map27");
 			dat = new BufferedReader(datei);																				//map27
-		break;
+			break;
 		}
 		case 300 : {
 			datei = new FileReader("src\\game\\maps\\map28");
 			dat = new BufferedReader(datei);																				//map28
-		break;
+			break;
 		}
 		default : {
 				datei = new FileReader("src\\game\\maps\\map1");

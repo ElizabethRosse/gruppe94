@@ -5,7 +5,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-//import sun.audio.ContinuousAudioDataStream;
 
 public class Sounds {
 	   
@@ -23,7 +22,7 @@ public class Sounds {
 	    				}
 	    				break;
 	    		}
-	    		/*case 2: {
+	    		case 2: {
 	    				try {
 	    					final Clip clip = AudioSystem.getClip();
 	    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\Trololo.wav"));
@@ -34,7 +33,7 @@ public class Sounds {
 	    					System.out.println("play sound error: " + e.getMessage() + " for " + "Trololo.wav");
 	    				}
 	    				break;
-	    		}*/
+	    		}
 	    		case 3: {
     				try {
     					final Clip clip = AudioSystem.getClip();
@@ -94,7 +93,19 @@ public class Sounds {
     					System.out.println("play sound error: " + e.getMessage() + " for " + "levelup.wav");
     				}
     				break;
-	    		}		    		
+	    		}
+	    		case 8: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\drinking.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "drinking.wav");
+    				}
+    				break;
+	    		}
     			}
 	    	
 	    	

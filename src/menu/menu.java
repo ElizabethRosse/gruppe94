@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.Box;
 import javax.swing.Timer;
 
+import game.MapEditor;
 import game.game;
 import game.Sounds;
 
@@ -49,6 +50,7 @@ import game.Sounds;
 			{
 			Surface = CreateMenuFrame();
 			
+			
 			add(Surface);
 			
 			
@@ -57,6 +59,7 @@ import game.Sounds;
 			setTitle("Ich will ein Glücksbärchie sein !!!");
 			setSize(515, 538);
 			setLocationRelativeTo(null);
+			setResizable(false);
 			setVisible(true);
 			}
 		
@@ -73,6 +76,7 @@ import game.Sounds;
 		}
 		
 		public void initBackgroundMusik() {
+			
 			ActionListener background = new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
@@ -112,7 +116,6 @@ import game.Sounds;
 			
 		public JPanel CreateMenuFrame ()
 			{
-			
 			TimeCheck();
 			initBackgroundMusik();
 			
@@ -153,6 +156,25 @@ import game.Sounds;
 			GridBagConstraints loadc = new GridBagConstraints();
 			loadc.gridx = 0;
 			loadc.gridy = 7;
+			
+			
+			JButton editor = new JButton("Map Editor");			//Map Editor button
+			
+			editor.setPreferredSize( new Dimension(150,25));
+			
+			editor.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					MapEditor Editor = new MapEditor();
+					Editor.setVisible(true);
+					}
+				});
+			
+			GridBagConstraints editorc = new GridBagConstraints();
+			editorc.gridx = 0;
+			editorc.gridy = 11;
 			
 			
 			JButton options = new JButton("Fortsetzen");			//after pause
@@ -291,6 +313,7 @@ import game.Sounds;
 			surface.add(save, savec);
 			surface.add(placeholder6, placeholder6c);
 			surface.add(placeholder7, placeholder7c);
+			surface.add(editor, editorc);
 			
 			return surface;
 			}
