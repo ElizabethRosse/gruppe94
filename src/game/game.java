@@ -32,6 +32,7 @@ public class game extends JPanel implements ActionListener {
 	
 	private Timer timer;
 	private Char cha;
+	private dog d;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
@@ -55,7 +56,8 @@ public class game extends JPanel implements ActionListener {
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame, MENU = false;
-	private boolean win, pause;
+	private boolean win, pause, drawdog;
+	private boolean getDog, DogQcomplete = false;
 	private boolean checkpointactivated = false;
 	private boolean levelup = false, levelup2 = true, levelup3 = true;
 	private int G_WIDTH, G_HEIGHT;
@@ -149,6 +151,8 @@ public class game extends JPanel implements ActionListener {
 		
 		setSize(500, 500);
 		cha = new Char();
+		
+		d = new dog(245,245);
 		
 		if (newGame) {
 			try {
@@ -469,6 +473,11 @@ public class game extends JPanel implements ActionListener {
 			
 			g2d.drawImage(imagescaled, 0, 0, this);   // laedt das Hintergrundbild
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
+			
+			if (mapNumber == 121 && NumberofEnemies==0 && NumberofBEnemies==0 && d.isVisible()){
+				drawdog=true;
+				g2d.drawImage(d.getImage(), d.getX(), d.getY(), this);
+			}
 			
 			for (int i = 0; i <trees.size(); i++) {
 				Tree t = (Tree) trees.get(i);
@@ -851,9 +860,17 @@ public class game extends JPanel implements ActionListener {
 		JOptionPane.showMessageDialog(null,"Yo Nerd! Die Smileys brauchen deine Hilfe!");
 	}
 	
+	public void dialogq1() {
+		JOptionPane.showMessageDialog(null,"Please save my dog by killing all enemies in the next room.");
+	}
+	
+	public void dialogq1complete() {
+		JOptionPane.showMessageDialog(null,"Thanks for rescuing my dog!");
+	}
+	
 	public void dialog2() {
 		Sounds.play(3);
-		JOptionPane.showMessageDialog(null,"Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
+		JOptionPane.showMessageDialog(null,"Thanks for rescuing my dog! Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
 		cha.resST();
 		cha.makeSword();
 	}
@@ -1058,7 +1075,15 @@ public class game extends JPanel implements ActionListener {
 	public void checkCollisions() {								//checking collisions of objects with another object
 		
 		Rectangle rChar = cha.getBounds();
-	
+		Rectangle rDog = d.getBounds();
+		
+		if (rChar.intersects(rDog)){
+			if (d.isVisible() && drawdog){
+				d.setVisible(false);
+				getDog = true;
+			}
+		}
+		
 		if(cha.getST()) {
 			Sword sword = cha.getSword();
 			Rectangle rSword = sword.getBounds();
@@ -1609,29 +1634,96 @@ public class game extends JPanel implements ActionListener {
 							}
 				}
 				case 2 : {
-					if (cha.getDX()>0) {
+					if (cha.getDX()>0 && getDog) {
 						cha.setDX(0);
 						cha.addX(-5);
 						dialog2();
-						
+						getDog=false;
+						DogQcomplete=true;
+						cha.addXP(15);
+						levelup = true;
+				
 					}
 				
-					if (cha.getDX()<0) {
+					if (cha.getDX()<0 && getDog) {
 						cha.setDX(0);
 						cha.addX(5);
 						dialog2();
+						getDog=false;
+						DogQcomplete=true;
+						cha.addXP(15);
+						levelup = true;
 					}
 				
-					if (cha.getDY()>0) {
+					if (cha.getDY()>0 && getDog) {
 						cha.setDY(0);
 						cha.addY(-5);
 						dialog2();
+						getDog=false;
+						DogQcomplete=true;
+						cha.addXP(15);
+						levelup = true;
 					}
 				
-					if (cha.getDY()<0) {
+					if (cha.getDY()<0 && getDog) {
 						cha.setDY(0);
 						cha.addY(5);
 						dialog2();
+						getDog=false;
+						DogQcomplete=true;
+						cha.addXP(15);
+						levelup = true;
+					}
+				}
+				
+				case 3 : {
+					if (cha.getDX()>0) {
+						cha.setDX(0);
+						cha.addX(-5);
+						dialogq1();			
+					}
+				
+					if (cha.getDX()<0 && DogQcomplete==false) {
+						cha.setDX(0);
+						cha.addX(5);
+						dialogq1();
+					}
+				
+					if (cha.getDY()>0 && DogQcomplete==false) {
+						cha.setDY(0);
+						cha.addY(-5);
+						dialogq1();
+					}
+				
+					if (cha.getDY()<0 && DogQcomplete==false) {
+						cha.setDY(0);
+						cha.addY(5);
+						dialogq1();
+					}
+				}
+				case 4 : {
+					if (cha.getDX()>0 && DogQcomplete) {
+						cha.setDX(0);
+						cha.addX(-5);
+						dialogq1complete();			
+					}
+				
+					if (cha.getDX()<0 && DogQcomplete) {
+						cha.setDX(0);
+						cha.addX(5);
+						dialogq1complete();
+					}
+				
+					if (cha.getDY()>0 && DogQcomplete) {
+						cha.setDY(0);
+						cha.addY(-5);
+						dialogq1complete();
+					}
+				
+					if (cha.getDY()<0 && DogQcomplete) {
+						cha.setDY(0);
+						cha.addY(5);
+						dialogq1complete();
 					}
 				}
 			}
