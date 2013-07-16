@@ -98,8 +98,7 @@ public class MapMenu extends JMenuBar {
 				String line = "";
 				
 				while (j < 10) {
-					line = "" + Map[a];
-					System.out.println(Map[a]);
+					line = line + Character.toString(Map[a]);
 					a++;
 					j++;
 				}
@@ -124,14 +123,14 @@ public class MapMenu extends JMenuBar {
 			
 			for(int j = 0; j < window.actualMap.map[i].length; j++) {
 				
-				switch (window.actualMap.map[i] [j]) {
+				switch (window.actualMap.map[j] [i]) {
 				case 0 : {
 					Map[a] = ' ';
 					a++;
 					break;
 				}
 				case 1 : {
-					Map[a] = 't';
+					Map[a] = ' ';
 					a++;
 					break;
 				}
@@ -141,67 +140,67 @@ public class MapMenu extends JMenuBar {
 					break;
 				}
 				case 3 : {
-					Map[a] = ' ';
+					Map[a] = 't';
 					a++;
 					break;
 				}
 				case 4 : {
-					Map[a] = ' ';
+					Map[a] = '#';
 					a++;
 					break;
 				}
 				case 5 : {
-					Map[a] = ' ';
+					Map[a] = 'c';
 					a++;
 					break;
 				}
 				case 6 : {
-					Map[a] = ' ';
+					Map[a] = 'v';
 					a++;
 					break;
 				}
 				case 7 : {
-					Map[a] = ' ';
+					Map[a] = 's';
 					a++;
 					break;
 				}
 				case 8 : {
-					Map[a] = ' ';
+					Map[a] = 'b';
 					a++;
 					break;
 				}
 				case 9 : {
-					Map[a] = ' ';
+					Map[a] = 'b';
 					a++;
 					break;
 				}
 				case 10 : {
-					Map[a] = ' ';
+					Map[a] = 'q';
 					a++;
 					break;
 				}
 				case 11 : {
-					Map[a] = ' ';
+					Map[a] = 'h';
 					a++;
 					break;
 				}
 				case 12 : {
-					Map[a] = ' ';
+					Map[a] = 'd';
 					a++;
 					break;
 				}
 				case 13 : {
-					Map[a] = ' ';
+					Map[a] = 'f';
 					a++;
 					break;
 				}
 				case 14 : {
-					Map[a] = ' ';
+					Map[a] = 'x';
 					a++;
 					break;
 				}
 				case 15 : {
-					Map[a] = ' ';
+					Map[a] = 'x';
 					a++;
 					break;
 				}
@@ -211,7 +210,37 @@ public class MapMenu extends JMenuBar {
 					break;
 				}
 				case 17 : {
-					Map[a] = ' ';
+					Map[a] = 'm';
+					a++;
+					break;
+				}
+				case 18 : {
+					Map[a] = 'k';
+					a++;
+					break;
+				}
+				case 19 : {
+					Map[a] = 'l';
+					a++;
+					break;
+				}
+				case 20 : {
+					Map[a] = 'z';
+					a++;
+					break;
+				}
+				case 21 : {
+					Map[a] = 'z';
+					a++;
+					break;
+				}
+				case 22 : {
+					Map[a] = 'p';
+					a++;
+					break;
+				}
+				case 23 : {
+					Map[a] = 'g';
 					a++;
 					break;
 				}

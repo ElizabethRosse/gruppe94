@@ -2068,7 +2068,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'v' : {											// e : enemy moving horizontal
+			case 'v' : {											// v : enemy moving horizontal
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 1;
@@ -2077,7 +2077,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 's' : {											// e2 : enemy moving vertical
+			case 's' : {											// s : enemy moving vertical
 				posE1[NumberofEnemies] = x;
 				posE2[NumberofEnemies] = y;
 				posEDIR[NumberofEnemies] = 2;
@@ -2085,7 +2085,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'k' : {											// e : BlueEnemy moving horizontal
+			case 'k' : {											// k : BlueEnemy moving horizontal
 				posBE1[NumberofBEnemies] = x;
 				posBE2[NumberofBEnemies] = y;
 				posBDIR[NumberofBEnemies] = 1;
@@ -2094,7 +2094,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'l' : {											// e2 : BlueEnemy moving vertical
+			case 'l' : {											// l : BlueEnemy moving vertical
 				posBE1[NumberofBEnemies] = x;
 				posBE2[NumberofBEnemies] = y;
 				posBDIR[NumberofBEnemies] = 2;
@@ -2102,7 +2102,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'd' : {											// e : ArmorEnemy moving horizontal
+			case 'd' : {											// d : ArmorEnemy moving horizontal
 				posA1[NumberofAEnemies] = x;
 				posA2[NumberofAEnemies] = y;
 				posADIR[NumberofAEnemies] = 1;
@@ -2111,7 +2111,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 'f' : {											// e2 : ArmorEnemy moving vertical
+			case 'f' : {											// f : ArmorEnemy moving vertical
 				posA1[NumberofAEnemies] = x;
 				posA2[NumberofAEnemies] = y;
 				posADIR[NumberofAEnemies] = 2;
@@ -2176,7 +2176,7 @@ public class game extends JPanel implements ActionListener {
 				maxnpc++;
 				break;
 			}
-			case 'q' : {                                            // q : npc für schwert
+			case 'q' : {                                            // q : npc for sword
 				npcX[maxnpc] = x;
 				npcY[maxnpc] = y;
 				npcD[maxnpc] = 2;

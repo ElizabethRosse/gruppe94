@@ -55,13 +55,13 @@ public class MapSurface extends JPanel {
 		endx = endx / 50;
 		endy = endy / 50;
 		
-		if(endx < window.actualMap.map.length) {											//used to paint an "extra" placeholder
+		/*if(endx < window.actualMap.map.length) {											//used to paint an "extra" placeholder
 			endx++;
 		}
 		
 		if(endy < window.actualMap.map[0].length) {
 			endy++;
-		}
+		}*/
 		
 		for(int x = startx; x < endx; x++) {												//paints the current tile
 			
@@ -90,6 +90,6 @@ public class MapSurface extends JPanel {
 		Rectangle r = scroll.getViewport().getViewRect();
 		int dx=this.scroll.getLocation().x + window.getInsets().left - r.x;					//finding the x position of the visible left side
 		int dy=this.scroll.getLocation().y + window.getInsets().top - r.y;					//finding the y position of the visible top side
-		m.addDirtyRegion(window , dx + x*50, dy + y*50, 50, 50);							//repaint on clicked position
+		m.addDirtyRegion(window ,dx + x*50,dy + y*50, 50, 50);											//repaint on clicked position
 	}
 }
