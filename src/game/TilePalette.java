@@ -15,7 +15,7 @@ public class TilePalette extends JPanel{
 	
 	public TilePalette(MapEditor Window) {
 		window = Window;
-		setPreferredSize(new Dimension(4*32, (window.actualMap.tileset.size() / 4 ) * 32));				//4 rows and (tileset.size() / 4) * 32 columns
+		setPreferredSize(new Dimension(4*50, (window.actualMap.tileset.size() / 4 ) * 50));				//4 rows and (tileset.size() / 4) * 50 columns
 		setDoubleBuffered(true);
 		this.addMouseListener(new MouseAdapter() {
 			@Override
@@ -34,7 +34,7 @@ public class TilePalette extends JPanel{
 		for(int i = 0; i < TileNumber; i++) {
 			
 			BufferedImage tile =  window.actualMap.tileset.get(i);
-			g.drawImage(tile, column * 32 , row * 32, this);
+			g.drawImage(tile, column * 50 , row * 50, this);
 			
 			if(i % 4 == 3) {
 				row++;
@@ -46,8 +46,8 @@ public class TilePalette extends JPanel{
 	
 	public void setTileID(int x, int y) {								//used to remember the clicked tile
 		
-		int column = x / 32;
-		int row = y / 32;
+		int column = x / 50;
+		int row = y / 50;
 		int tileID = row * 4 + column;
 		
 		if(tileID < window.actualMap.tileset.size()) {

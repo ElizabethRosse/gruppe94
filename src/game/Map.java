@@ -22,14 +22,14 @@ public class Map {
 		
 		try {
 			BufferedImage bildTileset = ImageIO.read(new File(dataname));
-			int width = bildTileset.getWidth()/32;										//contains the width of the coded map (in array)
-			int height = bildTileset.getHeight()/32;									//contains the height of the coded map (in array)
+			int width = bildTileset.getWidth() / 50;										//contains the width of the coded map (in array)
+			int height = bildTileset.getHeight() / 50;									//contains the height of the coded map (in array)
 			
 			for(int x = 0; x < width; x++) {											//double to go through array and load the tiles
 				
 				for(int y = 0; y < height; y++) {
 				
-					BufferedImage tile = bildTileset.getSubimage(x*32, y*32, 32, 32);	//resize the tile 
+					BufferedImage tile = bildTileset.getSubimage(x*50, y*50, 50, 50);	//resize the tile 
 					this.tileset.add(tile);												//add the tile to the new array, which contains the pictures
 				}
 			}

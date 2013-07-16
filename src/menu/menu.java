@@ -174,7 +174,7 @@ import game.Sounds;
 			
 			GridBagConstraints editorc = new GridBagConstraints();
 			editorc.gridx = 0;
-			editorc.gridy = 11;
+			editorc.gridy = 9;
 			
 			
 			JButton options = new JButton("Fortsetzen");			//after pause
@@ -212,7 +212,7 @@ import game.Sounds;
 			
 			GridBagConstraints closec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
 			closec.gridx = 0;
-			closec.gridy = 9;
+			closec.gridy = 11;
 			
 			JButton save = new JButton("Save Game");             			//save button; working as intended
 			
@@ -300,6 +300,15 @@ import game.Sounds;
 			placeholder7c.weightx = 1.0;
 			placeholder7c.weighty = 1.0;
 			
+			Box placeholder8 = new Box(getDefaultCloseOperation());
+			
+			GridBagConstraints placeholder8c = new GridBagConstraints();
+			placeholder8c.gridx = 0;
+			placeholder8c.gridy = 12;
+			placeholder8c.fill = GridBagConstraints.BOTH;
+			placeholder8c.weightx = 1.0;
+			placeholder8c.weighty = 1.0;
+			
 			
 			surface.add(placeholder, placeholderc);								//adding all components to menu frame
 			surface.add(placeholder2, placeholder2c);
@@ -314,6 +323,7 @@ import game.Sounds;
 			surface.add(placeholder6, placeholder6c);
 			surface.add(placeholder7, placeholder7c);
 			surface.add(editor, editorc);
+			surface.add(placeholder8, placeholder8c);
 			
 			return surface;
 			}

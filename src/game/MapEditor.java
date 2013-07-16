@@ -18,7 +18,7 @@ public class MapEditor extends JFrame {									//creates the map-editor
 		int[] [] map = new int[100] [100];								//contains the map as integer
 		
 		String name = "first map";
-		String tilesetDataname = "src\\game\\images\\Tileset.png";		//data in which are all objectives as picture
+		String tilesetDataname = "src\\game\\images\\mapedit.png";		//data in which are all objectives as picture
 		
 		actualMap = new Map(map,tilesetDataname,name);
 		palette = new TilePalette(this);

@@ -50,10 +50,10 @@ public class MapSurface extends JPanel {
 		int endx = startx + r.width;
 		int endy = starty + r.height;
 		
-		startx = startx / 32;
-		starty = starty / 32;
-		endx = endx / 32;
-		endy = endy / 32;
+		startx = startx / 50;
+		starty = starty / 50;
+		endx = endx / 50;
+		endy = endy / 50;
 		
 		if(endx < window.actualMap.map.length) {											//used to paint an "extra" placeholder
 			endx++;
@@ -67,7 +67,7 @@ public class MapSurface extends JPanel {
 			
 			for(int y = starty; y < endy; y++) {
 				BufferedImage tile = window.actualMap.getTileImage(x,y);
-				g.drawImage(tile, x*32, y*32, this);
+				g.drawImage(tile, x*50, y*50, this);
 			}
 		}
 		
@@ -78,18 +78,18 @@ public class MapSurface extends JPanel {
 		int dx =  window.actualMap.map.length;												//used to fast change the map, but only repaint the current visible area
 		int dy =  window.actualMap.map[0].length;
 		
-		setPreferredSize(new Dimension(dx * 32, dy * 32));
+		setPreferredSize(new Dimension(dx * 50, dy * 50));
 		scroll.setViewportView(this);
 	}
 	
 	public void paintTile(int x, int y) {
 		
-		x = x / 32;																			// divide through 32 to know in which array object the user has clicked
-		y = y / 32;
+		x = x / 50;																			// divide through 50 to know in which array object the user has clicked
+		y = y / 50;
 		window.actualMap.map[x] [y] = window.palette.actualTile;							//loads the current (clicked) tile in the array
 		Rectangle r = scroll.getViewport().getViewRect();
 		int dx=this.scroll.getLocation().x + window.getInsets().left - r.x;					//finding the x position of the visible left side
 		int dy=this.scroll.getLocation().y + window.getInsets().top - r.y;					//finding the y position of the visible top side
-		m.addDirtyRegion(window , dx + x*32, dy + y*32, 32, 32);							//repaint on clicked position
+		m.addDirtyRegion(window , dx + x*50, dy + y*50, 50, 50);							//repaint on clicked position
 	}
 }
