@@ -14,9 +14,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import java.util.ArrayList;
 
@@ -33,9 +36,11 @@ public class game extends JPanel implements ActionListener {
 	private Timer timer;
 	private Char cha;
 	private dog d;
+	private Xoss xoss;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
 	private ArrayList<Arrow> arrows;
+	private ArrayList<Arrow> xarrows;
 	private ArrayList<Feuerball> fball;
 	private ArrayList<GeisterBall> gball;
 	private ArrayList<Manapotion> manap;
@@ -123,6 +128,7 @@ public class game extends JPanel implements ActionListener {
 	int NumberofCheckpoints = 0;
 	int maxnpc = 0;
 	int maxshops = 0;
+	int q = 0;
 	
 	private boolean start  = true;
 	
@@ -193,7 +199,7 @@ public class game extends JPanel implements ActionListener {
 					break;
 				}
 				case 4 : {
-					cha.setMaxmana(i[a]);
+					cha.addXP(i[a]);
 					a++;
 					break;
 				}
@@ -282,9 +288,119 @@ public class game extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	public void save() {
+		int a = 0;															//save the game
+		int[] i = new int[16];
+		Saving save = new Saving();
+		
+		while (a < 16) {
+		switch (a)  {														//initialising saveing data, reading all relevant game information
+			case 0 : {
+				i[a] = mapNumber;
+				a++;
+				break;
+			}
+			case 1 : {
+				i[a] = cha.getContinues(); 
+				a++;
+				break;
+			}
+			case 2 : {
+				i[a] = cha.getMaxhealth();
+				a++;
+				break;
+			}
+			case 3 : {
+				i[a] = cha.getGold();
+				a++;
+				break;
+			}
+			case 4 : {
+				i[a] = cha.getXP();
+				a++;
+				break;
+			}
+			case 5 : {
+				if (cha.haveSword()) {
+					i[a] = 1;
+					} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 6 : {
+				if (cha.haveArrow()) {
+					i[a] = 1;
+					} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 7 : {
+				i[a] = cha.getX();
+				a++;
+				break;
+			}
+			case 8 : {
+				i[a] = cha.getY();
+				a++;
+				break;
+			}
+			case 9 : {
+				if (cha.haveSmile()) {
+				i[a] = 1;
+				} else i[a] = 0;
+				a++;
+				break;
+			}
+			case 10 : {
+				i[a] = cha.getManapotion();
+				a++;
+				break;
+			}
+			case 11 : {
+				i[a] = cha.getHealthpotion();
+				a++;
+				break;
+			}
+			case 12 : {
+				i[a] = cha.getLVL();
+				a++;
+				break;
+				}
+			case 13 : {
+				i[a] = cha.getmana();
+				a++;
+				break;
+				}
+			case 14 : {
+				i[a] = cha.gethealth();
+				a++;
+				break;
+				}
+			case 15 : {
+				i[a] = reset;
+				a++;
+				break;
+				}
+			}
+		}
+		try {
+			save.save(i);									// saves the game
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
+	}
+	public void initBossArrows() {
+		xarrows = new ArrayList<Arrow>();
+		for(int i = 0; i < xosses.size();i++) {
+			Xoss boss = (Xoss) xosses.get(i);
+			xarrows = boss.getBossArrows();
+		}
 	}
 	
 	public void initfalsetrees() {
@@ -425,14 +541,14 @@ public class game extends JPanel implements ActionListener {
 	
 	public void initXP() {
 		if(levelup){
-			if ((cha.getXP() >= 1)&&levelup2){
+			if ((cha.getXP() >= 10)&&levelup2){
 				Sounds.play(7);
 				dialogLVL2();
 				cha.addFDMG(50);
 				cha.setLVL(2);
 				levelup2 = false;
 			}
-			else if ((cha.getXP() >= 30)&&levelup3) {
+			else if ((cha.getXP() >= 100)&&levelup3) {
 				Sounds.play(7);
 				dialogLVL3();
 				cha.addSDMG(5);
@@ -532,6 +648,12 @@ public class game extends JPanel implements ActionListener {
 			
 			for (int i = 0; i < arrows.size(); i++) {							//zeichne Arrows
 				Arrow a = (Arrow) arrows.get(i);
+				if (a.isVisible())
+					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
+			}
+			
+			for (int i = 0; i < xarrows.size(); i++) {							//zeichne Arrows
+				Arrow a = (Arrow) xarrows.get(i);
 				if (a.isVisible())
 					g2d.drawImage(a.getImage(), a.getX(), a.getY(), this);
 			}
@@ -888,13 +1010,13 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialogLVL2() {
-		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
+		cha.resST();
 	}
 	
 	public void dialogLVL3() {
-		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
+		cha.resST();
 	}
 	
 	public void shop() {
@@ -902,6 +1024,7 @@ public class game extends JPanel implements ActionListener {
 		if(h==0){
 			if(cha.getGold()>=3){
 				if(cha.getMaxhealth()<10){
+					Sounds.play(3);
 					cha.buyHealth();
 					cha.setMaxhealth(cha.getMaxhealth()+2);
 				}
@@ -912,6 +1035,24 @@ public class game extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {						//checking performed actions
         initArrows();
+        initBossArrows();
+        
+        for(int  i = 0;i < xosses.size(); i++) {
+        	Xoss boss = (Xoss) xosses.get(i);
+        	q++;
+        	if (q == 50) {
+        		boss.shoot();
+        		q = 0;
+        		boss.randomdirection();
+        	}
+        }
+        
+        for(int i = 0; i < xarrows.size(); i++) {
+			Arrow a = (Arrow) xarrows.get(i);
+			if (a.isVisible())
+				a.move();
+			else xarrows.remove(i);
+		}
 		
 		for(int i = 0; i < arrows.size(); i++) {
 			Arrow a = (Arrow) arrows.get(i);
@@ -1100,7 +1241,7 @@ public class game extends JPanel implements ActionListener {
 					Sounds.play(6);
 					enemies.remove(i);
 					NumberofEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(2);
 					levelup = true;
 				}
 			}
@@ -1115,7 +1256,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					benemies.remove(i);
 					NumberofBEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(5);
 					levelup = true;
 				}
 			}
@@ -1137,7 +1278,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					enemies.remove(i);
 					NumberofEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(2);
 					levelup = true;
 				}
 			}
@@ -1153,7 +1294,7 @@ public class game extends JPanel implements ActionListener {
 				else {
 					aenemies.remove(i);
 					NumberofAEnemies -= 1;
-					cha.addXP(1);
+					cha.addXP(10);
 					levelup = true;
 				}
 			}
@@ -1192,8 +1333,8 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rTrap = t.getBounds();
 			if (rChar.intersects(rTrap)){
 				if (t.isVisible()){
-					cha.dmg(t.getDmg());
 					Sounds.play(1);
+					cha.dmg(t.getDmg());
 					t.setVisible(false);
 				}
 			}	
@@ -1217,6 +1358,12 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
 					e.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 
 			}
@@ -1238,11 +1385,20 @@ public class game extends JPanel implements ActionListener {
 				Sounds.play(6);
 				enemies.remove(k);
 				NumberofEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(2);
 				levelup = true;
 			}
 		}
 
+		for(int i = 0; i<xarrows.size();i++) {
+			Arrow c = (Arrow) xarrows.get(i);
+			if(c.getBounds().intersects(rChar)) {
+				c.setVisible(false);
+				cha.dmg(1);
+			}
+		}
+		
+		
 		for (int k = 0; k < aenemies.size(); k++) {
 			ArmorEnemy a = (ArmorEnemy) aenemies.get(k);
 			if(a.getLife()>0) {
@@ -1263,12 +1419,17 @@ public class game extends JPanel implements ActionListener {
 					a.damage(a.getDmg());
 				}
 			}
-
 			
 			if (rChar.intersects(rAEnemy)){    //schaden bei Berühung mit Gegner
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(a.getDmg());
 					a.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 			}
 			for(int i = 0; i<fball.size(); i++) {
@@ -1282,7 +1443,7 @@ public class game extends JPanel implements ActionListener {
 			else {
 				aenemies.remove(k);
 				NumberofAEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(10);
 				levelup = true;
 			}
 		}
@@ -1305,6 +1466,12 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(b.getDmg());
 					b.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 
 			}
@@ -1319,7 +1486,7 @@ public class game extends JPanel implements ActionListener {
 			for(int i = 0; i<fball.size(); i++) {
 				Feuerball f = (Feuerball) fball.get(i);
 				if(f.getBounds().intersects(rBEnemy)) {
-					f.setVisible(false);
+					//f.setVisible(false);
 					
 				}
 			}
@@ -1327,7 +1494,7 @@ public class game extends JPanel implements ActionListener {
 			else {
 				benemies.remove(k);
 				NumberofBEnemies -= 1;
-				cha.addXP(1);
+				cha.addXP(5);
 				levelup = true;
 			}
 		}
@@ -1442,7 +1609,7 @@ public class game extends JPanel implements ActionListener {
 		
 		}
 			else {
-				cha.addXP(10);
+				cha.addXP(15);
 				levelup = true;
 				dialog3();
 				mapNumber = 220;
@@ -1817,6 +1984,7 @@ public class game extends JPanel implements ActionListener {
 		Arrow a = (Arrow) arrows.get(k);
 		if(a.getBounds().intersects(rBoss2)) {
 			a.setVisible(false);
+			arrows.remove(k);
 			z.damage(a.getDmg());
 		}
 	}
@@ -1886,7 +2054,7 @@ public class game extends JPanel implements ActionListener {
 		
 		prototypemap = getMap(m);
 		
-		while(i < max) {												//maximum of fields on a map: 110
+		while(i < 110) {												//maximum of fields on a map: 110
 			
 			if(i % 10 == 0){
 				y = y + 50;
@@ -1952,7 +2120,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 't': {												// t : traps
+			case 't' : {												// t : traps
 				posT1[NumberofTraps] = x;
 				posT2[NumberofTraps] = y;
 				
@@ -2041,7 +2209,8 @@ public class game extends JPanel implements ActionListener {
 			default : {
 				break;
 			}
-			}
+			
+			}									//end switch
 			
 		x = x + 50;
 		i++;
@@ -2067,161 +2236,162 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	
-	public char[] getMap(int m) throws IOException {						//maps are starting buttom left, following principe: XYZ, X: Level, Y: High, Z: wide
+	public char[] getMap(int m) throws IOException {	//maps are starting buttom left, following principe: XYZ, X: Level, Y: High, Z: wide
 		FileReader datei;
-		BufferedReader dat; 
+		BufferedReader dat;
 		char[] prototypemap = new char[110];
+		
 		switch(m) {	
 		case 110 : {
-				datei = new FileReader("src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);																				//map1
+			datei = new FileReader("src\\game\\maps\\map1");
+			dat = new BufferedReader(datei);										//map1
 			break;
 		}
 		case 111 : {
-				datei = new FileReader("src\\game\\maps\\map2");
-				dat = new BufferedReader(datei);																				//map2		
+			datei = new FileReader("src\\game\\maps\\map2");
+			dat = new BufferedReader(datei);										//map2
 			break;
 		}
-		case 112 : {			
+		case 112 : {	
 			datei = new FileReader("src\\game\\maps\\map3");
-			dat = new BufferedReader(datei);																					//map3				
-		break;
+			dat = new BufferedReader(datei);										//map3
+			break;
 		}
 		case 113 : {
-				datei = new FileReader("src\\game\\maps\\map4");
-				dat = new BufferedReader(datei);																				//map4			
+			datei = new FileReader("src\\game\\maps\\map4");
+			dat = new BufferedReader(datei);										//map4
 			break;
 		}
 		case 123 : {
-				datei = new FileReader("src\\game\\maps\\map5");
-				dat = new BufferedReader(datei);																				//map5			
+			datei = new FileReader("src\\game\\maps\\map5");
+			dat = new BufferedReader(datei);										//map5
 			break;
 		}
 		case 122 : {
-				datei = new FileReader("src\\game\\maps\\map6");
-				dat = new BufferedReader(datei);																				//map6				
+			datei = new FileReader("src\\game\\maps\\map6");
+			dat = new BufferedReader(datei);										//map6
 			break;
 		}
 		case 121 : {
-				datei = new FileReader("src\\game\\maps\\map7");
-				dat = new BufferedReader(datei);																				//map7			
+			datei = new FileReader("src\\game\\maps\\map7");
+			dat = new BufferedReader(datei);										//map7
 			break;
 		}
 		case 120 : {
-				datei = new FileReader("src\\game\\maps\\map8");
-				dat = new BufferedReader(datei);																				//map8			
+			datei = new FileReader("src\\game\\maps\\map8");
+			dat = new BufferedReader(datei);										//map8
 			break;
 		}
 		case 100 : {
-				datei = new FileReader("src\\game\\maps\\map9");
-				dat = new BufferedReader(datei);																				//map9			
+			datei = new FileReader("src\\game\\maps\\map9");
+			dat = new BufferedReader(datei);										//map9
 			break;
 		}
 		case 101 : {
 			datei = new FileReader("src\\game\\maps\\map10");
-			dat = new BufferedReader(datei);																				//map10
-		break;
+			dat = new BufferedReader(datei);										//map10
+			break;
 		}
 		case 102 : {
 			datei = new FileReader("src\\game\\maps\\map11");
-			dat = new BufferedReader(datei);																				//map11
-		break;
+			dat = new BufferedReader(datei);										//map11
+			break;
 		}
 		case 103 : {
 			datei = new FileReader("src\\game\\maps\\map12");
-			dat = new BufferedReader(datei);																				//map12
-		break;
+			dat = new BufferedReader(datei);										//map12
+			break;
 		}
 		case 220 : {
 			datei = new FileReader("src\\game\\maps\\map13");
-			dat = new BufferedReader(datei);																				//map13
-		break;
+			dat = new BufferedReader(datei);										//map13
+			break;
 		}
 		case 221 : {
 			datei = new FileReader("src\\game\\maps\\map14");
-			dat = new BufferedReader(datei);																				//map14
-		break;
+			dat = new BufferedReader(datei);										//map14
+			break;
 		}
 		case 222 : {
 			datei = new FileReader("src\\game\\maps\\map15");
-			dat = new BufferedReader(datei);																				//map15
-		break;
+			dat = new BufferedReader(datei);										//map15
+			break;
 		}
 		case 223 : {
 			datei = new FileReader("src\\game\\maps\\map16");
-			dat = new BufferedReader(datei);																				//map16
-		break;
+			dat = new BufferedReader(datei);										//map16
+			break;
 		}
 		case 210 : {
 			datei = new FileReader("src\\game\\maps\\map17");
-			dat = new BufferedReader(datei);																				//map17
-		break;
+			dat = new BufferedReader(datei);										//map17
+			break;
 		}
 		case 211 : {
 			datei = new FileReader("src\\game\\maps\\map18");
-			dat = new BufferedReader(datei);																				//map18
-		break;
+			dat = new BufferedReader(datei);										//map18
+			break;
 		}
 		case 212 : {
 			datei = new FileReader("src\\game\\maps\\map19");
-			dat = new BufferedReader(datei);																				//map19
-		break;
+			dat = new BufferedReader(datei);										//map19
+			break;
 		}
 		case 213 : {
 			datei = new FileReader("src\\game\\maps\\map20");
-			dat = new BufferedReader(datei);																				//map20
-		break;
+			dat = new BufferedReader(datei);										//map20
+			break;
 		}
 		case 200 : {
 			datei = new FileReader("src\\game\\maps\\map21");
-			dat = new BufferedReader(datei);																				//map21
-		break;
+			dat = new BufferedReader(datei);										//map21
+			break;
 		}
 		case 201 : {
 			datei = new FileReader("src\\game\\maps\\map22");
-			dat = new BufferedReader(datei);																				//map22
-		break;
+			dat = new BufferedReader(datei);										//map22
+			break;
 		}
 		case 202 : {
 			datei = new FileReader("src\\game\\maps\\map23");
-			dat = new BufferedReader(datei);																				//map23
-		break;
+			dat = new BufferedReader(datei);										//map23
+			break;
 		}
 		case 203 : {
 			datei = new FileReader("src\\game\\maps\\map24");
-			dat = new BufferedReader(datei);																				//map24
-		break;
+			dat = new BufferedReader(datei);										//map24
+			break;
 		}
 		case 310 : {
 			datei = new FileReader("src\\game\\maps\\map25");
-			dat = new BufferedReader(datei);																				//map25
-		break;
+			dat = new BufferedReader(datei);										//map25
+			break;
 		}
 		case 311 : {
 			datei = new FileReader("src\\game\\maps\\map26");
-			dat = new BufferedReader(datei);																				//map26
-		break;
+			dat = new BufferedReader(datei);										//map26
+			break;
 		}
 		case 301 : {
 			datei = new FileReader("src\\game\\maps\\map27");
-			dat = new BufferedReader(datei);																				//map27
-		break;
+			dat = new BufferedReader(datei);										//map27
+			break;
 		}
 		case 300 : {
 			datei = new FileReader("src\\game\\maps\\map28");
-			dat = new BufferedReader(datei);																				//map28
-		break;
+			dat = new BufferedReader(datei);										//map28
+			break;
 		}
 		default : {
-				datei = new FileReader("src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);																				//map1
+			datei = new FileReader("src\\game\\maps\\map1");
+			dat = new BufferedReader(datei);										//map1
 		}
 		}
-		
+
 		String line;
 		line = dat.readLine();
 		int a = 0;
-		
+
 		while(line != null) {														//read a line
 			for (int i = 0; i<line.length(); i++) {									//read a symbol
 				prototypemap[a] = line.charAt(i); 									// save the symbol in an array
