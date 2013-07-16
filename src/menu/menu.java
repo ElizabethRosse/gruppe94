@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.Box;
 import javax.swing.Timer;
 
+import game.MapEditor;
 import game.game;
 import game.Sounds;
 
@@ -35,7 +36,6 @@ import game.Sounds;
 		 
 		 private JPanel Surface;
 		 private game game = new game(true);
-		 //private boolean reset = false;
 		 private Timer timer, backgroundt;
 
 
@@ -73,8 +73,6 @@ import game.Sounds;
 		public void remG() {
 			game.setVisible(false);
 			add(Surface);
-			
-			
 		}
 		
 		public void initBackgroundMusik() {
@@ -96,7 +94,6 @@ import game.Sounds;
 				if (game.MENU()) {
 					reset();
 					timer.stop();
-					
 				}
 			}};
 			timer = new Timer(5,TimeCheck);
@@ -135,12 +132,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					//dispose();								//closing old frame to prevent problems with the game panel
-					//new init();								//connection to init
-					
 					rem(true);
-					//TimeCheck();
-					
 					}
 				});
 			
@@ -148,7 +140,7 @@ import game.Sounds;
 			startc.gridx = 0;
 			startc.gridy = 3;
 			
-			JButton load = new JButton("Load Game");			//start button
+			JButton load = new JButton("Load Game");			//load button
 			
 			load.setPreferredSize( new Dimension(150,25));
 			
@@ -157,18 +149,32 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					//dispose();								//closing old frame to prevent problems with the game panel
-					//new init();								//connection to init
-					
 					rem(false);
-					//TimeCheck();
-					
 					}
 				});
 			
 			GridBagConstraints loadc = new GridBagConstraints();
 			loadc.gridx = 0;
-			loadc.gridy = 5;
+			loadc.gridy = 7;
+			
+			
+			JButton editor = new JButton("Map Editor");			//Map Editor button
+			
+			editor.setPreferredSize( new Dimension(150,25));
+			
+			editor.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					MapEditor Editor = new MapEditor();
+					Editor.setVisible(true);
+					}
+				});
+			
+			GridBagConstraints editorc = new GridBagConstraints();
+			editorc.gridx = 0;
+			editorc.gridy = 9;
 			
 			
 			JButton options = new JButton("Fortsetzen");			//after pause
@@ -180,7 +186,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-						pauseEnd();					//hier muss noch eine verknupfung hin
+						pauseEnd();									//"restart" game
 					}
 				});
 			
@@ -206,12 +212,32 @@ import game.Sounds;
 			
 			GridBagConstraints closec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
 			closec.gridx = 0;
-			closec.gridy = 7;
+			closec.gridy = 11;
+			
+			JButton save = new JButton("Save Game");             			//save button; working as intended
+			
+			save.setPreferredSize( new Dimension(150,25));
+			
+			save.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					if(game.getpause()){
+						game.save();
+					}
+					}
+				});
+			
+			
+			GridBagConstraints savec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
+			savec.gridx = 0;
+			savec.gridy = 5;
 			
 			
 			
 			
-			Box placeholder3 = new Box(getDefaultCloseOperation());
+			Box placeholder3 = new Box(getDefaultCloseOperation());			// used to create space in menu frame
 			
 			GridBagConstraints placeholder3c = new GridBagConstraints();
 			placeholder3c.gridx = 0;
@@ -256,8 +282,35 @@ import game.Sounds;
 			placeholder5c.weightx = 1.0;
 			placeholder5c.weighty = 1.0;
 			
+			Box placeholder6 = new Box(getDefaultCloseOperation());
 			
-			surface.add(placeholder, placeholderc);
+			GridBagConstraints placeholder6c = new GridBagConstraints();
+			placeholder6c.gridx = 0;
+			placeholder6c.gridy = 8;
+			placeholder6c.fill = GridBagConstraints.BOTH;
+			placeholder6c.weightx = 1.0;
+			placeholder6c.weighty = 1.0;
+			
+			Box placeholder7 = new Box(getDefaultCloseOperation());
+			
+			GridBagConstraints placeholder7c = new GridBagConstraints();
+			placeholder7c.gridx = 0;
+			placeholder7c.gridy = 10;
+			placeholder7c.fill = GridBagConstraints.BOTH;
+			placeholder7c.weightx = 1.0;
+			placeholder7c.weighty = 1.0;
+			
+			Box placeholder8 = new Box(getDefaultCloseOperation());
+			
+			GridBagConstraints placeholder8c = new GridBagConstraints();
+			placeholder8c.gridx = 0;
+			placeholder8c.gridy = 12;
+			placeholder8c.fill = GridBagConstraints.BOTH;
+			placeholder8c.weightx = 1.0;
+			placeholder8c.weighty = 1.0;
+			
+			
+			surface.add(placeholder, placeholderc);								//adding all components to menu frame
 			surface.add(placeholder2, placeholder2c);
 			surface.add(placeholder3, placeholder3c);
 			surface.add(placeholder4, placeholder4c);
@@ -266,6 +319,11 @@ import game.Sounds;
 			surface.add(close, closec);
 			surface.add(load, loadc);
 			surface.add(placeholder5, placeholder5c);
+			surface.add(save, savec);
+			surface.add(placeholder6, placeholder6c);
+			surface.add(placeholder7, placeholder7c);
+			surface.add(editor, editorc);
+			surface.add(placeholder8, placeholder8c);
 			
 			return surface;
 			}
