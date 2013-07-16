@@ -10,11 +10,12 @@ import java.io.PrintWriter;
 public class Saving {
 	 FileReader datei = null;
 	 BufferedReader dat;
+	 int max = 16;
+	 
 	 public Saving() {
 		 try {
 			datei = new FileReader("src\\game\\savings\\save1");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 if (datei != null) {
@@ -26,7 +27,7 @@ public class Saving {
 	 public int[] load() throws IOException {
 		 String line;
 		 int wert;
-		 int[] loadings = new int[16];
+		 int[] loadings = new int[max];
 		 line = dat.readLine();
 		 int a = 0;
 			
@@ -40,15 +41,16 @@ public class Saving {
 		 return loadings;
 	 }
 	 
-	 public void save(int[] save) throws IOException{
+	public void save(int[] save) throws IOException{
 		 String line;
 		 PrintWriter pWriter;
-		 pWriter = new PrintWriter(new FileWriter("test.txt"));
+		 pWriter = new PrintWriter(new FileWriter("src\\game\\savings\\save1"));
 		 
-		 for (int i=0; i <12; i++) {
+		 for (int i=0; i < max; i++) {
 			 line = ""  + save[i];
-			 pWriter.println("Hallo Welt!");
+			 pWriter.println(line);
 	         pWriter.flush(); 
 		 }
+		 pWriter.close();
 	 }
 }
