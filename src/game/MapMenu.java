@@ -93,7 +93,7 @@ public class MapMenu extends JMenuBar {
 	
 	public void save() {																		//saves the map
 		
-		char[] Map = new char[300];
+		char[] Map = new char[121];
 		
 		try {
 			JFileChooser saveDialog = new JFileChooser();
@@ -219,7 +219,7 @@ public class MapMenu extends JMenuBar {
 			}												//end for (j)
 		}													//end for (i)
 		
-		for(int i = 0; i < 11 ; i++) {
+		for(int i = 0; i < 11 ; i++) {						//used to show an additional row in map editor, needed to bugfix an display problem with objects
 			Map[i] [10] = 0;
 			Map[10] [i] = 0;
 		}
@@ -228,7 +228,7 @@ public class MapMenu extends JMenuBar {
 	
 	public char[] convertsave(int[] [] map) {
 		
-		char[] Map = new char[300];
+		char[] Map = new char[121];
 		int a = 0;
 		
 		for(int i= 0; i < 10; i++) {
