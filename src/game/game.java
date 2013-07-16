@@ -14,9 +14,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import java.util.ArrayList;
 
@@ -1868,7 +1871,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void initMap(int m, int j ,int k) throws IOException {
-		int i = 1;													//loop variables
+		int i = 0;													//loop variables
 		int x = 50;
 		int y = 25;
 		char[] prototypemap = new char[110];
@@ -1897,7 +1900,7 @@ public class game extends JPanel implements ActionListener {
 		
 		prototypemap = getMap(m);
 		
-		while(i < max) {												//maximum of fields on a map: 110
+		while(i < 10) {												//maximum of fields on a map: 110
 			
 			if(i % 10 == 0){
 				y = y + 50;
@@ -1905,7 +1908,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			
 			switch(prototypemap[i]) {
-			case '#' : {											// # : wall
+			case 2 : {											// # : wall
 				pos1[NumberofTrees] = x;
 				pos2[NumberofTrees] = y;
 				NumberofTrees++;
@@ -1963,7 +1966,7 @@ public class game extends JPanel implements ActionListener {
 				break;
 			}
 			
-			case 't': {												// t : traps
+			case 1 : {												// t : traps
 				posT1[NumberofTraps] = x;
 				posT2[NumberofTraps] = y;
 				
@@ -2034,7 +2037,7 @@ public class game extends JPanel implements ActionListener {
 				initshop();
 				break;
 			}
-			case 'c' : {											// c : checkpoint
+			case 3 : {											// c : checkpoint
 				checkpointX[NumberofCheckpoints] = x;
 				checkpointY[NumberofCheckpoints] = y;
 				NumberofCheckpoints++;
@@ -2052,7 +2055,8 @@ public class game extends JPanel implements ActionListener {
 			default : {
 				break;
 			}
-			}
+			
+			}									//end switch
 			
 		x = x + 50;
 		i++;
@@ -2078,161 +2082,162 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	
-	public char[] getMap(int m) throws IOException {						//maps are starting buttom left, following principe: XYZ, X: Level, Y: High, Z: wide
+	public char[] getMap(int m) throws IOException {	//maps are starting buttom left, following principe: XYZ, X: Level, Y: High, Z: wide
 		FileReader datei;
-		BufferedReader dat; 
+		BufferedReader dat;
 		char[] prototypemap = new char[110];
+		
 		switch(m) {	
 		case 110 : {
 			datei = new FileReader("src\\game\\maps\\map1");
-			dat = new BufferedReader(datei);																				//map1
+			dat = new BufferedReader(datei);										//map1
 			break;
 		}
 		case 111 : {
 			datei = new FileReader("src\\game\\maps\\map2");
-			dat = new BufferedReader(datei);																				//map2		
+			dat = new BufferedReader(datei);										//map2
 			break;
 		}
-		case 112 : {			
+		case 112 : {	
 			datei = new FileReader("src\\game\\maps\\map3");
-			dat = new BufferedReader(datei);																				//map3				
+			dat = new BufferedReader(datei);										//map3
 			break;
 		}
 		case 113 : {
 			datei = new FileReader("src\\game\\maps\\map4");
-			dat = new BufferedReader(datei);																				//map4			
+			dat = new BufferedReader(datei);										//map4
 			break;
 		}
 		case 123 : {
 			datei = new FileReader("src\\game\\maps\\map5");
-			dat = new BufferedReader(datei);																				//map5			
+			dat = new BufferedReader(datei);										//map5
 			break;
 		}
 		case 122 : {
 			datei = new FileReader("src\\game\\maps\\map6");
-			dat = new BufferedReader(datei);																				//map6				
+			dat = new BufferedReader(datei);										//map6
 			break;
 		}
 		case 121 : {
 			datei = new FileReader("src\\game\\maps\\map7");
-			dat = new BufferedReader(datei);																				//map7			
+			dat = new BufferedReader(datei);										//map7
 			break;
 		}
 		case 120 : {
 			datei = new FileReader("src\\game\\maps\\map8");
-			dat = new BufferedReader(datei);																				//map8			
+			dat = new BufferedReader(datei);										//map8
 			break;
 		}
 		case 100 : {
 			datei = new FileReader("src\\game\\maps\\map9");
-			dat = new BufferedReader(datei);																				//map9			
+			dat = new BufferedReader(datei);										//map9
 			break;
 		}
 		case 101 : {
 			datei = new FileReader("src\\game\\maps\\map10");
-			dat = new BufferedReader(datei);																				//map10
+			dat = new BufferedReader(datei);										//map10
 			break;
 		}
 		case 102 : {
 			datei = new FileReader("src\\game\\maps\\map11");
-			dat = new BufferedReader(datei);																				//map11
+			dat = new BufferedReader(datei);										//map11
 			break;
 		}
 		case 103 : {
 			datei = new FileReader("src\\game\\maps\\map12");
-			dat = new BufferedReader(datei);																				//map12
+			dat = new BufferedReader(datei);										//map12
 			break;
 		}
 		case 220 : {
 			datei = new FileReader("src\\game\\maps\\map13");
-			dat = new BufferedReader(datei);																				//map13
+			dat = new BufferedReader(datei);										//map13
 			break;
 		}
 		case 221 : {
 			datei = new FileReader("src\\game\\maps\\map14");
-			dat = new BufferedReader(datei);																				//map14
+			dat = new BufferedReader(datei);										//map14
 			break;
 		}
 		case 222 : {
 			datei = new FileReader("src\\game\\maps\\map15");
-			dat = new BufferedReader(datei);																				//map15
+			dat = new BufferedReader(datei);										//map15
 			break;
 		}
 		case 223 : {
 			datei = new FileReader("src\\game\\maps\\map16");
-			dat = new BufferedReader(datei);																				//map16
+			dat = new BufferedReader(datei);										//map16
 			break;
 		}
 		case 210 : {
 			datei = new FileReader("src\\game\\maps\\map17");
-			dat = new BufferedReader(datei);																				//map17
+			dat = new BufferedReader(datei);										//map17
 			break;
 		}
 		case 211 : {
 			datei = new FileReader("src\\game\\maps\\map18");
-			dat = new BufferedReader(datei);																				//map18
+			dat = new BufferedReader(datei);										//map18
 			break;
 		}
 		case 212 : {
 			datei = new FileReader("src\\game\\maps\\map19");
-			dat = new BufferedReader(datei);																				//map19
+			dat = new BufferedReader(datei);										//map19
 			break;
 		}
 		case 213 : {
 			datei = new FileReader("src\\game\\maps\\map20");
-			dat = new BufferedReader(datei);																				//map20
+			dat = new BufferedReader(datei);										//map20
 			break;
 		}
 		case 200 : {
 			datei = new FileReader("src\\game\\maps\\map21");
-			dat = new BufferedReader(datei);																				//map21
+			dat = new BufferedReader(datei);										//map21
 			break;
 		}
 		case 201 : {
 			datei = new FileReader("src\\game\\maps\\map22");
-			dat = new BufferedReader(datei);																				//map22
+			dat = new BufferedReader(datei);										//map22
 			break;
 		}
 		case 202 : {
 			datei = new FileReader("src\\game\\maps\\map23");
-			dat = new BufferedReader(datei);																				//map23
+			dat = new BufferedReader(datei);										//map23
 			break;
 		}
 		case 203 : {
 			datei = new FileReader("src\\game\\maps\\map24");
-			dat = new BufferedReader(datei);																				//map24
+			dat = new BufferedReader(datei);										//map24
 			break;
 		}
 		case 310 : {
 			datei = new FileReader("src\\game\\maps\\map25");
-			dat = new BufferedReader(datei);																				//map25
+			dat = new BufferedReader(datei);										//map25
 			break;
 		}
 		case 311 : {
 			datei = new FileReader("src\\game\\maps\\map26");
-			dat = new BufferedReader(datei);																				//map26
+			dat = new BufferedReader(datei);										//map26
 			break;
 		}
 		case 301 : {
 			datei = new FileReader("src\\game\\maps\\map27");
-			dat = new BufferedReader(datei);																				//map27
+			dat = new BufferedReader(datei);										//map27
 			break;
 		}
 		case 300 : {
 			datei = new FileReader("src\\game\\maps\\map28");
-			dat = new BufferedReader(datei);																				//map28
+			dat = new BufferedReader(datei);										//map28
 			break;
 		}
 		default : {
-				datei = new FileReader("src\\game\\maps\\map1");
-				dat = new BufferedReader(datei);																				//map1
+			datei = new FileReader("src\\game\\maps\\map1");
+			dat = new BufferedReader(datei);										//map1
 		}
 		}
-		
+
 		String line;
 		line = dat.readLine();
 		int a = 0;
-		
+
 		while(line != null) {														//read a line
 			for (int i = 0; i<line.length(); i++) {									//read a symbol
 				prototypemap[a] = line.charAt(i); 									// save the symbol in an array
