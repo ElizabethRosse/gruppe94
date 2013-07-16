@@ -118,6 +118,18 @@ public class Sounds {
     				}
     				break;
 	    		}
+	    		case 10: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\shuriken.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "shuriken.wav");
+    				}
+    				break;
+	    		}
     			}
 	    	
 	    	
