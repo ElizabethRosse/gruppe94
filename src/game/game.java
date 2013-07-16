@@ -871,13 +871,13 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialogLVL2() {
-		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
+		cha.resST();
 	}
 	
 	public void dialogLVL3() {
-		cha.resST();
 		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
+		cha.resST();
 	}
 	
 	public void shop() {
@@ -885,6 +885,7 @@ public class game extends JPanel implements ActionListener {
 		if(h==0){
 			if(cha.getGold()>=3){
 				if(cha.getMaxhealth()<10){
+					Sounds.play(3);
 					cha.buyHealth();
 					cha.setMaxhealth(cha.getMaxhealth()+2);
 				}
@@ -1167,8 +1168,8 @@ public class game extends JPanel implements ActionListener {
 			Rectangle rTrap = t.getBounds();
 			if (rChar.intersects(rTrap)){
 				if (t.isVisible()){
-					cha.dmg(t.getDmg());
 					Sounds.play(1);
+					cha.dmg(t.getDmg());
 					t.setVisible(false);
 				}
 			}	
@@ -1192,6 +1193,12 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(e.getDmg());
 					e.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 
 			}
@@ -1244,6 +1251,12 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(a.getDmg());
 					a.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 			}
 			for(int i = 0; i<fball.size(); i++) {
@@ -1280,6 +1293,12 @@ public class game extends JPanel implements ActionListener {
 				if ((cha.gethealth() > 0)) {
 					cha.dmg(b.getDmg());
 					b.movecollide();
+					if ((cha.getDX()<-1)||(cha.getDX()>1)) {
+						cha.setDX(0);
+					}
+					if ((cha.getDY()<-1)||(cha.getDY()>1)) {
+						cha.setDY(0);
+					}
 				}
 
 			}

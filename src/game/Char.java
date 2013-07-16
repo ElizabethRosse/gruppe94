@@ -5,7 +5,12 @@ package game;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 public class Char {
@@ -268,10 +273,22 @@ public class Char {
 	}
 	
 	public void ghost() {
-		if (direction==1) gball.add(new GeisterBall(x  +width  , y-3+height/2, direction));
-		else if (direction==2) gball.add(new GeisterBall(x-2        , y-3+height/2, direction));
-		else if (direction==3) gball.add(new GeisterBall(x-3+width/2, y  +height  , direction));
-		else if (direction==4) gball.add(new GeisterBall(x-3+width/2, y           , direction));
+		if (direction==1) {
+			gball.add(new GeisterBall(x  +width  , y-3+height/2, direction));
+			Sounds.play(9);
+		}
+		else if (direction==2) {
+			gball.add(new GeisterBall(x-2        , y-3+height/2, direction));
+			Sounds.play(9);
+		}
+		else if (direction==3) {
+			gball.add(new GeisterBall(x-3+width/2, y  +height  , direction));
+			Sounds.play(9);
+		}
+		else if (direction==4) {
+			gball.add(new GeisterBall(x-3+width/2, y           , direction));
+			Sounds.play(9);
+		}
 }
 	
 	public void dmg (int dmg){
