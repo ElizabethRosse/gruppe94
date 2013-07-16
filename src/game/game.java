@@ -1221,6 +1221,7 @@ public class game extends JPanel implements ActionListener {
 		if (rChar.intersects(rDog)){
 			if (d.isVisible() && drawdog){
 				d.setVisible(false);
+				Sounds.play(11);
 				getDog = true;
 			}
 		}
