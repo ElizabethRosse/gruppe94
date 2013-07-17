@@ -66,7 +66,7 @@ public class game extends JPanel implements ActionListener {
 	private boolean win, pause, drawdog, mplayer = false, server = false;
 	private boolean getDog, DogQcomplete = false;
 	private boolean checkpointactivated = false;
-	private boolean levelup = false, levelup2 = true, levelup3 = true;
+	private boolean levelup = false, levelup2 = true, levelup3 = true, levelup4 = true, levelup5 = true;
 	private int G_WIDTH, G_HEIGHT;
 	
 	private Seria me = new Seria(), you = new Seria();
@@ -632,6 +632,17 @@ public class game extends JPanel implements ActionListener {
 				cha.setLVL(3);
 				levelup3 = false;
 			}
+			else if ((cha.getXP() >= 250)&&levelup4) {
+				Sounds.play(7);
+				dialogLVL4();
+				levelup4 = false;
+			}
+			else if ((cha.getXP() >= 500)&&levelup5) {
+				Sounds.play(7);
+				dialogLVL5();
+				levelup5= false;
+				
+			}
 		}
 	}
 	
@@ -1101,6 +1112,17 @@ public class game extends JPanel implements ActionListener {
 		cha.resST();
 	}
 	
+	public void dialogLVL4() {
+		cha.setMaxmana(250);
+		JOptionPane.showMessageDialog(null,"You reached Level 4!You got more Mana!");
+		cha.resST();
+	}
+	
+	public void dialogLVL5() {
+		JOptionPane.showMessageDialog(null,"You reached Level 5! Your sword now damages Ghosts!");
+		cha.resST();
+	}
+	
 	public void shop() {
 				int h = JOptionPane.showConfirmDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen fuer 3 Gold?");
 		if(h==0){
@@ -1348,10 +1370,28 @@ public class game extends JPanel implements ActionListener {
 				}
 				else {
 					Sounds.play(12);
-					benemies.remove(i);
-					NumberofBEnemies -= 1;
-					cha.addXP(5);
+					aenemies.remove(i);
+					NumberofAEnemies -= 1;
+					cha.addXP(10);
 					levelup = true;
+				}
+			}
+			if(!levelup5){
+				for (int i = 0; i < benemies.size(); i++) {
+					BlueEnemy a = (BlueEnemy) benemies.get(i);
+					if(a.getLife()>0) {
+						Rectangle rBEnemy = a.getBounds();
+						if(rSword.intersects(rBEnemy)) {
+							a.damage(cha.getSDMG());
+						}
+					}
+					else {
+						Sounds.play(12);
+						benemies.remove(i);
+						NumberofBEnemies -= 1;
+						cha.addXP(5);
+						levelup = true;
+					}
 				}
 			}
 		}
