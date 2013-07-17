@@ -15,6 +15,12 @@ public class Sword implements Serializable {
 	boolean visible, forward;
 	private int width, height,width2 ,height2, direction, damage;
 	
+	/**
+	 * Erstelle Schwert
+	 * @param x
+	 * @param y
+	 * @param dir
+	 */
 	public Sword(int x, int y, int dir) {
 		
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("images/Sword.png"));
@@ -41,6 +47,10 @@ public class Sword implements Serializable {
 		visible = true;
 	}
 	
+	/**
+	 * Gebe Bild je nach Richtung aus
+	 * @return image
+	 */
 	public Image getImage() {
 		switch(direction){
 		case 1 : return imageR; 
@@ -51,26 +61,50 @@ public class Sword implements Serializable {
 		}
 	}
 	
+	/**
+	 * Gebe X-Parameter des Schwerts aus
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Parameter des Schwerts aus
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
 	
+	/**
+	 * Gebe Schaden des Schwerts aus
+	 * @return damage
+	 */
 	public int getDmg() {
 		return damage;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des Schwerts aus
+	 * @return visible
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Setze Sichtbarkeit des Schwerts
+	 * @return x
+	 */
 	public void setVisible(boolean vis) {
 		this.visible = vis;
 	}
 	
+	/**
+	 * Gebe Größe des Schwerts aus
+	 * @return x, y, breite, höhe
+	 */
 	public Rectangle getBounds() {
 		switch(direction){
 		case 1 : return new Rectangle(x, y, width2, height2); 
@@ -82,6 +116,10 @@ public class Sword implements Serializable {
 		
 	}
 	
+	/**
+	 * Bewegung des Schwerts
+	 * @return x
+	 */
 	public void move() {
 		switch(direction){
 		case 1 : {
