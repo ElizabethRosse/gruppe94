@@ -13,6 +13,11 @@ public class Manapotion {
 	private Image image;
 	private boolean visible = true;
 	
+	/**
+	 * Erstelle Manatrank
+	 * @param x
+	 * @param y
+	 */
 	public Manapotion(int x, int y) {
 		ImageIcon ii =
 				new ImageIcon(this.getClass().getResource("images/Manapotion.png"));
@@ -23,25 +28,50 @@ public class Manapotion {
 		this.y = y;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des MP aus
+	 * @return visible
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Setze Sichtbarkeit des MP
+	 * @param vis
+	 */
 	public void setVisible(boolean vis) {
 		this.visible = vis;
 	}
 	
+	/**
+	 * Gebe X-Parameter des MP aus
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Parameter des MP aus
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
+	
+	/**
+	 * Gebe Bild des MP aus
+	 * @return image
+	 */
 	public Image getImage() {   
 		return image;
 	}
 	
+	/**
+	 * Gebe Größe des MP aus
+	 * @return x, y, breite, höhe
+	 */
 	public Rectangle getBounds() {  //for Collision detect
 		return new Rectangle(x, y, width, height);
 	}
