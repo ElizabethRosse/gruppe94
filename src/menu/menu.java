@@ -35,7 +35,7 @@ import game.Sounds;
 		 static final long serialVersionUID = 1L;
 		 
 		 private JPanel Surface;
-		 private game game = new game(true);
+		 private game game = null;
 		 private Timer timer, backgroundt;
 
 
