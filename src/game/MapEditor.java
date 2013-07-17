@@ -11,6 +11,9 @@ public class MapEditor extends JFrame {									//creates the map-editor
 	MapSurface surface;													//shows the actual version of the map
 	MapMenu mapmenu;													//utilities for loading and saving maps (bar layout)
 	
+	/**
+	 * Erstelle Map Editor
+	 */
 	public MapEditor() {
 		
 		this.requestFocus();
