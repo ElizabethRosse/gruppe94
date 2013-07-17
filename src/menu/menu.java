@@ -36,7 +36,7 @@ import game.Sounds;
 		 
 		 private JPanel Surface;
 		 private game game = new game(true);
-		 private Timer timer, backgroundt;
+		 private Timer timer, backgroundt, mplayer;
 
 
 		public static void main(String[] args)
@@ -63,9 +63,10 @@ import game.Sounds;
 			setVisible(true);
 			}
 		
-		public void rem(boolean check) {
+		public void rem(boolean check, boolean mplayer) {
 			this.remove(Surface);
-			game = new game(check);
+			if (mplayer) game = new game(check);
+			else game = new game(check);
 			timer.start();
 			add(game);
 		}
@@ -100,6 +101,18 @@ import game.Sounds;
 			timer.start();
 		}
 		
+		public void MCheck(){
+			ActionListener MCheck = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (game.MENU()) {
+					mplayer.stop();
+					rem(true, true);
+				}
+			}};
+			mplayer = new Timer(5,MCheck);
+			mplayer.start();
+		}
+		
 		public void reset() {
 			game.setVisible(false);
 			add(Surface);
@@ -132,7 +145,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					rem(true);
+					rem(true, false);
 					}
 				});
 			
@@ -149,7 +162,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					rem(false);
+					rem(false, false);
 					}
 				});
 			
