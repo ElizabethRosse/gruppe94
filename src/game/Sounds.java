@@ -9,6 +9,10 @@ import javax.sound.sampled.Clip;
 public class Sounds {
 	   
 	        // Note: use .wav files
+		/**
+		 * Spiele Musik ab
+		 * @param muse
+		 */
 	    	public static synchronized void play (int muse) {
 	    	switch(muse) {
 	    		case 1 : {
