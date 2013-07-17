@@ -9,6 +9,11 @@ public class goal {
 	private int x, y, width, height;
 	private Image image;
 	
+	/**
+	 * Erstelle Ziel
+	 * @param x
+	 * @param y
+	 */
 	public goal(int x, int y){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/goal.gif"));
 		image = ei.getImage();
@@ -18,18 +23,34 @@ public class goal {
 		this.y = y;
 	}
 	
+	/**
+	 * Gebe X-Parameter des Ziels aus
+	 * @return
+	 */
 	public int getX(){
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Parameter des Ziel aus
+	 * @return
+	 */
 	public int getY(){
 		return y;
 	}
 	
+	/**
+	 * Gebe Bild des Ziels aus
+	 * @return image
+	 */
 	public Image getImage(){
 		return image;
 	}
 	
+	/**
+	 * Gebe Größe des Ziels aus
+	 * @return x, y , breite, höhe
+	 */
 	public Rectangle getBounds(){
 		return new Rectangle(x, y, width, height);
 	}
