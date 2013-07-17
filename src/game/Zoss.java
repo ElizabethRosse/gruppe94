@@ -12,6 +12,12 @@ public class Zoss {
 	private int life = 1000;
 	private Image image;
 	
+	/**
+	 * Erstelle dritten Boss
+	 * @param x
+	 * @param y
+	 * @param dir
+	 */
 	public Zoss(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/endboss.png"));
 		image = ei.getImage();
@@ -23,53 +29,96 @@ public class Zoss {
 		dy = 0;
 	}
 	
+	/**
+	 * Gebe Schaden des dritten Bosses aus
+	 * @return damage
+	 */
 	public int getDmg() {
 		return damage;
 	}
 	
+	/**
+	 * Gebe Leben des dritten Bosses aus
+	 * @return life
+	 */
 	public int getLife (){
 		return life;
 	}
 	
+	/**
+	 * Berechne Leben nach Schaden
+	 */
 	public void damage (int dmg){
 		this.life -= dmg;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des dritten Bosses aus
+	 * @return visible
+	 */
 	public boolean isVisible () {
 		return visible;
 	}
 	
+	/**
+	 * Setze Sichtbarkeit des dritten Bosses
+	 */
 	public void setVisible (boolean visible){
 		this.visible = visible;
 	}
 	
+	/**
+	 * Gebe X-Parameter des dritten Bosses aus
+	 * @return x
+	 */
 	public int getX(){
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Parameter des dritten Bosses aus
+	 * @return y
+	 */
 	public int getY(){
 		return y;
 	}
 
-
+	/**
+	 * Gebe Bild des dritten Bosses aus
+	 * @return image
+	 */
 	public Image getImage(){
 		return image;
 	}
 	
+	/**
+	 * Gebe Größe des dritten Bosses aus
+	 * @return x, y, 35, 35
+	 */
 	public Rectangle getBounds(){
 		return new Rectangle(x, y, 35, 35);
 	}
 	
+	/**
+	 * Gebe GrößeZ des dritten Bosses aus
+	 * @return x, y, 75, 75
+	 */
 	public Rectangle getBoundsZ() {
 		return new Rectangle(x, y, 75, 75);
 	}
 	
+	/**
+	 * Bewege den dritten Boss
+	 */
 	public void move() {
 		x = x+dx;
 		y = y+dy;
 	
 	}
 	
+	/**
+	 * Ändere Bewegungsrichtung bei Kollision
+	 */
 	public void movecollide() {
 		if (dx>0) {
 			x = x-3;
