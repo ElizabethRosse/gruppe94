@@ -1306,6 +1306,8 @@ public class game extends JPanel implements ActionListener {
 			
 				if (rChar.intersects(rCheckpoint)){
 				c.setActivated(true);								//setzt checkpoint bei beruehrung auf activated
+				checkpointX[0] = cha.getX();
+				checkpointY[0] = cha.getY();
 				reset = mapNumber;
 
 					if (cha.getDX()>0) {
