@@ -33,7 +33,7 @@ public class MapEditor extends JFrame {									//creates the map-editor
 		
 		setSize(750, 600);
 		setTitle("MapEditor");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 	}
 
