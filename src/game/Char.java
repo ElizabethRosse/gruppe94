@@ -27,6 +27,9 @@ public class Char {
 	private int fdmg, gdmg = 50;
 	private int sdmg = 5;
 	
+	/**
+	 * Erstelle den Character
+	 */
 	public Char()  {
 		
 		ImageIcon ii =
@@ -62,78 +65,148 @@ public class Char {
 		lvl = 1;
 	}
 	
+	/**
+	 * Setze Manatränke des Characters
+	 */
 	public void setManapotion() {
 		manapotion += 1;
 	}
 	
+	/**
+	 * Gebe aus ob der Character Smile besitzt
+	 * @return smile
+	 */
 	public boolean haveSmile() {
 		return Smile;
 	}
 	
+	/**
+	 * Gebe aus wieviele Manatränke der Character besitzt
+	 * @return
+	 */
 	public int getManapotion() {
 		return manapotion;
 	}
 	
+	/**
+	 * Setze die Lebenstränke des Characters
+	 */
 	public void setHealthpotion() {
 		healthpotion += 1;
 	}
 	
+	/**
+	 * Gebe die Lebenstränke des Characters aus
+	 * @return healthpotion
+	 */
 	public int getHealthpotion() {
 		return healthpotion;
 	}
 	
+	/**
+	 * Setze das Level des Characters
+	 * @param lvl
+	 */
 	public void setLVL(int lvl){
 		this.lvl = lvl;
 	}
 	
+	/**
+	 * Gebe das Level des Characters aus
+	 * @return
+	 */
 	public int getLVL(){
 		return lvl;
 	}
 	
+	/**
+	 * Gebe den Schaden des Geisterballs aus
+	 * @return gdmg
+	 */
 	public int getGDMG() {
 		return gdmg;
 	}
 	
+	/**
+	 * Addiere den Schaden des Geisterballs
+	 * @param gdmg
+	 */
 	public void addGDMG (int gdmg){
 		this.gdmg = this.gdmg + gdmg;
 	}
 	
+	/**
+	 * Gebe den Schaden des Feuerballs aus
+	 * @return fdmg
+	 */
 	public int getFDMG(){
 		return fdmg;
 	}
 	
+	/**
+	 * Addiere den Schaden des Feuerballs
+	 * @param fdmg
+	 */
 	public void addFDMG (int fdmg){
 		this.fdmg = this.fdmg + fdmg; 
 	}
 	
+	/**
+	 * Gebe den Schaden des Schwerts aus
+	 * @return sdmg
+	 */
 	public int getSDMG(){
 		return sdmg;
 	}
 	
+	/**
+	 * Addiere den Schaden des Schwerts
+	 * @param sdmg
+	 */
 	public void addSDMG (int sdmg){
 		this.sdmg = this.sdmg + sdmg;
 	}
 	
+	/**
+	 * Erstelle den Smile des Characters
+	 */
 	public void makeSmile() {
 		Smile = true;
 	}
 	
+	/**
+	 * Erstelle das Schwert des Characters
+	 */
 	public void makeSword() {
 		Sword = true;
 	}
 	
+	/**
+	 * Gebe aus ob der Character das Schwert besitzt
+	 * @return Sword
+	 */
 	public boolean haveSword() {
 		return Sword;
 	}
 	
+	/**
+	 * Erstelle die Pfeile des Characters
+	 */
 	public void makeArrow() {
 		Arrow = true;
 	}
 	
+	/**
+	 * Gebe aus ob der Character Pfeile besitzt
+	 * @return Arrow
+	 */
 	public boolean haveArrow() {
 		return Arrow;
 	}
 	
+	/**
+	 * Bewegung des Characters
+	 */
 	public void move() { //bewegung mithilfe der Bewegungsvariablen
 		if(move) {
 			x += dx;
@@ -154,54 +227,106 @@ public class Char {
 		}
 	}
 	
+	/**
+	 * Gebe X-Parameter des Characters aus
+	 * @return x
+	 */
 	public int getX() {
 		 return x;
 	}
 	
+	/**
+	 * Gebe Bewegungsrichtung des Characters aus
+	 * @return
+	 */
 	public int getDirection() {
 		return direction;
 	}
 	 
+	/**
+	 * Addiere X-Paramter
+	 * @param x
+	 */
 	public void addX(int x) {
 		 this.x = this.x + x;
 	}
-	 
+	
+	/**
+	 * Addiere Y-Paramter
+	 * @param y
+	 */
 	public void addY(int y) {
 		 this.y = this.y + y;
 	}
 	
+	/**
+	 * Gebe Y-Paramter aus
+	 * @return y
+	 */
 	public int getY() {
 		 return y;
 	}
 	
+	/**
+	 * Addiere XP
+	 * @param xp
+	 */
 	public void addXP (int xp) {
 		this.xp = this.xp + xp;
 	}
 	
+	/**
+	 * Gebe XP des Characters aus
+	 * @return xp
+	 */
 	public int getXP() {
 		return xp;
 	}
 	
+	/**
+	 * Setze den X-Paramter des Characters
+	 * @param x
+	 */
 	public void setX(int x) { //char-positionierung (x,y) bei mapwechsel
 		this.x = x;
 	}
 	
+	/**
+	 * Setze den Y-Paramter des Characters
+	 * @param y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	 
+	/**
+	 * Gebe Bewegungsgeschwindigkeit auf der X-Achse aus
+	 * @return dx
+	 */
 	public int getDX() {
 		 return dx;
 	}
 	 
+	/**
+	 * Gebe Bewegungsgeschwindigkeit auf der Y-Achse aus
+	 * @return dy
+	 */
 	public int getDY() {
 		 return dy;
 	}
-	 
+	
+	/**
+	 * Setze Bewegungsgeschwindigkeit auf der X-Achse
+	 * @param x
+	 */
 	public void setDX(int x) { //zum stoppen der Bewegung bei berührung mit einem Baum
 		 this.dx = x;
 	}
 	 
+	/**
+	 * Setze Bewegungsgeschwindigkeit auf der Y-Achse
+	 * @param y
+	 */
 	public void setDY(int y) {
 		 this.dy = y;
 	}
@@ -214,6 +339,10 @@ public class Char {
 		return life;
 	}
 	 
+	/**
+	 * Gebe Smile Bild aus
+	 * @return image
+	 */
 	public Image getImage() {
 		if (change&&(mana>0)) return smile;
 		else {
@@ -226,38 +355,70 @@ public class Char {
 		return change;
 	}
 	 
+	/**
+	 * Gebe Pfeile des Character aus
+	 * @return arrows
+	 */
 	public ArrayList<Arrow> getArrows() {
 		return arrows;
 	}
 	
+	/**
+	 * Setze Pfeile des Characters
+	 * @param arrows
+	 */
 	public void setArrows(ArrayList<Arrow> arrows) {
 		this.arrows = arrows;
 	}
 	
+	/**
+	 * Erstelle neue Pfeil Arrayliste
+	 */
 	public void resArrows() {
 		arrows = new ArrayList<Arrow>();
 	}
 	
+	/**
+	 * Gebe Arrayliste der Feuerbälle aus
+	 * @return
+	 */
 	public ArrayList<Feuerball> getFBall() {
 		return fball;
 	}
 	
+	/**
+	 * Setze Arrayliste der Feuerbälle
+	 * @param fball
+	 */
 	public void setFBall(ArrayList<Feuerball> fball) {
 		this.fball = fball;
 	}
 	
+	/**
+	 * Erstelle neue Arrayliste der Feuerbälle
+	 */
 	public void resFball() {
 		fball = new ArrayList<Feuerball>();
 	}
 	
+	/**
+	 * Gebe Arrayliste der Geisterbälle aus
+	 * @return gball
+	 */
 	public ArrayList<GeisterBall> getGBall() {
 		return gball;
 	}
 	
+	/**
+	 * Erstelle neue Arrayliste der Geisterbälle
+	 */
 	public void resGball() {
 		gball = new ArrayList<GeisterBall>();
 	}
-	
+
+	/**
+	 * Schieße Pfeile
+	 */
 	public void shoot() {
 			if      (direction==1) arrows.add(new Arrow(x  +width  , y-3+height/2, direction));
 			else if (direction==2) arrows.add(new Arrow(x-2        , y-3+height/2, direction));
@@ -265,6 +426,9 @@ public class Char {
 			else if (direction==4) arrows.add(new Arrow(x-3+width/2, y           , direction));
 	}
 	
+	/**
+	 * Schieße Feuerbälle
+	 */
 	public void cast() {
 			if (direction==1) {
 				fball.add(new Feuerball(x  +width  , y-3+height/2, direction));
@@ -284,6 +448,9 @@ public class Char {
 			}
 	}
 	
+	/**
+	 * Schieße Geisterbälle
+	 */
 	public void ghost() {
 		if (direction==1) {
 			gball.add(new GeisterBall(x  +width  , y-3+height/2, direction));
@@ -302,7 +469,10 @@ public class Char {
 			Sounds.play(9);
 		}
 }
-	
+	/**
+	 * Berechne Schaden
+	 * @param dmg
+	 */
 	public void dmg (int dmg){
 		switch(dmg%armor){
 		case 0 : {
@@ -331,10 +501,18 @@ public class Char {
 		}
 	}
 	
+	/**
+	 * Gebe Schwert aus
+	 * @return sword
+	 */
 	public boolean getST() {
 		return sword;
 	}
 	
+	/**
+	 * Setze Schwert
+	 * @param sword
+	 */
 	public void setST(boolean sword) {
 		this.sword = sword;
 	}
@@ -344,6 +522,9 @@ public class Char {
 		move = true;
 	}
 	
+	/**
+	 * Schlage mit Schwert
+	 */
 	public void sword() {
 		if (direction==1) {
 			Mastersword = new Sword(x-2+width, y-1+height/2, 1);
@@ -363,22 +544,41 @@ public class Char {
 		}
 	}
 	
+	/**
+	 * Gebe MasterSchwert des Characters aus
+	 * @return Mastersword
+	 */
 	public Sword getSword() {
 		return Mastersword;
 	}
 	
+	/**
+	 * Setze MasterSchwert
+	 * @param sword
+	 */
 	public void setMSword(Sword sword) {
 		Mastersword = sword;
 	}
 	
+	/**
+	 * Berechne Manakosten
+	 * @param mana
+	 */
 	public void manacost (int mana) {
 		this.mana -= mana;
 	}
 	
+	/**
+	 * Gebe Mana des Characters aus
+	 * @return
+	 */
 	public int Mana() {
 		return mana;
 	}
 	
+	/**
+	 * Trinke Manatrank
+	 */
 	public void Manapotion() {
 		if((manapotion>0)&&(mana<maxmana)){
 			Sounds.play(8);
@@ -387,20 +587,35 @@ public class Char {
 		}
 	}
 	
+	/**
+	 * Setze maximales Mana
+	 * @param mana
+	 */
 	public void setMaxmana(int mana) {
 		this.maxmana = mana;
 		this.mana = maxmana;
 	}
 	
+	/**
+	 * Setze maximales Leben
+	 * @param health
+	 */
 	public void setMaxhealth(int health) {
 		this.maxhealth = health;
 		this.health = maxhealth;
 	}
 	
+	/**
+	 * Gebe maximales Leben aus
+	 * @return
+	 */
 	public int getMaxhealth() {
 		return maxhealth;
 	}
 	
+	/**
+	 * Trinke Lebenstrank
+	 */
 	public void Healthpotion() {
 		if((healthpotion>0)&&(health<maxhealth)){
 			Sounds.play(8);
@@ -415,10 +630,16 @@ public class Char {
 		this.gold = 0;
 	}
 	
+	/**
+	 * Kaufe Leben
+	 */
 	public void buyHealth() {
 		gold -= 3;
 	}
 	
+	/**
+	 * Setze Gold
+	 */
 	public void setGold() {
 		 gold = gold + 1;
 	}
@@ -439,33 +660,66 @@ public class Char {
 		gold = i;
 	}
 	
+	/**
+	 * Gebe Gold aus
+	 * @return gold
+	 */
 	public int getGold() {
 		 return gold;
 	}
 	
+	/**
+	 * Setze Rüstung
+	 * @param armor
+	 */
 	public void setArmor(int armor) {
 		this.armor = armor;
 	}
 	
+	/**
+	 * Gebe Rüstung aus
+	 * @return armor
+	 */
 	public int getArmor() {
 		return armor;
 	}
 	
+	/**
+	 * Gebe Leben aus
+	 * @return health
+	 */
 	public int gethealth (){
 		return health;
+		
+	/**
+	 * Gebe Mana aus
+	 * @return mana	
+	 */
 	}
 	public int getmana (){
 		return mana;
 	}
 	
+	/**
+	 * Gebe Größe des Characters aus
+	 * @return x, y, breite, höhe
+	 */
 	public Rectangle getBounds() {
 		 return new Rectangle(x, y, width, height);
 	}
 	
+	/**
+	 * Gebe Größe des Characters beim Smile aus
+	 * @return x, y, höhe, breite
+	 */
 	public Rectangle getBoundsSmile() {
 		return new Rectangle(x-15, y-15, width+30, height+30);
 	}
 	 
+	/**
+	 * Drücken der Tasten
+	 * @param e
+	 */
 	public void keyPressed(KeyEvent e) { //veränderung der Bewegungsvariablen
 		 int key = e.getKeyCode();
 		 
@@ -511,6 +765,10 @@ public class Char {
 		 }
 	}
 	 
+	/**
+	 * Loslassen der Tasten
+	 * @param e
+	 */
 	public void keyReleased(KeyEvent e) { //zurücksetzten der Bewegungsvariablen
 		 int key = e.getKeyCode();
 		 
