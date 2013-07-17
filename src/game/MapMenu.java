@@ -52,6 +52,9 @@ public class MapMenu extends JMenuBar {
 		add(file);
 	}
 	
+	/**
+	 * Lade Karten-Datei
+	 */
 	public void load() {
 		
 		try {
@@ -91,6 +94,9 @@ public class MapMenu extends JMenuBar {
 		
 	}
 	
+	/**
+	 * Speichere Karten-Datei
+	 */
 	public void save() {																		//saves the map
 		
 		char[] Map = new char[121];
