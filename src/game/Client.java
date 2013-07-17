@@ -16,6 +16,9 @@ public class Client {
 	private ObjectInputStream in = null;
 	private Seria Server;
 	
+	/**
+	 * Erstelle Client
+	 */
 	public Client() {
 		try {
 			client = new Socket("localhost", 1234);
@@ -32,6 +35,9 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Erstelle neuen Server
+	 */
 	public void newserver() {
 		try {
 			out = new ObjectOutputStream(client.getOutputStream());
@@ -41,6 +47,10 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Sende option
+	 * @param me
+	 */
 	public void send(Seria me) {
 		try {
 			out.writeObject(me);
@@ -81,10 +91,17 @@ public class Client {
 		return Server;
 	}
 	
+	/**
+	 * Gebe Connection aus
+	 * @return connection
+	 */
 	public boolean connection() {
 		return connection;
 	}
 	
+	/**
+	 * Schlieﬂe Client
+	 */
 	public void close() {
 		try {
 			client.close();
