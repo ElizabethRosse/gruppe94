@@ -635,11 +635,13 @@ public class game extends JPanel implements ActionListener {
 			else if ((cha.getXP() >= 250)&&levelup4) {
 				Sounds.play(7);
 				dialogLVL4();
+				cha.setLVL(4);
 				levelup4 = false;
 			}
 			else if ((cha.getXP() >= 500)&&levelup5) {
 				Sounds.play(7);
 				dialogLVL5();
+				cha.setLVL(5);
 				levelup5= false;
 				
 			}
@@ -1113,7 +1115,7 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	public void dialogLVL4() {
-		cha.setMaxmana(250);
+		cha.setMaxmana(200);
 		JOptionPane.showMessageDialog(null,"You reached Level 4!You got more Mana!");
 		cha.resST();
 	}
