@@ -2039,6 +2039,7 @@ public class game extends JPanel implements ActionListener {
 		NumberofBosses = 0;
 		NumberofTraps = 0;
 		NumberofTrees = 1;
+		NumberofCheckpoints = 0;
 		Spawnpoints = 0;
 		NumberofEnemies = 0;
 		NumberofBEnemies = 0;
