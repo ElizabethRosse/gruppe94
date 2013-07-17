@@ -13,6 +13,11 @@ public class Healthpotion {
 	private Image image;
 	private boolean visible = true;
 	
+	/**
+	 * Erstelle Lebenstrank
+	 * @param x
+	 * @param y
+	 */
 	public Healthpotion(int x, int y) {
 		ImageIcon ii =
 				new ImageIcon(this.getClass().getResource("images/Healthpotion.png"));
@@ -23,25 +28,50 @@ public class Healthpotion {
 		this.y = y;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des HP aus
+	 * @return visible
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Setze Sichtbarkeit des HP
+	 * @param vis
+	 */
 	public void setVisible(boolean vis) {
 		this.visible = vis;
 	}
 	
+	/**
+	 * Gebe X-Parameter des HP
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Parameter des HP
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
+	
+	/**
+	 * Gebe Bild des HP aus
+	 * @return image
+	 */
 	public Image getImage() {   
 		return image;
 	}
 	
+	/**
+	 * Gebe Größe des HP aus
+	 * @return x, y, breite, höhe
+	 */
 	public Rectangle getBounds() {  //for Collision detect
 		return new Rectangle(x, y, width, height);
 	}
