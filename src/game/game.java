@@ -136,6 +136,12 @@ public class game extends JPanel implements ActionListener {
 	
 	private boolean start  = true;
 	
+	/**
+	 * Erstelle Spiel
+	 * @param newGame
+	 * @param mplayer
+	 * @param server
+	 */
 	public game(boolean newGame, boolean mplayer, boolean server) {
 		
 		addKeyListener(new KAdapter());
@@ -311,6 +317,9 @@ public class game extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	/**
+	 * Reset Connection
+	 */
 	public void resConnection() {
 		if(server) {
 			Server.close();
@@ -318,6 +327,9 @@ public class game extends JPanel implements ActionListener {
 		else Client.close();
 	}
 	
+	/**
+	 * Erstelle Characters
+	 */
 	public void initCha2() {
 		if (server) {
 			//me.setArrows(cha.getArrows());
@@ -357,14 +369,24 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Multiplayer Server
+	 * @param server
+	 */
 	public void initMPlayerS(Server server) {
 		this.Server = server;
 	}
 	
+	/**
+	 * Erstelle Multiplayer Client
+	 */
 	public void initMPlayerC(Client client) {
 		this.Client = client;
 	}
 	
+	/**
+	 * Speicher Spielstand
+	 */
 	public void save() {
 		int a = 0;															//save the game
 		int[] i = new int[16];
@@ -468,10 +490,17 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Pfeile
+	 */
 	public void initArrows() {								//create the arraylist of objects
 		arrows = new ArrayList<Arrow>();
 		arrows = cha.getArrows();
 	}
+	
+	/**
+	 * Erstelle Arraylist der Pfeile des zweiten Bosses
+	 */
 	public void initBossArrows() {
 		xarrows = new ArrayList<Arrow>();
 		for(int i = 0; i < xosses.size();i++) {
@@ -480,6 +509,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der falschen Bäume
+	 */
 	public void initfalsetrees() {
 		falsetrees = new ArrayList<Tree>();
 		
@@ -488,11 +520,17 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Feuerbälle
+	 */
 	public void initfball() {
 		fball = new ArrayList<Feuerball>();
 		fball = cha.getFBall();
 	}
 	
+	/**
+	 * Erstelle Arraylist der Geisterbälle
+	 */
 	public void initgball() {
 		gball = new ArrayList<GeisterBall>();
 		gball = cha.getGBall();
@@ -504,6 +542,9 @@ public class game extends JPanel implements ActionListener {
 		G_HEIGHT = getHeight();
 	}
 	
+	/**
+	 * Erstelle Arraylist der Bäume
+	 */
 	public void initTrees() {
 		trees = new ArrayList<Tree>();
 		
@@ -512,6 +553,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der NPCs
+	 */
 	public void initnpc() {
 		npc = new ArrayList<npc>();
 		
@@ -520,6 +564,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Shopkeeper
+	 */
 	public void initshop() {
 		shop = new ArrayList<shopkeeper>();
 		
@@ -528,6 +575,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Münzen
+	 */
 	public void initCoin() {
 		coins = new ArrayList<Coin>();
 		
@@ -536,6 +586,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Checkpoints
+	 */
 	public void initCheckpoints() {
 		checkpoints = new ArrayList<Checkpoint>();
 		
@@ -544,6 +597,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Manatränke
+	 */
 	public void initManap() {
 		manap = new ArrayList<Manapotion>();
 		
@@ -552,6 +608,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Lebenstränke
+	 */
 	public void initHealthp() {
 		healthp = new ArrayList<Healthpotion>();
 		
@@ -569,32 +628,46 @@ public class game extends JPanel implements ActionListener {
 		MENU = false;
 	}
 	
+	/**
+	 * Erstelle Arraylist des ersten Bosses
+	 */
 	public void initBoss(){														//initializiere Bosse
 		bosses = new ArrayList<Boss>();
 		for (int i =0; i<NumberofBosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
 			bosses.add(new Boss(posB1[i] +13, posB2[i] + 13, 1));
 	}
 	
+	/**
+	 * Erstelle Arraylist des zweiten Bosses
+	 */
 	public void initXoss(){														//initializiere Bosse
 		xosses = new ArrayList<Xoss>();
 		for (int i =0; i<NumberofXosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
 			xosses.add(new Xoss(posX1[i] +13, posX2[i] + 13, 2));
 	}
 	
+	/**
+	 * Erstelle Arraylist des dritten Bosses
+	 */
 	public void initZoss(){														//initializiere Bosse
 		zosses = new ArrayList<Zoss>();
 		for (int i =0; i<NumberofZosses; i++)									// Boss ArrayList mit X und Y Werten aus Textdatei
 			zosses.add(new Zoss(posZ1[i] +13, posZ2[i] + 13, 1));
 	}
 	
-	
+	/**
+	 * Erstelle Arraylist der Teufelgegner
+	 */
 	public void initEnemies() {													//initializiere Enemies
 		enemies = new ArrayList<Enemy>();
 		for (int i=0; i < NumberofEnemies ; i++) {								//Enemy ArrayList mit X, Y und Direction aus Textdatei
 			enemies.add(new Enemy(posE1[i] + 13, posE2[i] + 13, posEDIR[i]));
 		}
 	}
-
+	
+	/**
+	 * Erstelle Arraylist der Geistergegner
+	 */
 	public void initBEnemies() {
 		benemies = new ArrayList<BlueEnemy>();
 		for (int i=0; i < NumberofBEnemies ; i++) {								//BlueEnemy ArrayList mit X, Y und Direction aus Textdatei
@@ -602,6 +675,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Rüstungsgegner
+	 */
 	public void initAEnemies() {
 		aenemies = new ArrayList<ArmorEnemy>();
 		for (int i=0; i < NumberofAEnemies ; i++) {								//ArmorEnemy ArrayList mit X, Y und Direction aus Textdatei
@@ -609,6 +685,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstelle Arraylist der Fallen
+	 */
 	public void initTraps() {													//initializiere Traps
 		traps = new ArrayList<Trap>();
 		for (int i=0; i < NumberofTraps ; i++) {								//Trap ArrayListe mit X und Y Werten aus Textdatei
@@ -616,6 +695,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Level-System des Characters
+	 */
 	public void initXP() {
 		if(levelup){
 			if ((cha.getXP() >= 10)&&levelup2){
@@ -665,6 +747,9 @@ public class game extends JPanel implements ActionListener {
 		return pause;
 	}
 	
+	/**
+	 * Zeichne alle Objekte
+	 */
 	public void paint(Graphics g) {												//painting the background
 		super.paint(g);
 		
@@ -1056,6 +1141,9 @@ public class game extends JPanel implements ActionListener {
 		
 	}
 	
+	/**
+	 * Hilfe Dialog
+	 */
 	public void dialog() {
 		cha.resST();
 		if(cha.haveSword()){
@@ -1073,18 +1161,30 @@ public class game extends JPanel implements ActionListener {
 			}
 	}
 	
+	/**
+	 * Dialog des ersten NPCs
+	 */
 	public void dialog1() {            //dialog fuer den ersten npc, der die story erzaehlt
 		JOptionPane.showMessageDialog(null,"Yo Nerd! Die Smileys brauchen deine Hilfe!");
 	}
 	
+	/**
+	 * Dialog des zweiten NPCs
+	 */
 	public void dialogq1() {
 		JOptionPane.showMessageDialog(null,"Please save my dog by killing all enemies in the next room.");
 	}
 	
+	/**
+	 * Dialog des zweiten NPCs nach beenden der Quest
+	 */
 	public void dialogq1complete() {
 		JOptionPane.showMessageDialog(null,"Thanks for rescuing my dog!");
 	}
 	
+	/**
+	 * Dialog des zweiten NPCs bei Abgabe der Quest
+	 */
 	public void dialog2() {
 		Sounds.play(3);
 		JOptionPane.showMessageDialog(null,"Thanks for rescuing my dog! Take this it's dangerous out there!(You got a Sword! You can use it with 'g')");
@@ -1092,39 +1192,60 @@ public class game extends JPanel implements ActionListener {
 		cha.makeSword();
 	}
 	
+	/**
+	 * Dialog nach Sieg gegen ersten Boss
+	 */
 	public void dialog3() {
 		JOptionPane.showMessageDialog(null,"You got your Smile back!(Now you can Smile with 'd')");
 		cha.resST();
 		cha.makeSmile();
 	}
 	
+	/**
+	 * Dialog nach Sieg gegen zweiten Boss
+	 */
 	public void dialog4() {
 		JOptionPane.showMessageDialog(null,"You found some Arrows!(You can shoot with 'Space')");
 		cha.resST();
 		cha.makeArrow();
 	}
 	
+	/**
+	 * Dialog bei erreichen des zweiten Levels
+	 */
 	public void dialogLVL2() {
 		JOptionPane.showMessageDialog(null,"You reached Level 2! Your Fireball's damage is doubled!");
 		cha.resST();
 	}
 	
+	/**
+	 * Dialog bei erreichen des dritten Levels
+	 */
 	public void dialogLVL3() {
 		JOptionPane.showMessageDialog(null,"You reached Level 3! Your sword's damage is doubled!");
 		cha.resST();
 	}
 	
+	/**
+	 * Dialog bei erreichen des vierten Levels
+	 */
 	public void dialogLVL4() {
 		cha.setMaxmana(200);
 		JOptionPane.showMessageDialog(null,"You reached Level 4!You got more Mana!");
 		cha.resST();
 	}
 	
+	/**
+	 * Dialog bei erreichen des fünften Levels
+	 */
 	public void dialogLVL5() {
 		JOptionPane.showMessageDialog(null,"You reached Level 5! Your sword now damages Ghosts!");
 		cha.resST();
 	}
 	
+	/**
+	 * NPC mit Shop
+	 */
 	public void shop() {
 				int h = JOptionPane.showConfirmDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen fuer 3 Gold?");
 		if(h==0){
@@ -1137,7 +1258,9 @@ public class game extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+	/**
+	 * Actions bei Tastendruck
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {					//checking performed actions
 		if(mplayer) initCha2();
@@ -1244,6 +1367,9 @@ public class game extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	/**
+	 * Checke ob Character lebt
+	 */
 	public void checkAlive() {													//check, if you have tries left and reset health, else you loose
 		if((cha.getContinues() > 0) && (cha.gethealth() <= 0)) {
 			cha.Continue();
@@ -1266,6 +1392,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Bewegung des ersten Bosses
+	 */
 	public void moveBoss(){
 		for (int i = 0; i < bosses.size(); i++){
 			Boss b = (Boss) bosses.get(i);
@@ -1275,6 +1404,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Bewegung des zweiten Bosses
+	 */
 	public void moveXoss(){
 		for (int i = 0; i < xosses.size(); i++){
 			Xoss x = (Xoss) xosses.get(i);
@@ -1284,6 +1416,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Bewegung des dritten Bosses
+	 */
 	public void moveZoss(){
 		for (int i = 0; i < zosses.size(); i++){
 			Zoss z = (Zoss) zosses.get(i);
@@ -1293,6 +1428,9 @@ public class game extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Bewegung der Teufelgegner
+	 */
 	public void moveEnemy(){
 
 		for (int i = 0; i < enemies.size(); i++) {
@@ -1320,6 +1458,9 @@ public class game extends JPanel implements ActionListener {
 		
 	
 
+	/**
+	 * Überprüfe Kollision von Objekten
+	 */
 	public void checkCollisions() {								//checking collisions of objects with another object
 		
 		Rectangle rChar = cha.getBounds();
@@ -2176,6 +2317,13 @@ public class game extends JPanel implements ActionListener {
 		
 	}
 
+	/**
+	 * Erstelle Map
+	 * @param m
+	 * @param j
+	 * @param k
+	 * @throws IOException
+	 */
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
 		int x = 50;
