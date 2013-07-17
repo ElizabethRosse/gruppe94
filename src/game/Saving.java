@@ -12,6 +12,9 @@ public class Saving {
 	 BufferedReader dat;
 	 int max = 16;
 	 
+	 /**
+	  * Speichere Spielstand
+	  */
 	 public Saving() {
 		 try {
 			datei = new FileReader("src\\game\\savings\\save1");
@@ -24,6 +27,11 @@ public class Saving {
 		
 	 }
 	 
+	 /**
+	  * Lade Spielstand
+	  * @return loadings
+	  * @throws IOException
+	  */
 	 public int[] load() throws IOException {
 		 String line;
 		 int wert;
@@ -41,6 +49,11 @@ public class Saving {
 		 return loadings;
 	 }
 	 
+	 /**
+	  * Speichern
+	  * @param save
+	  * @throws IOException
+	  */
 	public void save(int[] save) throws IOException{
 		 String line;
 		 PrintWriter pWriter;
