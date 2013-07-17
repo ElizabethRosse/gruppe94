@@ -3,6 +3,7 @@ package game;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+//import java.io.OutputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,15 +12,16 @@ public class Server {
 	
 	private final ServerSocket server;
 	private boolean search = true, connection = false;
-	private Char cha = null;
+	private Char cha = new Char();
 	private Socket client = null;
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
+	private Seria Client;
 	
 	
 	public Server () throws IOException {
 		server = new ServerSocket(1234);
-		System.out.println(server.getInetAddress());
+		//System.out.println(server.getInetAddress());
 		
 	}
 	
@@ -44,34 +46,53 @@ public class Server {
 	public void newclient() {
 		try {
 			out = new ObjectOutputStream(client.getOutputStream());
-			in  = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+			
+			in  = new ObjectInputStream(client.getInputStream());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void send(Char cha) {
+	public void send(Seria me) {
 		try {
-			out.writeObject(cha);
+			out.writeObject(me);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public Char get() {
+	public Seria get() {
 		try {
-			cha = (Char) in.readObject();
+			Client = (Seria) in.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return cha;
+		/*try {
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		search = true;*/
+		newclient();
+		return Client;
 	}
 	
 	public boolean connection() {
 		return connection;
+	}
+	
+	public void close() {
+		try {
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

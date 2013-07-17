@@ -2,12 +2,14 @@ package game;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 
-public class Sword {
+public class Sword implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int x, y, chax, chay;
 	private Image image, imageD, imageR, imageL;
 	boolean visible, forward;

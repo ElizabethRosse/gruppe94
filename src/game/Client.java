@@ -14,6 +14,7 @@ public class Client {
 	private Socket client = null;
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
+	private Seria Server;
 	
 	public Client() {
 		try {
@@ -34,33 +35,62 @@ public class Client {
 	public void newserver() {
 		try {
 			out = new ObjectOutputStream(client.getOutputStream());
-			in  = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+			in  = new ObjectInputStream(client.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void send(Char cha) {
+	public void send(Seria me) {
 		try {
-			out.writeObject(cha);
+			out.writeObject(me);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public Char get() {
+	public Seria get() {
 		try {
-			cha = (Char) in.readObject();
+			Server = (Seria) in.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return cha;
+		/*try {
+			client.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			client = new Socket("localhost", 1234);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(client != null) {
+				connection = true;
+				newserver();
+			}
+		}*/
+		newserver();
+		return Server;
 	}
 	
 	public boolean connection() {
 		return connection;
+	}
+	
+	public void close() {
+		try {
+			client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
