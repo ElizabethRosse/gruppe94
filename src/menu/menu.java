@@ -251,6 +251,42 @@ import game.Sounds;
 			GridBagConstraints closec = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
 			closec.gridx = 0;
 			closec.gridy = 13;
+			
+			JButton server = new JButton("server");             //close button; working as intended
+			
+			server.setPreferredSize( new Dimension(150,25));
+			
+			server.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					System.exit(0);						           
+					}
+				});
+			
+			
+			GridBagConstraints serverc = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
+			serverc.gridx = 0;
+			serverc.gridy = 15;
+			
+			JButton client = new JButton("Client");             //close button; working as intended
+			
+			client.setPreferredSize( new Dimension(150,25));
+			
+			client.addActionListener(new ActionListener()       
+				{
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					System.exit(0);						           
+					}
+				});
+			
+			
+			GridBagConstraints clientc = new GridBagConstraints();			//setting options for positioning in gridbag, some glues as placeholders to create space between buttons
+			clientc.gridx = 0;
+			clientc.gridy = 17;
 						
 			
 			Box placeholder3 = new Box(getDefaultCloseOperation());			// used to create space in menu frame
@@ -341,6 +377,8 @@ import game.Sounds;
 			surface.add(placeholder7, placeholder7c);
 			surface.add(close, closec);
 			surface.add(placeholder8, placeholder8c);
+			surface.add(server, serverc);
+			surface.add(client, clientc);
 			
 			return surface;
 			}
