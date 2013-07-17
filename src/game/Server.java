@@ -18,13 +18,19 @@ public class Server {
 	private ObjectInputStream in = null;
 	private Seria Client;
 	
-	
+	/**
+	 * Erstelle Server
+	 * @throws IOException
+	 */
 	public Server () throws IOException {
 		server = new ServerSocket(1234);
 		//System.out.println(server.getInetAddress());
 		
 	}
 	
+	/**
+	 * Starte Server
+	 */
 	public void startServing() {
 		while(search) {
 			try{
@@ -43,6 +49,9 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Erstelle Client
+	 */
 	public void newclient() {
 		try {
 			out = new ObjectOutputStream(client.getOutputStream());
@@ -82,10 +91,17 @@ public class Server {
 		return Client;
 	}
 	
+	/**
+	 * Gebe Connection aus
+	 * @return connection
+	 */
 	public boolean connection() {
 		return connection;
 	}
 	
+	/**
+	 * Schlieﬂe Server
+	 */
 	public void close() {
 		try {
 			server.close();
