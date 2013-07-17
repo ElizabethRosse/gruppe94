@@ -1770,6 +1770,30 @@ public class game extends JPanel implements ActionListener {
 				
 
 			}
+			
+			for (int i = 0; i<arrows.size();i++) {
+				Arrow a = (Arrow) arrows.get(i);
+				if(a.getBounds().intersects(rTree)) a.setVisible(false);
+					for(int p = 0; p<fball.size(); p++){
+						Feuerball f = (Feuerball) fball.get(p);
+						if(a.getBounds().intersects(f.getBounds())) a.setVisible(false);
+					}
+				}
+			
+			for (int i = 0; i<fball.size();i++) {
+				Feuerball f = (Feuerball) fball.get(i);
+				if(f.getBounds().intersects(rTree)) {
+					f.setVisible(false);
+					}
+				}
+			
+			for (int i = 0; i<gball.size();i++) {
+				GeisterBall g = (GeisterBall) gball.get(i);
+				if (g.getBounds().intersects(rTree)) {
+					g.setVisible(false);
+					}
+				}
+		}
 		for (int z = 0; z < npc.size(); z++) {
 			npc n = (npc) npc.get(z);
 			Rectangle rnpc = n.getBounds();
@@ -1895,55 +1919,34 @@ public class game extends JPanel implements ActionListener {
 				}
 			}
 		}
+		}
+			
 		for (int h = 0; h < shop.size(); h++) {
 			shopkeeper s = (shopkeeper) shop.get(h);
 			Rectangle rshop = s.getBounds();
 				
-			if (rChar.intersects(rshop)) { //stop at touching shopkeeper and dialog
+			if (rChar.intersects(rshop)) { 														//stop at touching shopkeeper and dialog
 				
 				if (cha.getDX()>0) {
 					cha.setDX(0);
 					cha.addX(-5);
-					shop();
 				}
 					
-				if (cha.getDX()<0) {
+				else if (cha.getDX()<0) {
 					cha.setDX(0);
 					cha.addX(5);
-					shop();
 				}
 					
 				if (cha.getDY()>0) {
 					cha.setDY(0);
 					cha.addY(-5);
-					shop();
 				}
 					
-				if (cha.getDY()<0) {
+				else if (cha.getDY()<0) {
 					cha.setDY(0);
 					cha.addY(5);
-					shop();
 				}
-				
-					
-
-			}
-		}		
-			for (int i = 0; i<arrows.size();i++) {
-				Arrow a = (Arrow) arrows.get(i);
-				if(a.getBounds().intersects(rTree)) a.setVisible(false);
-				for(int p = 0; p<fball.size(); p++){
-					Feuerball f = (Feuerball) fball.get(p);
-					if(a.getBounds().intersects(f.getBounds())) a.setVisible(false);
-				}
-			}
-			for (int i = 0; i<fball.size();i++) {
-				Feuerball f = (Feuerball) fball.get(i);
-				if(f.getBounds().intersects(rTree)) f.setVisible(false);
-			}
-			for (int i = 0; i<gball.size();i++) {
-				GeisterBall g = (GeisterBall) gball.get(i);
-				if (g.getBounds().intersects(rTree)) g.setVisible(false);
+				shop();
 			}
 		}
 		
@@ -2022,7 +2025,7 @@ public class game extends JPanel implements ActionListener {
 			ingame = false;
 		}
 	}}
-	}
+
 	
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables

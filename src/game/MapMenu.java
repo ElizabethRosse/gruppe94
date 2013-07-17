@@ -136,75 +136,71 @@ public class MapMenu extends JMenuBar {
 				switch (map[(i*10)+j]) {										//i*10 to kompensate the reset of j
 				
 				case 't' : {
-					Map [j] [i] = 3;
+					Map [j] [i] = 2;
 					break;
 				}
 				case '#' : {
-					Map [j] [i] = 4;
+					Map [j] [i] = 1;
 					break;
 				}
 				case 'c' : {
-					Map [j] [i] = 5;
+					Map [j] [i] = 4;
 					break;
 				}
 				case 'v' : {
-					Map [j] [i] = 6;
+					Map [j] [i] = 5;
 					break;
 				}
 				case 's' : {
-					Map [j] [i] = 7;
+					Map [j] [i] = 6;
 					break;
 				}
 				case 'b' : {
-					Map [j] [i] = 8;
+					Map [j] [i] = 7;
 					break;
 				}
 				case 'q' : {
-					Map [j] [i] = 10;
+					Map [j] [i] = 3;
 					break;
 				}
 				case 'h' : {
-					Map [j] [i] = 11;
+					Map [j] [i] = 9;
 					break;
 				}
 				case 'd' : {
-					Map [j] [i] = 12;
+					Map [j] [i] = 10;
 					break;
 				}
 				case 'f' : {
-					Map [j] [i] = 13;
+					Map [j] [i] = 11;
 					break;
 				}
 				case 'x' : {
-					Map [j] [i] = 14;
-					break;
-				}
-				case 'ü' : {
-					Map [j] [i] = 16;
+					Map [j] [i] = 12;
 					break;
 				}
 				case 'm' : {
-					Map [j] [i] = 17;
+					Map [j] [i] = 14;
 					break;
 				}
 				case 'k' : {
-					Map [j] [i] = 18;
+					Map [j] [i] = 15;
 					break;
 				}
 				case 'l' : {
-					Map [j] [i] = 19;
+					Map [j] [i] = 16;
 					break;
 				}
 				case 'z' : {
-					Map [j] [i] = 20;
+					Map [j] [i] = 17;
 					break;
 				}
 				case 'p' : {
-					Map [j] [i] = 22;
+					Map [j] [i] = 18;
 					break;
 				}
 				case 'g' : {
-					Map [j] [i] = 23;
+					Map [j] [i] = 19;
 					break;
 				}
 				case ' ' : {
@@ -242,116 +238,96 @@ public class MapMenu extends JMenuBar {
 					break;
 				}
 				case 1 : {
-					Map[a] = ' ';
-					a++;
-					break;
-				}
-				case 2 : {
-					Map[a] = ' ';
-					a++;
-					break;
-				}
-				case 3 : {
-					Map[a] = 't';
-					a++;
-					break;
-				}
-				case 4 : {
 					Map[a] = '#';
 					a++;
 					break;
 				}
-				case 5 : {
-					Map[a] = 'c';
+				case 2 : {
+					Map[a] = 't';
 					a++;
 					break;
 				}
-				case 6 : {
-					Map[a] = 'v';
-					a++;
-					break;
-				}
-				case 7 : {
-					Map[a] = 's';
-					a++;
-					break;
-				}
-				case 8 : {
-					Map[a] = 'b';
-					a++;
-					break;
-				}
-				case 9 : {
-					Map[a] = 'b';
-					a++;
-					break;
-				}
-				case 10 : {
+				case 3 : {
 					Map[a] = 'q';
 					a++;
 					break;
 				}
-				case 11 : {
+				case 4 : {
+					Map[a] = 'c';
+					a++;
+					break;
+				}
+				case 5 : {
+					Map[a] = 'v';
+					a++;
+					break;
+				}
+				case 6 : {
+					Map[a] = 's';
+					a++;
+					break;
+				}
+				case 7 : {
+					Map[a] = 'b';
+					a++;
+					break;
+				}
+				case 8 : {
+					Map[a] = 'n';
+					a++;
+					break;
+				}
+				case 9 : {
 					Map[a] = 'h';
 					a++;
 					break;
 				}
-				case 12 : {
+				case 10 : {
 					Map[a] = 'd';
 					a++;
 					break;
 				}
-				case 13 : {
+				case 11 : {
 					Map[a] = 'f';
 					a++;
 					break;
 				}
-				case 14 : {
+				case 12 : {
 					Map[a] = 'x';
 					a++;
 					break;
 				}
-				case 15 : {
-					Map[a] = 'x';
-					a++;
-					break;
-				}
-				case 16 : {
+				case 13 : {
 					Map[a] = ' ';
 					a++;
 					break;
 				}
-				case 17 : {
+				case 14 : {
 					Map[a] = 'm';
 					a++;
 					break;
 				}
-				case 18 : {
+				case 15 : {
 					Map[a] = 'k';
 					a++;
 					break;
 				}
-				case 19 : {
+				case 16 : {
 					Map[a] = 'l';
 					a++;
 					break;
 				}
-				case 20 : {
+				case 17 : {
 					Map[a] = 'z';
 					a++;
 					break;
 				}
-				case 21 : {
-					Map[a] = 'z';
-					a++;
-					break;
-				}
-				case 22 : {
+				case 18 : {
 					Map[a] = 'p';
 					a++;
 					break;
 				}
-				case 23 : {
+				case 19 : {
 					Map[a] = 'g';
 					a++;
 					break;
