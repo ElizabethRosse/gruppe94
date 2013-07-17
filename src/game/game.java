@@ -1924,8 +1924,6 @@ public class game extends JPanel implements ActionListener {
 		for (int h = 0; h < shop.size(); h++) {
 			shopkeeper s = (shopkeeper) shop.get(h);
 			Rectangle rshop = s.getBounds();
-			
-			System.out.println(rshop);
 				
 			if (rChar.intersects(rshop)) { 														//stop at touching shopkeeper and dialog
 				
