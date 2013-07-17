@@ -5,6 +5,10 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Erstelle ein Pfeil-Objekt
+ *
+ */
 public class Arrow {
 	
 	private int x,y;
@@ -25,34 +29,65 @@ public class Arrow {
 		this.y = y;
 	}
 	
+	/**
+	 * Gebe Bild des Pfeils aus
+	 * @return image
+	 */
 	public Image getImage() {
 		return image;
 	}
 	
+	/**
+	 * Gebe X-Paramter des Pfeils aus
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gebe Y-Paramter des Pfeils aus
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
 	
+	/**
+	 * Gebe Schaden des Pfeils aus
+	 * @return damage
+	 */
 	public int getDmg() {
 		return damage;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des Pfeils aus
+	 * @return visible
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Setze Sichtbarkeit des Pfeils fest 
+	 * @param visible
+	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 	
+	/**
+	 * Gebe Größe des Pfeils aus
+	 * @return x, y
+	 */
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 6, 6);
 	}
 	
+	/**
+	 * Bewege den Pfeil
+	 */
 	public void move() {
 		if (direction == 1) x += Arrow_Speed;
 		if (direction == 2) x -= Arrow_Speed;
