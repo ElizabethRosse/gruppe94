@@ -13,7 +13,12 @@ public class ArmorEnemy {
 	private Image image;
 
 	
-	
+	/**
+	 * Erstelle einen Rüstungsgegner
+	 * @param x X-Parameter des Gegners
+	 * @param y Y-Parameter des Gegners
+	 * @param dir Richtung in die sich der Gegner bewegt
+	 */
 	public ArmorEnemy(int x, int y, int dir){
 		ImageIcon ei = new ImageIcon(this.getClass().getResource("images/armor.png"));
 		image = ei.getImage();
@@ -27,42 +32,81 @@ public class ArmorEnemy {
 		direction = dir;
 	}
 	
+	/**
+	 * Gebe Schaden des Rüstungsgegners aus
+	 * @return Damage
+	 */
 	public int getDmg() {
 		return damage;
 	}
 	
+	/**
+	 * Gebe Leben des Rüstungsgegner aus
+	 * @return Life
+	 */
 	public int getLife (){
 		return life;
 	}
 	
+	/**
+	 * Ziehe Schaden vom Leben des Rüstungsgegners
+	 * @param dmg Schaden
+	 */
 	public void damage (int dmg){
 		this.life -= dmg;
 	}
 	
+	/**
+	 * Gebe Sichtbarkeit des Rüstungsgegner aus
+	 * @return Visible
+	 */
 	public boolean isVisible () {
 		return visible;
 	}
 	
+	/**
+	 * Setzte Sichtbarkeit des Rüstungsgegners
+	 * @param visible
+	 */
 	public void setVisible (boolean visible){
 		this.visible = visible;
 	}
 	
+	/**
+	 * Gebe X-Parameter des Rüstungsgegners aus
+	 * @return X-Parameter
+	 */
 	public int getX(){
 		return x;
 	}
 	
+	/**
+	 *  Gebe Y-Parameter des Rüstungsgegners aus
+	 * @return Y-Paramter
+	 */
 	public int getY(){
 		return y;
 	}
 	
+	/**
+	 * Gebe Bild des Rüstungsgegners aus
+	 * @return Image
+	 */
 	public Image getImage(){
 		return image;
 	}
 	
+	/**
+	 * Gebe Größe des Rüstungsgegners aus
+	 * @return X- und Y-Paramter, Breite und Höhe
+	 */
 	public Rectangle getBounds(){
 		return new Rectangle(x, y, width, height);
 	}
 	
+	/**
+	 * Bewege den Rüstungsgegner horizontal oder vertikal
+	 */
 	public void move() {
 		switch(direction){
 		case 1 : {
@@ -80,6 +124,9 @@ public class ArmorEnemy {
 	
 	}
 	
+	/**
+	 * Ändere die Richtung bei Kollision mit einem Objekt
+	 */
 	public void movecollide() {
 		if (direction == 1) {
 			if(change) {
