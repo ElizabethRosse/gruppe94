@@ -56,7 +56,7 @@ import game.Sounds;
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			pack();
-			setTitle("Ich will ein Glücksbärchie sein !!!");
+			setTitle("Smile Adventure");
 			setSize(515, 538);
 			setLocationRelativeTo(null);
 			setResizable(false);
