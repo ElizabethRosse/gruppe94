@@ -15,6 +15,12 @@ public class Map {
 	int[] [] map;
 	ArrayList<BufferedImage> tileset = new ArrayList<BufferedImage>();
 	
+	/**
+	 * Erstelle Karte
+	 * @param map
+	 * @param dataname
+	 * @param name
+	 */
 	public Map(int[] [] map, String dataname, String name) {
 		this.mapName = name;
 		this.map = map;
