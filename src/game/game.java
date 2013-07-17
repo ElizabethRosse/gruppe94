@@ -34,7 +34,7 @@ public class game extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private Timer timer;
-	private Char cha;
+	private Char cha, cha2;
 	private dog d;
 	private ArrayList<Tree> trees;
 	private ArrayList<Tree> falsetrees;
@@ -54,17 +54,22 @@ public class game extends JPanel implements ActionListener {
 	private ArrayList<npc> npc;
 	private ArrayList<shopkeeper> shop;
 	
+	private Server Server = null;
+	private Client Client = null;
+	
 	private ArrayList<Checkpoint> checkpoints;
 	private ArrayList<Coin> coins;
 
 	private int max = 110;
 	private Image image, imagescaled, health, halfhealth, nohealth;
 	private boolean ingame, MENU = false;
-	private boolean win, pause, drawdog;
+	private boolean win, pause, drawdog, mplayer = false, server = false;
 	private boolean getDog, DogQcomplete = false;
 	private boolean checkpointactivated = false;
-	private boolean levelup = false, levelup2 = true, levelup3 = true;
+	private boolean levelup = false, levelup2 = true, levelup3 = true, levelup4 = true, levelup5 = true;
 	private int G_WIDTH, G_HEIGHT;
+	
+	private Seria me = new Seria(), you = new Seria();
 
 	private int[] pos1 = new int[max]; 	//Arrays for object set
 	private int[] pos2 = new int[max];
@@ -131,7 +136,7 @@ public class game extends JPanel implements ActionListener {
 	
 	private boolean start  = true;
 	
-	public game(boolean newGame) {
+	public game(boolean newGame, boolean mplayer, boolean server) {
 		
 		addKeyListener(new KAdapter());
 		setFocusable(true);
@@ -156,10 +161,27 @@ public class game extends JPanel implements ActionListener {
 		
 		setSize(500, 500);
 		cha = new Char();
+		cha2 = new Char();
 		
 		d = new dog(245,245);
 		
-		if (newGame) {
+		if(mplayer) { this.mplayer = true;
+			if(server) { this.server = true;
+				try {
+					initMap(000, 51, 240);									
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				}
+			else {
+				try {
+					initMap(000, 350, 240);									
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		else if (newGame) {
 			try {
 				initMap(mapNumber, 51, 240);									//loading first map
 			} catch (IOException e) {
@@ -176,107 +198,109 @@ public class game extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 			while (a < 16) {
-			switch (a)  {														//initialising the saved version
-				case 0 : {
-					mapNumber = i[a];
-					a++;
-					break;
-				}
-				case 1 : {
-					cha.setContinues(i[a]); 
-					a++;
-					break;
-				}
-				case 2 : {
-					cha.setMaxhealth(i[a]);
-					a++;
-					break;
-				}
-				case 3 : {
-					cha.setGoldtest(i[a]);
-					a++;
-					break;
-				}
-				case 4 : {
-					cha.addXP(i[a]);
-					a++;
-					break;
-				}
-				case 5 : {
-					if (i[a] == 1) {
-						cha.makeSword();
-						}
-					a++;
-					break;
-				}
-				case 6 : {
-					if (i[a] == 1) {
-						cha.makeArrow();
-						}
-					a++;
-					break;
-				}
-				case 7 : {
-					cha.setX(i[a]);
-					a++;
-					break;
-				}
-				case 8 : {
-					cha.setY(i[a]);
-					a++;
-					break;
-				}
-				case 9 : {
-					if (i[a] == 1) {
-					cha.makeSmile();
+				switch (a)  {														//initialising the saved version
+					case 0 : {
+						mapNumber = i[a];
+						a++;
+						break;
 					}
-					a++;
-					break;
-				}
-				case 10 : {
-					while (i[a] > 0) {
-						cha.setManapotion();
+					case 1 : {
+						cha.setContinues(i[a]); 
+						a++;
+						break;
+					}
+					case 2 : {
+						cha.setMaxhealth(i[a]);
+						a++;
+						break;
+					}
+					case 3 : {
+						cha.setGoldtest(i[a]);
+						a++;
+						break;
+					}
+					case 4 : {
+						cha.addXP(i[a]);
+						a++;
+						break;
+					}
+					case 5 : {
+						if (i[a] == 1) {
+							cha.makeSword();
+							}
+						a++;
+						break;
+					}
+					case 6 : {
+						if (i[a] == 1) {
+							cha.makeArrow();
+							}
+						a++;
+						break;
+					}
+					case 7 : {
+						cha.setX(i[a]);
+						a++;
+						break;
+					}
+					case 8 : {
+						cha.setY(i[a]);
+						a++;
+						break;
+					}
+					case 9 : {
+						if (i[a] == 1) {
+						cha.makeSmile();
+						}
+						a++;
+						break;
+					}
+					case 10 : {
+						while (i[a] > 0) {
+							cha.setManapotion();
+							i[a]--;
+						}
+						a++;
+						break;
+					}
+					case 11 : {
+						while (i[a] > 0) {
+						cha.setHealthpotion();
 						i[a]--;
+						}
+						a++;
+						break;
 					}
-					a++;
-					break;
+					case 12 : {
+						cha.setLVL(i[a]);
+						a++;
+						break;
+						}
+					case 13 : {
+						cha.setMana(i[a]);
+						a++;
+						break;
+						}
+					case 14 : {
+						cha.setHealth(i[a]);
+						a++;
+						break;
+						}
+					case 15 : {
+						reset = i[a];
+						a++;
+						break;
+						}
+					}
 				}
-				case 11 : {
-					while (i[a] > 0) {
-					cha.setHealthpotion();
-					i[a]--;
-					}
-					a++;
-					break;
-				}
-				case 12 : {
-					cha.setLVL(i[a]);
-					a++;
-					break;
-					}
-				case 13 : {
-					cha.setMana(i[a]);
-					a++;
-					break;
-					}
-				case 14 : {
-					cha.setHealth(i[a]);
-					a++;
-					break;
-					}
-				case 15 : {
-					reset = i[a];
-					a++;
-					break;
-					}
+				try {
+					initMap(mapNumber, cha.getX(), cha.getY());									//loading saved map
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-			try {
-				initMap(mapNumber, cha.getX(), cha.getY());									//loading saved map
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		
+			
 			
 		initArrows();
 		initfball();
@@ -285,6 +309,60 @@ public class game extends JPanel implements ActionListener {
 		timer = new Timer(5, this);
 		timer.start();
 		repaint();
+	}
+	
+	public void resConnection() {
+		if(server) {
+			Server.close();
+		}
+		else Client.close();
+	}
+	
+	public void initCha2() {
+		if (server) {
+			//me.setArrows(cha.getArrows());
+			//me.setFBall(cha.getFBall());
+			//me.setSword(cha.getSword());
+			//me.setSwordTrue(cha.getST());
+			me.setX(cha.getX());
+			me.setY(cha.getY());
+			
+			Server.send(me);
+			you = Server.get();
+			
+			//cha2.setArrows(you.getArrows());
+			//cha2.setFBall(you.getFBall());
+			//cha2.setST(you.getSwordTrue());
+			//cha2.setMSword(you.getSword());
+			cha2.setX(you.getX());
+			cha2.setY(you.getY());
+		}
+		else {
+			//me.setArrows(cha.getArrows());
+			//me.setFBall(cha.getFBall());
+			//me.setSword(cha.getSword());
+			//me.setSwordTrue(cha.getST());
+			me.setX(cha.getX());
+			me.setY(cha.getY());
+			
+			Client.send(me);
+			you = Client.get();
+			
+			//cha2.setArrows(you.getArrows());
+			//cha2.setFBall(you.getFBall());
+			//cha2.setST(you.getSwordTrue());
+			//cha2.setMSword(you.getSword());
+			cha2.setX(you.getX());
+			cha2.setY(you.getY());		
+		}
+	}
+	
+	public void initMPlayerS(Server server) {
+		this.Server = server;
+	}
+	
+	public void initMPlayerC(Client client) {
+		this.Client = client;
 	}
 	
 	public void save() {
@@ -554,6 +632,19 @@ public class game extends JPanel implements ActionListener {
 				cha.setLVL(3);
 				levelup3 = false;
 			}
+			else if ((cha.getXP() >= 250)&&levelup4) {
+				Sounds.play(7);
+				dialogLVL4();
+				cha.setLVL(4);
+				levelup4 = false;
+			}
+			else if ((cha.getXP() >= 500)&&levelup5) {
+				Sounds.play(7);
+				dialogLVL5();
+				cha.setLVL(5);
+				levelup5= false;
+				
+			}
 		}
 	}
 	
@@ -588,6 +679,11 @@ public class game extends JPanel implements ActionListener {
 			
 			g2d.drawImage(imagescaled, 0, 0, this);   // laedt das Hintergrundbild
 			g2d.drawImage(cha.getImage(), cha.getX(), cha.getY(), this);
+			if(mplayer) {
+				g2d.drawImage(cha2.getImage(), you.getX(), you.getY(), this);
+				g2d.drawImage(d.getImage(), d.getX(), d.getY(), this);
+				
+			}
 			
 			if (mapNumber == 121 && NumberofEnemies==0 && NumberofBEnemies==0 && d.isVisible()){
 				drawdog=true;
@@ -1018,6 +1114,17 @@ public class game extends JPanel implements ActionListener {
 		cha.resST();
 	}
 	
+	public void dialogLVL4() {
+		cha.setMaxmana(200);
+		JOptionPane.showMessageDialog(null,"You reached Level 4!You got more Mana!");
+		cha.resST();
+	}
+	
+	public void dialogLVL5() {
+		JOptionPane.showMessageDialog(null,"You reached Level 5! Your sword now damages Ghosts!");
+		cha.resST();
+	}
+	
 	public void shop() {
 				int h = JOptionPane.showConfirmDialog(null, "Wollen Sie ein zusaetzliches Leben kaufen fuer 3 Gold?");
 		if(h==0){
@@ -1032,7 +1139,8 @@ public class game extends JPanel implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {						//checking performed actions
+	public void actionPerformed(ActionEvent e) {					//checking performed actions
+		if(mplayer) initCha2();
         initArrows();
         initBossArrows();
         
@@ -1217,6 +1325,15 @@ public class game extends JPanel implements ActionListener {
 		Rectangle rChar = cha.getBounds();
 		Rectangle rDog = d.getBounds();
 		
+		if(mplayer) {
+			Rectangle rCha2 = new Rectangle (you.getX(), you.getY(), 15, 15);
+			if((rChar.intersects(rDog))&&(rCha2.intersects(rDog))){
+				resConntection();
+				ingame = false;
+				win = true;
+			}
+		}
+		
 		if (rChar.intersects(rDog)){
 			if (d.isVisible() && drawdog){
 				d.setVisible(false);
@@ -1254,10 +1371,29 @@ public class game extends JPanel implements ActionListener {
 					}
 				}
 				else {
-					benemies.remove(i);
-					NumberofBEnemies -= 1;
-					cha.addXP(5);
+					Sounds.play(12);
+					aenemies.remove(i);
+					NumberofAEnemies -= 1;
+					cha.addXP(10);
 					levelup = true;
+				}
+			}
+			if(!levelup5){
+				for (int i = 0; i < benemies.size(); i++) {
+					BlueEnemy a = (BlueEnemy) benemies.get(i);
+					if(a.getLife()>0) {
+						Rectangle rBEnemy = a.getBounds();
+						if(rSword.intersects(rBEnemy)) {
+							a.damage(cha.getSDMG());
+						}
+					}
+					else {
+						Sounds.play(12);
+						benemies.remove(i);
+						NumberofBEnemies -= 1;
+						cha.addXP(5);
+						levelup = true;
+					}
 				}
 			}
 		}
@@ -1292,6 +1428,7 @@ public class game extends JPanel implements ActionListener {
 					}
 				}
 				else {
+					Sounds.play(14);
 					aenemies.remove(i);
 					NumberofAEnemies -= 1;
 					cha.addXP(10);
@@ -1443,6 +1580,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 			else {
+				Sounds.play(14);
 				aenemies.remove(k);
 				NumberofAEnemies -= 1;
 				cha.addXP(10);
@@ -1494,6 +1632,7 @@ public class game extends JPanel implements ActionListener {
 			}
 			}
 			else {
+				Sounds.play(12);
 				benemies.remove(k);
 				NumberofBEnemies -= 1;
 				cha.addXP(5);
@@ -1611,6 +1750,7 @@ public class game extends JPanel implements ActionListener {
 		
 		}
 			else {
+				Sounds.play(13);
 				cha.addXP(15);
 				levelup = true;
 				dialog3();
@@ -1695,6 +1835,7 @@ public class game extends JPanel implements ActionListener {
 		}
 		}
 			else {
+				Sounds.play(13);
 			cha.addXP(20);
 			levelup = true;
 			dialog4();
@@ -2023,12 +2164,18 @@ public class game extends JPanel implements ActionListener {
 	}
 	}
 		else {
+			Sounds.play(13);
 			win = true;
 			ingame = false;
 		}
 	}}
 
 	
+	private void resConntection() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void initMap(int m, int j ,int k) throws IOException {
 		int i = 1;													//loop variables
 		int x = 50;
@@ -2247,7 +2394,12 @@ public class game extends JPanel implements ActionListener {
 		BufferedReader dat;
 		char[] prototypemap = new char[110];
 		
-		switch(m) {	
+		switch(m) {
+		case 000 : {
+			datei = new FileReader("src\\game\\maps\\mmap");
+			dat = new BufferedReader(datei);										//map1
+			break;
+		}
 		case 110 : {
 			datei = new FileReader("src\\game\\maps\\map1");
 			dat = new BufferedReader(datei);										//map1

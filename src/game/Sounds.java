@@ -142,6 +142,42 @@ public class Sounds {
     				}
     				break;
 	    		}
+	    		case 12: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\gscream.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "gscream.wav");
+    				}
+    				break;
+	    		}
+	    		case 13: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\bossscream.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "bossscream.wav");
+    				}
+    				break;
+	    		}
+	    		case 14: {
+    				try {
+    					final Clip clip = AudioSystem.getClip();
+    					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src\\game\\sounds\\rittersound.wav"));
+    					clip.open(inputStream);
+    					clip.start();
+    					
+    				} catch (Exception e) {
+    					System.out.println("play sound error: " + e.getMessage() + " for " + "rittersound.wav");
+    				}
+    				break;
+	    		}
     			}
 	    	
 	    	

@@ -27,7 +27,7 @@ public class Char {
 	private int fdmg, gdmg = 50;
 	private int sdmg = 5;
 	
-	public Char() {
+	public Char()  {
 		
 		ImageIcon ii =
 				new ImageIcon(this.getClass().getResource("images/smile.gif")); // holt ein Bild fuer den Charakter
@@ -230,12 +230,20 @@ public class Char {
 		return arrows;
 	}
 	
+	public void setArrows(ArrayList<Arrow> arrows) {
+		this.arrows = arrows;
+	}
+	
 	public void resArrows() {
 		arrows = new ArrayList<Arrow>();
 	}
 	
 	public ArrayList<Feuerball> getFBall() {
 		return fball;
+	}
+	
+	public void setFBall(ArrayList<Feuerball> fball) {
+		this.fball = fball;
 	}
 	
 	public void resFball() {
@@ -327,6 +335,10 @@ public class Char {
 		return sword;
 	}
 	
+	public void setST(boolean sword) {
+		this.sword = sword;
+	}
+	
 	public void resST() {
 		sword = false;
 		move = true;
@@ -353,6 +365,10 @@ public class Char {
 	
 	public Sword getSword() {
 		return Mastersword;
+	}
+	
+	public void setMSword(Sword sword) {
+		Mastersword = sword;
 	}
 	
 	public void manacost (int mana) {

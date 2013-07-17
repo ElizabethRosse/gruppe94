@@ -19,6 +19,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,14 +30,18 @@ import javax.swing.Timer;
 import game.MapEditor;
 import game.game;
 import game.Sounds;
+import game.Server;
+import game.Client;
 
 	public class menu extends JFrame
 		{
 		 static final long serialVersionUID = 1L;
 		 
 		 private JPanel Surface;
-		 private game game = new game(true);
-		 private Timer timer, backgroundt;
+		 private game game = new game(true, false, false);
+		 private Server server = null;
+		 private Client client = null;
+		 private Timer timer, backgroundt, mplayer;
 
 
 		public static void main(String[] args)
@@ -63,9 +68,19 @@ import game.Sounds;
 			setVisible(true);
 			}
 		
-		public void rem(boolean check) {
+		public void rem(boolean check, boolean mplayer, boolean server) {
 			this.remove(Surface);
-			game = new game(check);
+			if (mplayer) {
+				if (server) {
+					game = new game(true, true, true);
+					game.initMPlayerS(this.server);
+				}
+				else {
+					game = new game(true, true, false);
+					game.initMPlayerC(client);
+				}
+			}
+			else game = new game(check, false, false);
 			timer.start();
 			add(game);
 		}
@@ -98,6 +113,49 @@ import game.Sounds;
 			}};
 			timer = new Timer(5,TimeCheck);
 			timer.start();
+		}
+		
+		public void MCheck(){
+			ActionListener MCheck = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (server.connection()) {
+					mplayer.stop();
+					rem(true, true, true);
+				}
+			}};
+			mplayer = new Timer(5,MCheck);
+			mplayer.start();
+		}
+		
+		public void MCheckC(){
+			ActionListener MCheck = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (client.connection()) {
+					mplayer.stop();
+					rem(true, true, false);
+				}
+			}};
+			mplayer = new Timer(5,MCheck);
+			mplayer.start();
+		}
+		
+		public void newserver() {
+			try {
+				server = new Server();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (server != null) {
+					server.startServing();
+					MCheck();
+				}
+			}
+		}
+		
+		public void newclient() {
+			client = new Client();
+			if (client != null) MCheckC();
 		}
 		
 		public void reset() {
@@ -149,7 +207,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					rem(true);
+					rem(true, false, false);
 					}
 				});
 			
@@ -188,7 +246,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					rem(false);
+					rem(false, false, false);
 					}
 				});
 			
@@ -261,7 +319,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);						           
+						newserver();					           
 					}
 				});
 			
@@ -279,7 +337,7 @@ import game.Sounds;
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					System.exit(0);						           
+					newclient();					           
 					}
 				});
 			
