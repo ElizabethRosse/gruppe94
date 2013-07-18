@@ -67,6 +67,7 @@ public class Server {
 		try {
 			out.writeObject(me);
 		} catch (IOException e) {
+			close();
 			e.printStackTrace();
 		}
 		

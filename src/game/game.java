@@ -331,7 +331,7 @@ public class game extends JPanel implements ActionListener {
 	 * Erstelle Characters
 	 */
 	public void initCha2() {
-		if (server) {
+		if (server&&Server.connection()) {
 			//me.setArrows(cha.getArrows());
 			//me.setFBall(cha.getFBall());
 			//me.setSword(cha.getSword());
@@ -349,7 +349,7 @@ public class game extends JPanel implements ActionListener {
 			cha2.setX(you.getX());
 			cha2.setY(you.getY());
 		}
-		else {
+		else if(Client.connection()){
 			//me.setArrows(cha.getArrows());
 			//me.setFBall(cha.getFBall());
 			//me.setSword(cha.getSword());
@@ -366,6 +366,14 @@ public class game extends JPanel implements ActionListener {
 			//cha2.setMSword(you.getSword());
 			cha2.setX(you.getX());
 			cha2.setY(you.getY());		
+		}
+		else if(server) {
+			Server.close();
+			MENU = true;
+		}
+		else {
+			Client.close();
+			MENU = true;
 		}
 	}
 	
@@ -1468,6 +1476,48 @@ public class game extends JPanel implements ActionListener {
 		
 		if(mplayer) {
 			Rectangle rCha2 = new Rectangle (you.getX(), you.getY(), 15, 15);
+			if(rChar.intersects(rCha2)) {
+				if (cha.getDX()>0) {
+					cha.addX(-3);
+				}
+			
+				if (cha.getDX()<0) {
+					cha.addX(3);
+				}
+			
+				if (cha.getDY()>0) {
+					cha.addY(-3);
+				}
+			
+				if (cha.getDY()<0) {
+					cha.addY(3);
+				}
+			}
+			
+			for (int i = 0; i<manap.size(); i++) {
+				Manapotion m = (Manapotion) manap.get(i);
+				if(m.isVisible()){
+				Rectangle rMana = m.getBounds();
+				
+					if(rCha2.intersects(rMana)) {
+						m.setVisible(false);
+					}
+				}
+				else manap.remove(i);
+			}
+			
+			for (int i = 0; i<healthp.size(); i++) {
+				Healthpotion h = (Healthpotion) healthp.get(i);
+				if(h.isVisible()){
+				Rectangle rHealth = h.getBounds();
+				
+				if(rCha2.intersects(rHealth)) {
+					h.setVisible(false);
+				}
+				}
+				else healthp.remove(i);
+			}
+			
 			if((rChar.intersects(rDog))&&(rCha2.intersects(rDog))){
 				resConntection();
 				ingame = false;
@@ -2719,7 +2769,12 @@ public class game extends JPanel implements ActionListener {
 			}
 			else
 			{
-				
+				if(mplayer) {
+					if (server) {
+						Server.close();
+					}
+					else Client.close();
+				}
 				MENU = true;
 			}
 		}

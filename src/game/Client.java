@@ -55,6 +55,8 @@ public class Client {
 		try {
 			out.writeObject(me);
 		} catch (IOException e) {
+			close();
+			connection = false;
 			e.printStackTrace();
 		}
 		
